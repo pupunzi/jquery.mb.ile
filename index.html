@@ -1,0 +1,71 @@
+<!doctype html>
+
+<!--
+  ~ jquery.mb.components
+  ~ Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+  ~ email: info@pupunzi.com
+  ~ site: http://pupunzi.com
+  ~
+  ~ Licences: MIT, GPL
+  ~ http://www.opensource.org/licenses/mit-license.php
+  ~ http://www.gnu.org/licenses/gpl.html
+  -->
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <!-- iPhone Stuff -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="apple-touch-icon-precomposed" href="elements/mbMobile.png" />
+    <link rel="apple-touch-startup-image" href="mbMobileStartup.png" />
+
+    <title>mb.ile</title>
+
+    <link href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="inc/jquery.iphoneui.js"></script>
+    <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
+    <!--<script type="text/javascript" src="inc/jquery.mb.ile.pack.js"></script>-->
+    <script type="text/javascript" src="inc/iscroll.js"></script>
+
+    <script type="text/javascript">
+
+        //initializing the mb.ile framework
+        $(function(){
+            $.mbile.init("pages/start.html",{
+
+                context:"#mbPage",
+                header:"#header",
+                footer:"#footer",
+                body:"#wrapper",
+
+                fixedHeader:true,
+                fixedFooter:true,
+                startupScreen: null,
+                slidingSections:true,
+                errorPage:"pages/error_page.html"
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<div id="mbPage">
+    <div data-role="header" id="header">
+        <h1>mb.ile</h1>
+    </div>
+
+    <div data-role="content" id="wrapper">content</div>
+
+    <div data-role="footer" id="footer"><span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">btn1</span><span class="button">btn2</span><span class="button">btn3</span></div>
+
+</div>
+
+</body>
+</html>
