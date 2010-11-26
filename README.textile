@@ -1,6 +1,6 @@
 h1. mb.ile
-!http://licorize.com/applications/licorize/images/logo.png!
-!http://pupunzi.com/gitHub/mbile.jpg!
+
+!http://pupunzi.com/gitHub/mb.ile.jpg!
 
 h2. A jQuery framework for mobile applications.
 
