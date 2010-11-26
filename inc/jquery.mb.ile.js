@@ -309,8 +309,9 @@ document.myScroll=null;
           if(document.myScroll) document.myScroll.destroy();
           $(document).stopWait();
           var newPage= $(response).addClass("newPage "+ animation);
-          newPage.find("[data-role=header]").hide();
+          newPage.find("[data-role=header], [data-role=footer]").hide();
           $($.mbile.defaults.body).append(newPage);
+
           $(".fake").remove();
 
           /*
