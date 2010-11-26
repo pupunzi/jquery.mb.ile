@@ -1,4 +1,4 @@
-[[http://pupunzi.com/gitHub/jquery.mb.ile.png]]
+!http://pupunzi.com/gitHub/jquery.mb.ile.png!
 
 h1. A jQuery framework for mobile applications.
 
