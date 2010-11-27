@@ -24,7 +24,7 @@
 
 @headerHeight:35px;
 @footerHeight:45px;
-@buttonBarHeight:25px;
+@buttonBarHeight:45px;
 
 .roundedCorners (@tl:0, @tr: 0, @bl: 8px, @br: 8px) {
   -moz-border-radius: @tl @tr @bl @br;
@@ -78,6 +78,13 @@ div[data-role=page]{
 
 .contentSelectable{
 	-webkit-user-select:auto;
+}
+
+.right{
+    text-align:right;
+}
+.center{
+    text-align:center;
 }
 
 #header {
@@ -134,7 +141,7 @@ div[data-role=page]{
 	    /*opacity:.5;*/
    }
 
-#footer #footerslider{
+#footer #collapsibleFooter{
 //    background:@color1;
     position:absolute;
     display:block;
@@ -149,7 +156,7 @@ div[data-role=page]{
     background: url("../elements/dark/panelOpen.png") no-repeat top center;
 }
 
-#footer.out #footerslider{
+#footer.out #collapsibleFooter{
     padding:0;
     right:0;
     width:60px;
@@ -305,7 +312,6 @@ div[data-role=page]{
         opacity:.5;
         .shadow(2px, 0,  5px, #000);
     }
-
     /*BLOCKS*/
     .block.sortable .line .handle{
         position:absolute;
@@ -460,6 +466,19 @@ div[data-role=page]{
     }
 }
 
+    /*COLUMN*/
+    .column2 span{
+        text-overflow:ellipsis;
+        width:50%;
+        -webkit-box-sizing:border-box;
+    }
+    .column3 span{
+        text-overflow:ellipsis;
+        width:33%;
+        -webkit-box-sizing:border-box;
+    }
+
+
 
 #scroller {
 	-webkit-tap-highlight-color:rgba(0,0,0,0);
@@ -602,60 +621,68 @@ form {
     height:@buttonBarHeight;
     width:100%;
 }
-.buttonBar.right{
-    text-align:right;
+#footer.collapsibleFooter {
+    padding-right:60px;
 }
 
 button, .button{
+    display:inline-block;
     padding:@defaultPadding @defaultPadding*2 @defaultPadding+3 @defaultPadding*2;
     background:@color1;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@default1),color-stop(0.5, @default2), color-stop(0.5, @default3), to(@default4));
     border:2px solid @color4;
     font:16px/24px sans-serif;
+    width:100%;
+    overflow:hidden;
     color:@color4;
     font-weight:bold;
     text-align: center;
-    margin:@defaultMargin;
+    text-shadow:1px 1px 1px #000;
+//    margin:@defaultMargin;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
     .roundedCorners(10px,10px,10px,10px);
     -webkit-box-shadow: rgba(0, 0, 0, 0.296875) 0px 1px 4px;
 }
 
-/*FOOTERBUTTONS*/
-
-#footer .button{
-         display:inline-block;
-         /*padding:0;*/
-         margin:0 0 0 1px;
-         background:@color1;
-         background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color1), to(@color2));
-         border:none;
-         font:16px/45px sans-serif;
-         color:@color4;
-         font-weight:bold;
-         text-align: center;
-         height:@footerHeight - 15;
-         min-width:60px;
-         .roundedCorners(0,0,0,0);
-         -webkit-box-shadow: rgba(0, 0, 0, 0) 0px 1px 4px;
-         
-}
-#footer .button.hover{
-        background:@color1;
-        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color2), to(@color1));
-        color:@color3;
-}
-#footer .button.selected{
-        background:@color1;
-        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color3), to(@color4));
-        color:@color1;
-}
 button.hover, .button.hover{
     background:@color2;
     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color5), to(@color5));
     border:2px solid @color4;
     color:@color1;
+    text-shadow:1px 1px 1px #fff;
+}
+
+/*FOOTERBUTTONS*/
+
+#footer .button{
+     /*padding:0;*/
+     float:left;
+     margin:0 0 0 1px;
+     background:@color1;
+     background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color1), to(@color2));
+     border:none;
+     font:16px/45px sans-serif;
+     color:@color4;
+     font-weight:bold;
+     text-align: center;
+     height:@buttonBarHeight;
+     /*min-width:60px;*/
+     .roundedCorners(0,0,0,0);
+     -webkit-box-shadow: rgba(0, 0, 0, 0) 0px 1px 4px;
+     text-shadow:1px 1px 1px #000;
+}
+
+#footer .button.hover{
+    background:@color1;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color2), to(@color1));
+    color:@color3;
+}
+#footer .button.selected{
+    background:@color1;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color3), to(@color4));
+    color:@color1;
+    text-shadow:1px 1px 1px #fff;
 }
 
 /*SPINNER*/

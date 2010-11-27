@@ -22,6 +22,12 @@ div[data-role=page] {
 .contentSelectable {
   -webkit-user-select: auto;
 }
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
 #header {
   margin-top: 15px;
   position: relative;
@@ -72,7 +78,7 @@ div[data-role=page] {
   /*opacity:.5;*/
 
 }
-#footer #footerslider {
+#footer #collapsibleFooter {
   position: absolute;
   display: block;
   width: 60px;
@@ -93,7 +99,7 @@ div[data-role=page] {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background: url("../elements/dark/panelOpen.png") no-repeat top center;
 }
-#footer.out #footerslider {
+#footer.out #collapsibleFooter {
   padding: 0;
   right: 0;
   width: 60px;
@@ -453,6 +459,17 @@ div[data-role=page] {
   color: #000000;
   text-shadow: 1px 1px 1px #fff;
 }
+/*COLUMN*/
+.column2 span {
+  text-overflow: ellipsis;
+  width: 50%;
+  -webkit-box-sizing: border-box;
+}
+.column3 span {
+  text-overflow: ellipsis;
+  width: 33%;
+  -webkit-box-sizing: border-box;
+}
 #scroller {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   float: left;
@@ -574,22 +591,25 @@ form input[type=checkbox], form input[type=radio] {
 /*BUTTONS*/
 .buttonBar {
   display: block;
-  height: 25px;
+  height: 45px;
   width: 100%;
 }
-.buttonBar.right {
-  text-align: right;
+#footer.collapsibleFooter {
+  padding-right: 60px;
 }
 button, .button {
+  display: inline-block;
   padding: 5px 10px 8px 10px;
   background: #000000;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#9a9a9a), color-stop(0.5, #2c2d2d), color-stop(0.5, #000000), to(#000000));
   border: 2px solid #f3f3f3;
   font: 16px/24px sans-serif;
+  width: 100%;
+  overflow: hidden;
   color: #f3f3f3;
   font-weight: bold;
   text-align: center;
-  margin: 10px;
+  text-shadow: 1px 1px 1px #000;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   -moz-border-radius: 10px 10px 10px 10px;
@@ -603,11 +623,18 @@ button, .button {
   border-bottom-right-radius: 10px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.296875) 0px 1px 4px;
 }
+button.hover, .button.hover {
+  background: #444444;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#ffffff));
+  border: 2px solid #f3f3f3;
+  color: #000000;
+  text-shadow: 1px 1px 1px #fff;
+}
 /*FOOTERBUTTONS*/
 #footer .button {
-  display: inline-block;
   /*padding:0;*/
 
+  float: left;
   margin: 0 0 0 1px;
   background: #000000;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000000), to(#444444));
@@ -616,8 +643,9 @@ button, .button {
   color: #f3f3f3;
   font-weight: bold;
   text-align: center;
-  height: 30px;
-  min-width: 60px;
+  height: 45px;
+  /*min-width:60px;*/
+
   -moz-border-radius: 0 0 0 0;
   -webkit-border-top-left-radius: 0;
   -webkit-border-top-right-radius: 0;
@@ -628,6 +656,7 @@ button, .button {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   -webkit-box-shadow: rgba(0, 0, 0, 0) 0px 1px 4px;
+  text-shadow: 1px 1px 1px #000;
 }
 #footer .button.hover {
   background: #000000;
@@ -638,12 +667,7 @@ button, .button {
   background: #000000;
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#999999), to(#f3f3f3));
   color: #000000;
-}
-button.hover, .button.hover {
-  background: #444444;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#ffffff));
-  border: 2px solid #f3f3f3;
-  color: #000000;
+  text-shadow: 1px 1px 1px #fff;
 }
 /*SPINNER*/
 div#loader {

@@ -19,8 +19,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <link rel="apple-touch-icon-precomposed" href="elements/mbMobile.png" />
-    <link rel="apple-touch-startup-image" href="mbMobileStartup.png" />
 
     <title>mb.ile</title>
 
@@ -29,9 +27,8 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="inc/jquery.iphoneui.js"></script>
-    <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
-    <!--<script type="text/javascript" src="inc/jquery.mb.ile.pack.js"></script>-->
     <script type="text/javascript" src="inc/iscroll.js"></script>
+    <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
 
     <script type="text/javascript">
 
@@ -48,6 +45,7 @@
                 fixedFooter:true,
                 startupScreen: null,
                 slidingSections:true,
+                collapsibleFooter:true,
                 errorPage:"pages/error_page.html"
             });
         });
@@ -61,9 +59,19 @@
         <h1>mb.ile</h1>
     </div>
 
-    <div data-role="content" id="wrapper">content</div>
+    <div data-role="content" id="wrapper">
+        content goes here
+    </div>
+    
+<!--todo: manage the default content for the footer-->
 
-    <div data-role="footer" id="footer"><span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">btn1</span><span class="button">btn2</span><span class="button">btn3</span></div>
+    <div data-role="footer" data-type="default" id="footer">
+        <div class="buttonBar column3">
+            <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">bottoneeeeeeeeeeeee</span>
+            <span class="button">btn2</span>
+            <span class="button">btn3</span>
+        </div>
+    </div>
 
 </div>
 
