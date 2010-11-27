@@ -1,13 +1,14 @@
 
-@skin:"dark";
+@skin:"flat";
 
-@pageColor:#000;
+@pageColor:#fff;
 
-@color1:#000;
-@color2:#444;
+@color1:#444;
+@color2:#666;
 @color3:#999;
 @color4:#f3f3f3;
 @color5:#fff;
+
 
 @sectionColor:transparent;
 @panelColor:#f3f3f3;
@@ -15,7 +16,7 @@
 @lineColor:#222;
 @lineSelectedColor:#fff;
 @lineSpacerColor:#ccc;
-@lineTextColor:#fff;
+@lineTextColor:#666;
 
 @shadowColor:#222;
 
@@ -62,7 +63,7 @@ body {
 	font-size:12px;
 	-webkit-user-select:none;
     -webkit-text-size-adjust:none;
-	font-family:helvetica;
+	font-family:Arial,Helvetica,sans-serif;
     background-color:@pageColor;
 }
 
@@ -94,9 +95,6 @@ div[data-role=page]{
 	height:@headerHeight;
 	padding:@defaultPadding;
     background-color:@color1;
-    background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), to(#000000), color-stop(.3,#333333));
-    /*background-image:-webkit-gradient(linear, 0% 0%, 0% 80%, from(#9a9a9a),color-stop(0.5, #2c2d2d), color-stop(0.5, #000), to(#000));*/
-    /*background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255,.5)), to(transparent));*/
 
 	h1{
 	    overflow:hidden;
@@ -173,7 +171,6 @@ div[data-role=page]{
 	width:100%;
     //overflow:hidden;
     background-color:@pageColor;
-    background-image:-webkit-gradient(linear, 11% 46%, 60% 74%, from(#2B7A26), to(#144F0D));
     h1{
         color:#fff;
         font-size:20px;
@@ -329,7 +326,6 @@ div[data-role=page]{
         vertical-align:middle;
         height:25px;
         font:18px/25px Arial,Helvetica,sans-serif;
-        text-shadow:1px 1px 2px #333;
         padding:@defaultPadding;
         margin:0;
         margin-bottom:20px;
@@ -340,7 +336,6 @@ div[data-role=page]{
         margin:0;
         margin-bottom:1px;
         color:@color1;
-        text-shadow:1px 1px 1px #f3f3f3;
         background-color:@color3;
         -webkit-box-shadow:0 1px 5px @shadowColor;
         opacity:.8;
@@ -659,7 +654,7 @@ button.hover, .button.hover{
 #footer .button{
      /*padding:0;*/
      float:left;
-     margin:0 0 0 1px;
+     margin-right:1px;
      background:@color1;
      background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color1), to(@color2));
      border:none;

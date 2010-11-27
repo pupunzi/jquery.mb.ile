@@ -470,6 +470,9 @@ document.myScroll=null;
     refreshScroll:function(){
       setTimeout(function () { if(document.myScroll) document.myScroll.refresh() }, 0)
     },
+    changeTheme:function(themeURL){
+      $("#mbileCSS").attr("href",themeURL);
+    },
     alert:function(message){}
   };
 

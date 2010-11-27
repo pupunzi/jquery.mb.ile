@@ -22,7 +22,7 @@
 
     <title>mb.ile</title>
 
-    <link href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
+    <link id="mbileCSS" href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
@@ -51,6 +51,7 @@
         });
 
     </script>
+
 </head>
 <body>
 
@@ -68,7 +69,7 @@
     <div data-role="footer" data-type="default" id="footer">
         <div class="buttonBar column3">
             <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">bottoneeeeeeeeeeeee</span>
-            <span class="button">btn2</span>
+            <span class="button" onmousedown="$.mbile.changeTheme('css/theme_flat.css');">btn2</span>
             <span class="button">btn3</span>
         </div>
     </div>
