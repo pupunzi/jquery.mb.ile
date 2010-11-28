@@ -18,7 +18,7 @@
     <!-- iPhone Stuff -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <title>mb.ile</title>
 
@@ -34,6 +34,18 @@
 
         //initializing the mb.ile framework
         $(function(){
+
+            $.mbile.toggleSkin=function(){
+                    if($.mbile.skin == undefined || $.mbile.skin=="skin2"){
+                        $.mbile.changeTheme('css/theme_flat.css');
+                        $.mbile.skin = "skin1"
+                    }else{
+                       $.mbile.changeTheme('css/theme_dark.css');
+                        $.mbile.skin = "skin2";
+                    }
+            };
+
+            
             $.mbile.init("pages/start.html",{
 
                 context:"#mbPage",
@@ -63,18 +75,21 @@
     <div data-role="content" id="wrapper">
         content goes here
     </div>
-    
-<!--todo: manage the default content for the footer-->
+
+    <!--todo: manage the default content for the footer-->
 
     <div data-role="footer" data-type="default" id="footer">
-        <div class="buttonBar column3">
+        <div class="buttonBar column2">
             <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">bottoneeeeeeeeeeeee</span>
-            <span class="button" onmousedown="$.mbile.changeTheme('css/theme_flat.css');">btn2</span>
-            <span class="button">btn3</span>
+            <span id="changeSkin" class="button" onmousedown="$.mbile.toggleSkin();">change skin</span>
         </div>
     </div>
 
 </div>
+
+<script type="text/javascript">
+
+</script>
 
 </body>
 </html>

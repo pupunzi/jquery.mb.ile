@@ -11,12 +11,13 @@
 
 
 @sectionColor:transparent;
+@sectionTextColor:#444;
 @panelColor:#f3f3f3;
 
-@lineColor:#222;
-@lineSelectedColor:#fff;
+@lineColor:#666;
+@lineSelectedColor:#ccc;
 @lineSpacerColor:#ccc;
-@lineTextColor:#666;
+@lineTextColor:#f3f3f3;
 
 @shadowColor:#222;
 
@@ -90,7 +91,7 @@ div[data-role=page]{
 }
 
 #header {
-    margin-top:15px;
+    margin-top:0;
 	position:relative;
 	height:@headerHeight;
 	padding:@defaultPadding;
@@ -119,12 +120,11 @@ div[data-role=page]{
 
 #footer {
     margin-top:-45px;
-    color:#2c2d2d;
 	position:relative;
 	height:@footerHeight;
 	font-size:20px;
 	padding:0;
-    background-color:@pageColor;
+    background-color:@color1;
 	color:#eee;
 	-webkit-box-shadow:0 -2px 15px @shadowColor;
 	z-index:2;
@@ -157,7 +157,6 @@ div[data-role=page]{
 
 #footer.out #collapsibleFooter{
     padding:0;
-    right:0;
     width:60px;
     height:60px;
     top:-25px;
@@ -172,7 +171,7 @@ div[data-role=page]{
     //overflow:hidden;
     background-color:@pageColor;
     h1{
-        color:#fff;
+        color:@color3;
         font-size:20px;
         line-height:30px;
         font-weight:normal;
@@ -329,7 +328,7 @@ div[data-role=page]{
         padding:@defaultPadding;
         margin:0;
         margin-bottom:20px;
-        color:@lineTextColor;
+        color:@sectionTextColor;
         background-color:@sectionColor;
     }
     .section.fake {
@@ -345,12 +344,12 @@ div[data-role=page]{
         height:auto;
         font:14px/25px Arial,Helvetica,sans-serif;
         padding:0;
-        margin:0;
+        margin-top:1px;
         overflow:hidden;
         margin-bottom:10px;
         color:@color1;
         background-color:@color4;
-        -webkit-box-shadow:0 1px 5px @shadowColor;
+//        -webkit-box-shadow:0 1px 5px @shadowColor;
         .roundedCorners (0, 0, 8px, 8px);
         display:none;
 
@@ -360,7 +359,7 @@ div[data-role=page]{
         padding:@defaultPadding;
         background:#c2c0c0;
         color:@color2;
-        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#eee), color-stop(.6,#ddd));
+        //background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ddd), to(#eee), color-stop(.6,#ddd));
         -webkit-tap-highlight-color:rgba(0,0,0,0.5);
 
             a{
@@ -403,7 +402,7 @@ div[data-role=page]{
             padding:@defaultPadding;
             background:#c2c0c0;
             color:@color2;
-            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#EDEDED), color-stop(.6,#E3E3E3));
+            /*background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFFF), to(#EDEDED), color-stop(.6,#E3E3E3));*/
             -webkit-tap-highlight-color:rgba(0,0,0,0.5);
 
             .linkImg{
@@ -425,7 +424,7 @@ div[data-role=page]{
             font:14px/25px Arial,Helvetica,sans-serif;
             color:@color2;
             text-decoration:none;
-            background-color:#ffffff;
+            background-color:#a8a7a7;
             background-image:none;
         }
         .section {
@@ -465,7 +464,7 @@ div[data-role=page]{
     /*COLUMN*/
     .column2 span{
         text-overflow:ellipsis;
-        width:50%;
+        width:49%;
         -webkit-box-sizing:border-box;
     }
     .column3 span{
@@ -654,7 +653,7 @@ button.hover, .button.hover{
 #footer .button{
      /*padding:0;*/
      float:left;
-     margin-right:1px;
+     margin-left:1px;
      background:@color1;
      background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color1), to(@color2));
      border:none;
@@ -688,24 +687,26 @@ div#loader {
     left:0;
     width:100%;
     height:100%;
-    background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(0, 0, 0,.3)), to(rgba(0, 0, 0,.7)));
+    background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255,.8)), to(rgba(255, 255, 255,.8)));
     z-index:1000;
     opacity:0;
 }
 
 div#spinner {
     position: absolute;
-    top:40%;
-    left:43%;
+    top:50%;
+    left:50%;
+    margin-top:-60px;
+    margin-left:-60px;
     z-index:1000;
-    width: 40px;
-    height: 40px;
+    width: 120px;
+    height: 120px;
 }
 
 div#spinner div {
     width: 12%;
     height: 26%;
-    background: #fff;
+    background: #000;
     position: absolute;
     left: 44.5%;
     top: 37%;
