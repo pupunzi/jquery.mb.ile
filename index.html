@@ -13,80 +13,109 @@
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <!-- iPhone Stuff -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- iPhone Stuff -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <title>mb.ile</title>
+  <title>mb.ile</title>
 
-    <link id="mbileCSS" href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
+  <link id="mbileCSS" href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="inc/jquery.iphoneui.js"></script>
-    <script type="text/javascript" src="inc/iscroll.js"></script>
-    <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="inc/jquery.iphoneui.js"></script>
+  <script type="text/javascript" src="inc/iscroll.js"></script>
+  <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
 
-    <script type="text/javascript">
+  <script type="text/javascript">
 
-        //initializing the mb.ile framework
-        $(function(){
+    //initializing the mb.ile framework
+    $(function(){
 
-            $.mbile.toggleSkin=function(){
-                    if($.mbile.skin == undefined || $.mbile.skin=="skin2"){
-                        $.mbile.changeTheme('css/theme_flat.css');
-                        $.mbile.skin = "skin1"
-                    }else{
-                       $.mbile.changeTheme('css/theme_dark.css');
-                        $.mbile.skin = "skin2";
-                    }
-            };
+      $.mbile.toggleSkin=function(){
+        if($.mbile.skin == undefined || $.mbile.skin=="skin2"){
+          $.mbile.changeTheme('css/theme_flat.css');
+          $.mbile.skin = "skin1"
+        }else{
+          $.mbile.changeTheme('css/theme_dark.css');
+          $.mbile.skin = "skin2";
+        }
+      };
 
-            
-            $.mbile.init("pages/start.html",{
 
-                context:"#mbPage",
-                header:"#header",
-                footer:"#footer",
-                body:"#wrapper",
+      $.mbile.init("testPage",{
 
-                fixedHeader:true,
-                fixedFooter:true,
-                startupScreen: null,
-                slidingSections:true,
-                collapsibleFooter:true,
-                errorPage:"pages/error_page.html"
-            });
-        });
+        context:"#mbPage",
+        header:"#header",
+        footer:"#footer",
+        body:"#wrapper",
 
-    </script>
+        fixedHeader:true,
+        fixedFooter:true,
+        startupScreen: null,
+        slidingSections:true,
+        collapsibleFooter:true,
+        errorPage:"pages/error_page.html"
+      });
+      /*
+       $.mbile.init("pages/start.html",{
+
+       context:"#mbPage",
+       header:"#header",
+       footer:"#footer",
+       body:"#wrapper",
+
+       fixedHeader:true,
+       fixedFooter:true,
+       startupScreen: null,
+       slidingSections:true,
+       collapsibleFooter:true,
+       errorPage:"pages/error_page.html"
+       });
+       */
+    });
+
+  </script>
 
 </head>
 <body>
 
 <div id="mbPage">
-    <div data-role="header" id="header">
-        <h1>mb.ile</h1>
-    </div>
+  <div data-role="header" id="header">
+    <h1>mb.ile</h1>
+  </div>
 
-    <div data-role="content" id="wrapper">
-        content goes here
-    </div>
+  <div data-role="content" id="wrapper">
+    content goes here
+  </div>
 
-    <!--todo: manage the default content for the footer-->
+  <!--todo: manage the default content for the footer-->
 
-    <div data-role="footer" data-type="default" id="footer">
-        <div class="buttonBar column2">
-            <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">bottoneeeeeeeeeeeee</span>
-            <span id="changeSkin" class="button" onmousedown="$.mbile.toggleSkin();">change skin</span>
-        </div>
+  <div data-role="footer" data-type="default" id="footer">
+    <div class="buttonBar column2">
+      <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">bottoneeeeeeeeeeeee</span>
+      <span id="changeSkin" class="button" onmousedown="$.mbile.toggleSkin();">change skin</span>
     </div>
+  </div>
 
 </div>
 
+<!--TEST CONTENT IN PLACE-->
+<div id="testPage" data-role="page">
+  <div class="box contentSelectable">
+    <div data-role="header"><h1>this is a Test page!</h1></div>
+
+    <h1>Can you see me?</h1>
+    <p>
+      If YES that's great, you can create any page directly in the main page, manipulate content and than show it using all transitions and page features!
+    </p>
+
+    <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade',true);">start</button></div>
+  </div>
+</div>
 <script type="text/javascript"></script>
 
 </body>
