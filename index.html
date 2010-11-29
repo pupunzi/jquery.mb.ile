@@ -103,6 +103,10 @@
 
 </div>
 
+
+
+
+
 <!--TEST CONTENT IN PLACE-->
 <div id="testPage" data-role="page">
   <div class="box contentSelectable">
@@ -112,11 +116,20 @@
     <p>
       If YES that's great, you can create any page directly in the main page, manipulate content and than show it using all transitions and page features!
     </p>
-
     <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade',true);">start</button></div>
+    <script>
+/*
+      $.mbile.onPageLoad("testPage", function(e){
+        if(e.actualPage.attr("id")=="testPage"){
+          var txt=!window.navigator.standalone?"GO FULL SCREEN! <br> USE THE 'ADD TO HOME' FEATURE":"";
+          alert(txt);
+        }
+
+      });
+*/
+    </script>
   </div>
 </div>
-<script type="text/javascript"></script>
 
 </body>
 </html>

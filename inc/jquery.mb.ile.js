@@ -98,9 +98,14 @@ document.myScroll=null;
         $.mbile.setHeight();
         $.mbile.initContent(opt);
         $(opt.context).css({"visibility":"visible"}).hide();
-        var event=$.Event("pageshow");
-        event.newPage=content;
-        $(document).trigger(event);
+
+        /*
+         var pageshow=$.Event("pageshow");
+         pageshow.newPage=content;
+         $(document).trigger(pageshow);
+         */
+
+
         $(opt.context).fadeIn(500);
       };
 
@@ -163,6 +168,7 @@ document.myScroll=null;
     addBackBtn:function(opt){
       $(opt.header+" .backBtn").remove();
       var actualPage=$.mbile.actualPage;
+      if($.mbile.pages[actualPage]==undefined) return;
       if (actualPage==$.mbile.home) return;
       var backBtn=$("<a class='backBtn back black'><span></span></a>").hide();
       $(opt.header+" .HFcontent").prepend(backBtn);
@@ -229,11 +235,12 @@ document.myScroll=null;
         var linkImg=$("<span/>").addClass("linkImg");
         var url=$(this).attr("href").replace("#","");
         var animation=link.data("animation");
+        var hasHistory=link.data("hasHistory");
         $(this)
           .parent("span")
           .append(linkImg)
           .bind("click",function(){
-          $(this).addClass("hover").goToPage(url,animation);
+          $(this).addClass("hover").goToPage(url,animation,hasHistory);
         }).addTouch();
       });
     },
@@ -348,8 +355,6 @@ document.myScroll=null;
             if(addHistory)
               $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation, onPage:isOnPage};
 
-            $.mbile.actualPage=url;
-
             /*
              * trigger event: pageshow
              *
@@ -365,14 +370,18 @@ document.myScroll=null;
              *
              * */
 
+            $("#scroller").remove();
+
+            $.mbile.initContent($.mbile.defaults);
+
             var pageshow=$.Event("pageshow");
             pageshow.actualPage=newPage;
             pageshow.oldPage=oldPage;
             pageshow.animation=animation;
             $(document).trigger(pageshow);
 
-            $("#scroller").remove();
-            $.mbile.initContent($.mbile.defaults);
+            $.mbile.actualPage=url;
+
             $.mbile.pageIsChanging=false;
 
             $(document).stopWait();
@@ -440,13 +449,14 @@ document.myScroll=null;
                  *
                  * */
 
+                $.mbile.initContent($.mbile.defaults);
+
                 var pageshow=$.Event("pageshow");
                 pageshow.actualPage=newPage;
                 pageshow.oldPage=oldPage;
                 pageshow.animation=animation;
                 $(document).trigger(pageshow);
 
-                $.mbile.initContent($.mbile.defaults);
                 $.mbile.pageIsChanging=false;
               });
             },100);
@@ -528,8 +538,9 @@ document.myScroll=null;
       });
       return loaderScreen;
     },
-    onPageLoad:function(callback, e){
-      $(document).one("pageshow",e, callback);
+    onPageLoad:function(callback,e){
+        $(document).one("pageshow",e, callback);
+
     },
     refreshScroll:function(){
       setTimeout(function () { if(document.myScroll) document.myScroll.refresh() }, 0)
@@ -626,7 +637,7 @@ document.myScroll=null;
   $(function(){
     $(document).bind("ajaxError", function(){
       $.mbile.pageIsChanging=false;
-      $.mbile.goToPage($.mbile.defaults.errorPage,"pop");
+      $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false);
     })
   });
 
