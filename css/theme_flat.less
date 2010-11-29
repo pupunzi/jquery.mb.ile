@@ -624,15 +624,16 @@ button, .button{
     display:inline-block;
     padding:@defaultPadding @defaultPadding*2 @defaultPadding+3 @defaultPadding*2;
     background:@color1;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@default1),color-stop(0.5, @default2), color-stop(0.5, @default3), to(@default4));
+//    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@default1),color-stop(0.5, @default2), color-stop(0.5, @default3), to(@default4));
     border:2px solid @color4;
     font:16px/24px sans-serif;
     width:100%;
     overflow:hidden;
     color:@color4;
     font-weight:bold;
-    text-align: center;
+    text-align:center;
     text-shadow:1px 1px 1px #000;
+    white-space:nowrap;
 //    margin:@defaultMargin;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
@@ -641,8 +642,8 @@ button, .button{
 }
 
 button.hover, .button.hover{
-    background:@color2;
-    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color5), to(@color5));
+    background:@color4;
+//    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@color5), to(@color5));
     border:2px solid @color4;
     color:@color1;
     text-shadow:1px 1px 1px #fff;

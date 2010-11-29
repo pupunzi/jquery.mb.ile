@@ -11,6 +11,15 @@
  * email: mbicocchi@open-lab.com
  * site: http://pupunzi.com
  *
+ *
+ *
+ * EVENTS triggered:
+ *
+ * beforepagechange
+ * beforepageshow
+ * pageshow
+ *
+ *
  */
 
 document.iScroll={};
@@ -80,17 +89,17 @@ document.myScroll=null;
         $(opt.footer).addClass("collapsibleFooter");
 
         $("#collapsibleFooter")
-          .bind("mousedown",
-          function(){
-            var el=$(this);
-            if(el.attr("collapsed")==0){
-              $(opt.footer).addClass("out");
-              el.attr("collapsed",1)
-            }else{
-              $(opt.footer).removeClass("out");
-              el.attr("collapsed",0)
-            }
-          });
+            .bind("mousedown",
+                 function(){
+                   var el=$(this);
+                   if(el.attr("collapsed")==0){
+                     $(opt.footer).addClass("out");
+                     el.attr("collapsed",1)
+                   }else{
+                     $(opt.footer).removeClass("out");
+                     el.attr("collapsed",0)
+                   }
+                 });
       }
 
       var finalize= function(content){
@@ -100,19 +109,16 @@ document.myScroll=null;
         $.mbile.initContent(opt);
         $(opt.context).css({"visibility":"visible"}).hide();
 
-        /*
-         var pageshow=$.Event("pageshow");
-         pageshow.newPage=content;
-         $(document).trigger(pageshow);
-         */
-
-
+        var pageshow=$.Event("pageshow");
+        pageshow.newPage=content;
+        $(document).trigger(pageshow);
         $(opt.context).fadeIn(500);
+
       };
 
+      var pages= $("[data-role=page]");
+      pages.hide();
       if(url!=undefined && $("#"+url).isOnPage()){
-        var pages= $("[data-role=page]");
-        pages.hide();
         var content=$("#"+url).clone(true);
         content.attr("id",url+"_clone");
 
@@ -122,7 +128,7 @@ document.myScroll=null;
         $.mbile.pages[url].onPage = true;
 
       }else if(url!=undefined){
-        $($.mbile.defaults.body).load(url, function(content){finalize(content);});
+        $($.mbile.defaults.body).load(url, function(){finalize();});
       }else{
         alert("Sorry, there's no content to show");
       }
@@ -148,18 +154,19 @@ document.myScroll=null;
         $(this).removeAttr("onclick").bind("mousedown",action);
       });
       $.mbile.setHeaderFooterBehavior(opt);
-      setTimeout(function(){
-        $.mbile.checkOrientation();
-        $.mbile.setPanelBehavior();
-        $.mbile.setSortableBehavior();
-        $.mbile.setSelectableBehavior();
-        $.mbile.setLinkBehavior();
-        $.mbile.setListBehaviour();
-        if(opt.slidingSections)
-          $.mbile.setSectionBehavior();
-        if(document.iScroll.enabled)
-          document.myScroll = new iScroll('scroller', {desktopCompatibility:true});
-      },200);
+      $.mbile.checkOrientation();
+      $.mbile.setPanelBehavior();
+      $.mbile.setSortableBehavior();
+      $.mbile.setSelectableBehavior();
+      $.mbile.setLinkBehavior();
+      $.mbile.setListBehaviour();
+      if(opt.slidingSections)
+        $.mbile.setSectionBehavior();
+      if(document.iScroll.enabled){
+        document.myScroll = new iScroll('scroller', {desktopCompatibility:true});
+        if($.mbile.pages[$.mbile.actualPage])
+          document.myScroll.scrollTo(0, $.mbile.pages[$.mbile.actualPage].scroll, "600ms")
+      }
     },
     addBackBtn:function(opt){
       $(opt.header+" .backBtn").remove();
@@ -191,13 +198,13 @@ document.myScroll=null;
       var newFooter=$(opt.body).find("[data-role=footer]").clone(true);
       var footer= newFooter.length>=1?newFooter:$.mbile.defaultFooter;
 
-      $(opt.header+" .HFcontent").fadeOut(0,function(){
+      $(opt.header+" .HFcontent").fadeOut(400,function(){
         $(this).empty();
         $(this).append(header.html());
         $(opt.body).find("[data-role=header]").remove();
         if(opt.manageHistory)
           $.mbile.addBackBtn(opt);
-        $(this).fadeIn(50);
+        $(this).fadeIn(400);
       });
 
       $(opt.footer+" .HFcontent").fadeOut(0,function(){
@@ -219,9 +226,9 @@ document.myScroll=null;
         $(this).append(selImg);
 
         $(this).toggle(
-          function(){$(this).addClass("selected")},
-          function(){$(this).removeClass("selected")}
-          ).addTouch();
+                      function(){$(this).addClass("selected")},
+                      function(){$(this).removeClass("selected")}
+            ).addTouch();
 
       });
     },
@@ -234,9 +241,9 @@ document.myScroll=null;
         var animation=link.data("animation");
         var hasHistory=link.data("hasHistory");
         $(this)
-          .parent("span")
-          .append(linkImg)
-          .bind("click",function(){
+            .parent("span")
+            .append(linkImg)
+            .bind("click",function(){
           $(this).addClass("hover").goToPage(url,animation,hasHistory);
         }).addTouch();
       });
@@ -263,6 +270,7 @@ document.myScroll=null;
     setButtonBehavior:function(){
       var buttons=$("button,.button, .backBtn");
       buttons.setHover();
+
     },
     setPanelBehavior:function(){
       var $panels= $($.mbile.defaults.body + " #scroller").find("a[rel=panel]");
@@ -271,9 +279,9 @@ document.myScroll=null;
         var panelImg=$("<span/>").addClass("panelImg");
         $(this).parent("span").append(panelImg);
         $(this).toggle(
-          function(){$(panel).openPanel(); $.mbile.refreshScroll();},
-          function(){$(panel).closePanel(); $.mbile.refreshScroll();}
-          ).addTouch();
+                      function(){$(panel).openPanel(); $.mbile.refreshScroll();},
+                      function(){$(panel).closePanel(); $.mbile.refreshScroll();}
+            ).addTouch();
       })
     },
     setSortableBehavior:function(){
@@ -301,14 +309,23 @@ document.myScroll=null;
     },
     setHover:function(){
       this.bind("mousedown",function(){$(this).addClass("hover")})
-        .bind("mouseup",function(){$(this).removeClass("hover")})
-        .addTouch();
+          .bind("mouseup",function(){$(this).removeClass("hover")})
+          .addTouch();
     },
     goToPage:function(url,animation,addHistory){
       if($.mbile.pageIsChanging) return;
       $.mbile.pageIsChanging=true;
 
+      var oldPage= $("#scroller").find("div[data-role=page]").addClass("oldPage "+ animation);
+      var isOnPage=$("#"+url).isOnPage();
+
       if(url==$.mbile.actualPage) return;
+
+      if($.mbile.pages[$.mbile.actualPage] && (document.myScroll.actualY!=undefined))
+        $.extend($.mbile.pages[$.mbile.actualPage],{scroll:document.myScroll.actualY});
+        //$.mbile.pages[$.mbile.actualPage].scroll=document.myScroll.actualY;
+
+
       /*
        * trigger event: beforepagechange
        *
@@ -317,6 +334,7 @@ document.myScroll=null;
        *
        * */
       var beforepagechange=$.Event("beforepagechange");
+      beforepagechange.page=oldPage;
       beforepagechange.canChangePage=true;
       $(document).trigger(beforepagechange);
 
@@ -331,9 +349,8 @@ document.myScroll=null;
 
       $(this).addClass("selected");
       $(document).wait();
-      var oldPage= $("#scroller").find("div[data-role=page]").addClass("oldPage "+ animation);
-      var isOnPage=$("#"+url).isOnPage();
 
+      /*the content to show is on page*/
       if(isOnPage){
         if(document.myScroll)
           document.myScroll.destroy();
@@ -341,52 +358,68 @@ document.myScroll=null;
         newPage.find("[data-role=header], [data-role=footer]").hide();
         $(".fake").remove();
         $($.mbile.defaults.body).append(newPage);
+        /*
+         * trigger event: beforepageshow
+         *
+         * triggered once the new page is inserted on the DOM but not yet shown
+         * you can refer either to the oldPage or to te newPage
+         *
+         * lement.bind("beforepageshow",function(e){
+         *
+         *   e.newPage.doSomething()
+         *   e.oldPage.doSomething()
+         *
+         * });
+         *
+         * */
+        var beforepageshow=$.Event("beforepageshow");
+        beforepageshow.newPage=newPage;
+        beforepageshow.oldPage=oldPage;
+        $(document).trigger(beforepageshow);
 
-        setTimeout(function(){
-          oldPage.addClass("out");
-          newPage.addClass("in").show();
-          newPage.bind('webkitAnimationEnd', function(){
-            newPage.unbind('webkitAnimationEnd');
-            newPage.removeClass("in "+ animation);
+        oldPage.addClass("out");
+        newPage.addClass("in").show();
+        newPage.bind('webkitAnimationEnd', function(){
+          newPage.unbind('webkitAnimationEnd');
+          newPage.removeClass("in "+ animation);
 
-            if(addHistory)
-              $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation, onPage:isOnPage};
+          if(addHistory)
+            $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation, onPage:isOnPage};
 
-            /*
-             * trigger event: pageshow
-             *
-             * triggered once the new page is inserted on the DOM and shown
-             * you can refer either to the oldPage or to te newPage
-             *
-             * lement.bind("pageshow",function(e){
-             *
-             *   e.newPage.doSomething()
-             *   e.oldPage.doSomething()
-             *
-             * });
-             *
-             * */
+          $.mbile.actualPage=url;
 
-            $("#scroller").remove();
+          /*
+           * trigger event: pageshow
+           *
+           * triggered once the new page is inserted on the DOM and shown
+           * you can refer either to the oldPage or to te newPage
+           *
+           * lement.bind("pageshow",function(e){
+           *
+           *   e.newPage.doSomething()
+           *   e.oldPage.doSomething()
+           *
+           * });
+           *
+           * */
 
+          var pageshow=$.Event("pageshow");
+          pageshow.actualPage=newPage;
+          pageshow.oldPage=oldPage;
+          pageshow.animation=animation;
+          $(document).trigger(pageshow);
 
-            var pageshow=$.Event("pageshow");
-            pageshow.actualPage=newPage;
-            pageshow.oldPage=oldPage;
-            pageshow.animation=animation;
-            $(document).trigger(pageshow);
+          $("#scroller").remove();
 
-            $.mbile.actualPage=url;
-            $.mbile.initContent($.mbile.defaults);
+          $.mbile.initContent($.mbile.defaults);
 
-            $.mbile.pageIsChanging=false;
+          $.mbile.pageIsChanging=false;
 
-            $(document).stopWait();
-          });
-        },100);
+          $(document).stopWait();
+        });
 
 
-      }else{
+      } else {
         $.ajax({
           type: "GET",
           url: url,
@@ -418,46 +451,45 @@ document.myScroll=null;
             $(document).trigger(beforepageshow);
 
             /*Applay transition*/
-            setTimeout(function(){
-              oldPage.addClass("out");
-              newPage.addClass("in").show();
-              newPage.bind('webkitAnimationEnd', function(){
-                newPage.unbind('webkitAnimationEnd');
+            oldPage.addClass("out");
+            newPage.addClass("in").show();
+            newPage.bind('webkitAnimationEnd', function(){
+              newPage.unbind('webkitAnimationEnd');
 
-                $("#scroller").remove();
-                newPage.removeClass("in "+ animation);
+              newPage.removeClass("in "+ animation);
 
-                if(addHistory)
-                  $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation};
+              if(addHistory)
+                $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation};
 
-                $.mbile.actualPage=url;
 
-                /*
-                 * trigger event: pageshow
-                 *
-                 * triggered once the new page is inserted on the DOM and shown
-                 * you can refer either to the oldPage or to te newPage
-                 *
-                 * lement.bind("pageshow",function(e){
-                 *
-                 *   e.newPage.doSomething()
-                 *   e.oldPage.doSomething()
-                 *
-                 * });
-                 *
-                 * */
+              $.mbile.actualPage=url;
 
-                $.mbile.initContent($.mbile.defaults);
+              /*
+               * trigger event: pageshow
+               *
+               * triggered once the new page is inserted on the DOM and shown
+               * you can refer either to the oldPage or to te newPage
+               *
+               * lement.bind("pageshow",function(e){
+               *
+               *   e.newPage.doSomething()
+               *   e.oldPage.doSomething()
+               *
+               * });
+               *
+               * */
 
-                var pageshow=$.Event("pageshow");
-                pageshow.actualPage=newPage;
-                pageshow.oldPage=oldPage;
-                pageshow.animation=animation;
-                $(document).trigger(pageshow);
+              var pageshow=$.Event("pageshow");
+              pageshow.actualPage=newPage;
+              pageshow.oldPage=oldPage;
+              pageshow.animation=animation;
+              $(document).trigger(pageshow);
 
-                $.mbile.pageIsChanging=false;
-              });
-            },100);
+              $("#scroller").remove();
+
+              $.mbile.initContent($.mbile.defaults);
+              $.mbile.pageIsChanging=false;
+            });
           }
         });
       }
@@ -519,7 +551,7 @@ document.myScroll=null;
         $("body").append(loaderScreen);
       }
       //loaderScreen.show();
-      var timer=now?10:1000;
+      var timer=now?10:2000;
       setTimeout(function(){
         loaderScreen.fadeTo(300,1);
         if(time!=undefined) setTimeout($.mbile.stopWait,time);
@@ -537,7 +569,7 @@ document.myScroll=null;
       return loaderScreen;
     },
     onPageLoad:function(callback,e){
-        $(document).one("pageshow",e, callback);
+      $(document).one("pageshow",e, callback);
 
     },
     refreshScroll:function(){
@@ -635,7 +667,7 @@ document.myScroll=null;
   $(function(){
     $(document).bind("ajaxError", function(){
       $.mbile.pageIsChanging=false;
-      $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false);
+      $.mbile.goToPage($.mbile.defaults.errorPage,"pop");
     })
   });
 
