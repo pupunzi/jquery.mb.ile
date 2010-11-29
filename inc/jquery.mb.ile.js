@@ -119,17 +119,12 @@ document.myScroll=null;
         $($.mbile.defaults.body).html(content);
         finalize(content.get(0));
         content.fadeIn(500);
-
         $.mbile.pages[url].onPage = true;
 
       }else if(url!=undefined){
-
         $($.mbile.defaults.body).load(url, function(content){finalize(content);});
-
       }else{
-
         alert("Sorry, there's no content to show");
-
       }
     },
     checkOrientation:function(){
@@ -169,8 +164,8 @@ document.myScroll=null;
     addBackBtn:function(opt){
       $(opt.header+" .backBtn").remove();
       var actualPage=$.mbile.actualPage;
-      if($.mbile.pages[actualPage]==undefined) return;
-      if (actualPage==$.mbile.home) return;
+      if($.mbile.pages[actualPage]==undefined || actualPage==$.mbile.home) return;
+
       var backBtn=$("<a class='backBtn back black'><span></span></a>").hide();
       $(opt.header+" .HFcontent").prepend(backBtn);
       var backBtnText= $.mbile.pages[actualPage].prev && $.mbile.pages[actualPage].prev!=$.mbile.home?"back":"home";
@@ -374,7 +369,6 @@ document.myScroll=null;
 
             $("#scroller").remove();
 
-            $.mbile.initContent($.mbile.defaults);
 
             var pageshow=$.Event("pageshow");
             pageshow.actualPage=newPage;
@@ -383,6 +377,7 @@ document.myScroll=null;
             $(document).trigger(pageshow);
 
             $.mbile.actualPage=url;
+            $.mbile.initContent($.mbile.defaults);
 
             $.mbile.pageIsChanging=false;
 
@@ -434,6 +429,7 @@ document.myScroll=null;
 
                 if(addHistory)
                   $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation};
+
                 $.mbile.actualPage=url;
 
                 /*
