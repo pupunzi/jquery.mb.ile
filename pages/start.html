@@ -3,10 +3,10 @@
 
     <style type="text/css">
         #startPage{
-            background: #330033;
-            background:url("elements/bgnd.jpg");
-            background-size: 100%;
-            height:100%;
+            /*background: #330033;*/
+            /*background:url("elements/bgnd.jpg") repeat-y !important;*/
+            /*background-size: 100%;*/
+            /*height:100%;*/
         }
         #startPage h1{
             color:white;
@@ -78,6 +78,10 @@
             opacity:.6;
             background: #ffcc00;
         }
+        .clone.c .go{
+            opacity:.6;
+            background: #009966;
+        }
 
         .clone.anim{
             -webkit-animation-duration: 22s;
@@ -96,6 +100,13 @@
             -webkit-animation-duration: 40s;
             -webkit-animation-iteration-count: infinite;
             -webkit-animation-timing-function: linear;
+            -webkit-animation-name: bgAnim;
+        }
+
+        .clone.c.anim{
+            -webkit-animation-duration: 20s;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: easy-out;
             -webkit-animation-name: bgAnim;
         }
 
@@ -149,6 +160,9 @@
         <span class="go"></span>
     </div>
     <div class="start clone b">
+        <span class="go"></span>
+    </div>
+    <div class="start clone c">
         <span class="go"></span>
     </div>
     <div class="start">

@@ -78,3 +78,4 @@ div#spinner div.bar9{-webkit-transform:rotate(240deg) translate(0, -142%);-webki
 div#spinner div.bar10{-webkit-transform:rotate(270deg) translate(0, -142%);-webkit-animation-delay:-0.25s;}
 div#spinner div.bar11{-webkit-transform:rotate(300deg) translate(0, -142%);-webkit-animation-delay:-0.1667s;}
 div#spinner div.bar12{-webkit-transform:rotate(330deg) translate(0, -142%);-webkit-animation-delay:-0.0833s;}
+#startPage{background:#330033;background:url("../elements/bgnd.jpg") repeat-y !important;background-size:100%;height:100%;}
