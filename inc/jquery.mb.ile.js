@@ -34,6 +34,7 @@ document.myScroll=null;
       icon4:false,
       addGlossToIcon:false,
       slidingSections:true,
+      manageHistory:true,
       errorPage:"pages/error_page.html"
     },
     orientation:"portrait",
@@ -42,7 +43,7 @@ document.myScroll=null;
     init:function(url,options){
       var opt={};
       $.extend(opt,$.mbile.defaults,options);
-
+      $.extend($.mbile.defaults,opt);
       $.mbile.pages[url]={url:url};
       $.mbile.actualPage=url;
       $.mbile.home=url;
@@ -199,7 +200,8 @@ document.myScroll=null;
         $(this).empty();
         $(this).append(header.html());
         $(opt.body).find("[data-role=header]").remove();
-        $.mbile.addBackBtn(opt);
+        if(opt.manageHistory)
+          $.mbile.addBackBtn(opt);
         $(this).fadeIn(50);
       });
 
