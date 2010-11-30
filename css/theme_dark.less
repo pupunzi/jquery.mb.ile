@@ -8,11 +8,12 @@
 @color3:#999;
 @color4:#f3f3f3;
 @color5:#fff;
+@color6:#222;
 
 @sectionColor:transparent;
 @panelColor:#f3f3f3;
 
-@lineColor:#222;
+@lineColor:#000;
 @lineSelectedColor:#fff;
 @lineSpacerColor:#ccc;
 @lineTextColor:#fff;
@@ -189,6 +190,7 @@ div[data-role=page]{
         margin-bottom:@defaultMargin;
         font: 14px/18px Helvetica, Arial, sans-serif;
     }
+    /*BLOCKS*/
     .block {
         display:block;
         padding:0;
@@ -199,6 +201,14 @@ div[data-role=page]{
         }
         .line:last-child{
             .roundedCorners (0, 0, 8px, 8px)
+        }
+        .line.hover{
+            background-color:@color6;
+            background-image:none;
+        }
+        .line.hover a{
+            text-decoration:none;
+            color:@color5;
         }
 
     }
@@ -313,7 +323,6 @@ div[data-role=page]{
         opacity:.5;
         .shadow(2px, 0,  5px, #000);
     }
-    /*BLOCKS*/
     .block.sortable .line .handle{
         position:absolute;
         display:block;
@@ -487,7 +496,11 @@ div[data-role=page]{
 	min-height:380px;
 	width:100%;
 	padding:0;
-    padding-bottom:60px;
+    padding-bottom:45px;
+}
+
+#scroller.noFooter{
+    padding-bottom:0;
 }
 
 /*
