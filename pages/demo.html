@@ -1,53 +1,50 @@
 <div id="demoPage" data-role="page">
 
-    <div data-role="header"><h1>mb.ile, features and examples</h1></div>
+  <div data-role="header"><h1>mb.ile, features and examples</h1></div>
 
-    <span class="section">pages</span>
+  <span class="section">pages</span>
 
-    <div class="block">
-        <span class="line"><a rel="page" data-animation="slideleft" href="#pages/animations.html">animations</a></span>
-        <span class="line"><a rel="page" data-animation="slideleft" href="#pages/form.html">form elements</a></span>
-        <span class="line"><a rel="page" data-animation="slideleft" href="#pages/buttons.html">buttons</a></span>
-        <span class="line"><a rel="page" data-animation="slideleft" href="#pages/list.html">list</a></span>
-        <span class="line"><a rel="page" data-animation="slideleft" href="#pages/noHistory_page.html" data-hasHistory="false">no history page</a></span>
+  <div class="block">
+    <span class="line"><a rel="page" data-animation="slideleft" href="#pages/animations.html">animations</a></span>
+    <span class="line"><a rel="page" data-animation="slideleft" href="#pages/form.html">form elements</a></span>
+    <span class="line"><a rel="page" data-animation="slideleft" href="#pages/buttons.html">buttons</a></span>
+    <span class="line"><a rel="page" data-animation="slideleft" href="#pages/list.html">list</a></span>
+    <span class="line"><a rel="page" data-animation="slideleft" href="#pages/noHistory_page.html" data-hasHistory="false">no history page</a></span>
+    <span class="line"><a rel=""  href="http://google.com" data-hasHistory="false">google</a></span>
+  </div>
+
+  <span class="section">tools</span>
+
+  <div class="block">
+    <span class="line"><a rel="" href="#" onclick="$.mbile.wait(true,4000)">wait overlay</a></span>
+    <span class="line"><a rel="panel" href="#myPanel" >panel with list</a></span>
+    <div class="panel" id="myPanel">
+      <span class="line selectable"><a rel="" href="#">pagina 3</a></span>
+      <span class="line selectable"><a rel="" href="#">pagina 1</a></span>
+      <span class="line selectable"><a rel="" href="#">pagina 2</a></span>
     </div>
+    <span class="line"><a rel="" href="http://www.youtube.com/watch?v=PLs5HN7FS0w">youtube video</a></span>
+    <span class="line"><a rel="" href="tel:000 0000000">make a call</a></span>
+    <span class="line"><a rel="" href="http://maps.google.com/maps?f=q&source=s_q&hl=it&geocode=&q=via+venezia+18b+firenze&sll=37.0625,-95.677068&sspn=61.799062,135.263672&ie=UTF8&hq=&hnear=Via+Venezia,+18,+50121+Firenze,+Toscana,+Italia&ll=43.780775,11.261815&spn=0.001751,0.004128&t=h&z=19">where I am?</a></span>
+  </div>
 
-    <span class="section">tools</span>
+  <span class="section">selectable lines</span>
 
-    <div class="block">
-        <span class="line"><a rel="" href="#" onclick="$.mbile.wait(true,4000)">wait overlay</a></span>
-        <span class="line"><a rel="panel" href="#myPanel" >panel with list</a></span>
-        <div class="panel" id="myPanel">
-            <span class="line selectable"><a rel="" href="#">pagina 3</a></span>
-            <span class="line selectable"><a rel="" href="#">pagina 1</a></span>
-            <span class="line selectable"><a rel="" href="#">pagina 2</a></span>
-        </div>
-        <span class="line"><a rel="" href="http://www.youtube.com/watch?v=PLs5HN7FS0w">youtube video</a></span>
-        <span class="line"><a rel="" href="tel:000 0000000">make a call</a></span>
-        <span class="line"><a rel="" href="http://maps.google.com/maps?f=q&source=s_q&hl=it&geocode=&q=via+venezia+18b+firenze&sll=37.0625,-95.677068&sspn=61.799062,135.263672&ie=UTF8&hq=&hnear=Via+Venezia,+18,+50121+Firenze,+Toscana,+Italia&ll=43.780775,11.261815&spn=0.001751,0.004128&t=h&z=19">where I am?</a></span>
-<!--
-        <span class="line"><a rel="" href="#">pagina 1</a></span>
-        <span class="line"><a rel="" href="#">pagina 2</a></span>
--->
-    </div>
+  <div class="block">
+    <span class="line selectable"><a rel="" href="#">line 1</a></span>
+    <span class="line selectable"><a rel="" href="#">line 2</a></span>
+    <span class="line selectable"><a rel="" href="#">line 3</a></span>
+  </div>
 
-    <span class="section">selectable lines</span>
+  <span class="section">sortable lines</span>
 
-    <div class="block">
-        <span class="line selectable"><a rel="" href="#">line 1</a></span>
-        <span class="line selectable"><a rel="" href="#">line 2</a></span>
-        <span class="line selectable"><a rel="" href="#">line 3</a></span>
-    </div>
-
-    <span class="section">sortable lines</span>
-
-    <div class="block sortable">
-        <span class="line"><a rel="" href="#">line 1</a></span>
-        <span class="line"><a rel="" href="#">line 2</a></span>
-        <span class="line"><a rel="" href="#">line 3</a></span>
-        <span class="line"><a rel="" href="#">line 4</a></span>
-        <span class="line"><a rel="" href="#">line 5</a></span>
-        <span class="line"><a rel="" href="#">line 6</a></span>
-    </div>
-    <script type="text/javascript"></script>
+  <div class="block sortable">
+    <span class="line"><a rel="" href="#">line 1</a></span>
+    <span class="line"><a rel="" href="#">line 2</a></span>
+    <span class="line"><a rel="" href="#">line 3</a></span>
+    <span class="line"><a rel="" href="#">line 4</a></span>
+    <span class="line"><a rel="" href="#">line 5</a></span>
+    <span class="line"><a rel="" href="#">line 6</a></span>
+  </div>
+  <script type="text/javascript"></script>
 </div>

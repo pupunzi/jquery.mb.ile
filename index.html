@@ -46,7 +46,25 @@
       };
 
 
-      $.mbile.init("testPage",{
+      /*
+       $.mbile.init("testPage",{
+
+       context:"#mbPage",
+       header:"#header",
+       footer:"#footer",
+       body:"#wrapper",
+
+       fixedHeader:true,
+       fixedFooter:true,
+       startupScreen: null,
+       slidingSections:true,
+       collapsibleFooter:true,
+       manageHistory:true,
+       errorPage:"pages/error_page.html"
+       });
+       */
+
+      $.mbile.init("pages/start.html",{
 
         context:"#mbPage",
         header:"#header",
@@ -61,23 +79,6 @@
         manageHistory:true,
         errorPage:"pages/error_page.html"
       });
-
-      /*
-       $.mbile.init("pages/start.html",{
-
-       context:"#mbPage",
-       header:"#header",
-       footer:"#footer",
-       body:"#wrapper",
-
-       fixedHeader:true,
-       fixedFooter:true,
-       startupScreen: null,
-       slidingSections:true,
-       collapsibleFooter:true,
-       errorPage:"pages/error_page.html"
-       });
-       */
 
     });
 
@@ -106,10 +107,6 @@
 
 </div>
 
-
-
-
-
 <!--TEST CONTENT IN PLACE-->
 <div id="testPage" data-role="page">
   <div class="box contentSelectable">
@@ -121,15 +118,15 @@
     </p>
     <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade');">start</button></div>
     <script>
-/*
-      $.mbile.onPageLoad("testPage", function(e){
-        if(e.actualPage.attr("id")=="testPage"){
-          var txt=!window.navigator.standalone?"GO FULL SCREEN! <br> USE THE 'ADD TO HOME' FEATURE":"";
-          alert(txt);
-        }
+      /*
+       $.mbile.onPageLoad("testPage", function(e){
+       if(e.actualPage.attr("id")=="testPage"){
+       var txt=!window.navigator.standalone?"GO FULL SCREEN! <br> USE THE 'ADD TO HOME' FEATURE":"";
+       alert(txt);
+       }
 
-      });
-*/
+       });
+       */
     </script>
   </div>
 </div>
