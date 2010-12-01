@@ -3,10 +3,10 @@
 
     <style type="text/css">
         #startPage{
-            /*background: #330033;*/
-            /*background:url("elements/bgnd.jpg") repeat-y !important;*/
-            /*background-size: 100%;*/
-            /*height:100%;*/
+        /*background: #330033;*/
+        /*background:url("elements/bgnd.jpg") repeat-y !important;*/
+        /*background-size: 100%;*/
+        /*height:100%;*/
         }
         #startPage h1{
             color:white;
@@ -152,7 +152,6 @@
     <h1>Well come to <br><b>mb.ile</b> framework!</h1>
     <!--h3>A short cut for developing your mobile web App.</h3-->
 
-
     <div class="start clone">
         <span class="go"></span>
     </div>
@@ -168,10 +167,11 @@
     <div class="start">
         <span class="go" onclick="$.mbile.goToPage('pages/demo.html','flipleft')">GO!</span>
     </div>
-
+    <div data-role="footer" data-type="default">
+    </div>
 
     <script type="text/javascript">
-$(".go").hide()
+        $(".go").hide()
         $.mbile.onPageLoad(function(e){
             setTimeout(function(){$(".start").addClass("anim");$(".go").fadeIn(2000);},1000)
         })

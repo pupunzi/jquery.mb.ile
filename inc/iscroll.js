@@ -206,7 +206,6 @@ iScroll.prototype = {
 			}
 		}
 	},
-
 	setTransitionTime: function(time) {
 		var that = this;
 
@@ -324,6 +323,9 @@ iScroll.prototype = {
 			newDuration = 0,
 			newPositionX = that.x, newPositionY = that.y,
 			snap;
+
+      that.actualX= that.x;
+      that.actualY= that.y;
 
 		that.scrolling = false;
 
