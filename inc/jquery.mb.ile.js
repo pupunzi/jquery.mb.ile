@@ -354,6 +354,7 @@ document.myScroll=null;
       if(isOnPage){
         if(document.myScroll)
           document.myScroll.destroy();
+        $(document).stopWait();
         var newPage= $("#"+url).clone(true).addClass("newPage "+ animation).hide();
         newPage.find("[data-role=header], [data-role=footer]").hide();
         $(".fake").remove();
@@ -410,16 +411,15 @@ document.myScroll=null;
           $(document).trigger(pageshow);
 
           $("#scroller").remove();
-
           $.mbile.initContent($.mbile.defaults);
-
           $.mbile.pageIsChanging=false;
-
-          $(document).stopWait();
         });
 
 
       } else {
+
+        // the content is an external page
+
         $.ajax({
           type: "GET",
           url: url,
@@ -427,6 +427,7 @@ document.myScroll=null;
             if(document.myScroll)
               document.myScroll.destroy();
             $(document).stopWait();
+
             var newPage= $(response).addClass("newPage "+ animation).hide();
             newPage.find("[data-role=header], [data-role=footer]").hide();
             $(".fake").remove();
@@ -460,7 +461,6 @@ document.myScroll=null;
 
               if(addHistory)
                 $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation};
-
 
               $.mbile.actualPage=url;
 
@@ -599,6 +599,9 @@ document.myScroll=null;
     this.addClass("close").one('webkitAnimationEnd', function(){$(".panel.close").removeClass("close");$.mbile.refreshScroll();});
     this.prev("span").removeClass("selected header");
   };
+
+
+//  reproduce swipe gesture behavior
 
   $.fn.swipe =function(opt){
     var defaults={
