@@ -50,9 +50,8 @@ document.myScroll=null;
     pages:{},
 
     init:function(url,options){
-      var opt={};
-      $.extend(opt,$.mbile.defaults,options);
       $.extend($.mbile.defaults,opt);
+      var opt=$.mbile.defaults;
       $.mbile.pages[url]={url:url};
       $.mbile.actualPage=url;
       $.mbile.home=url;
@@ -89,17 +88,17 @@ document.myScroll=null;
         $(opt.footer).addClass("collapsibleFooter");
 
         $("#collapsibleFooter")
-            .bind("mousedown",
-                 function(){
-                   var el=$(this);
-                   if(el.attr("collapsed")==0){
-                     $(opt.footer).addClass("out");
-                     el.attr("collapsed",1)
-                   }else{
-                     $(opt.footer).removeClass("out");
-                     el.attr("collapsed",0)
-                   }
-                 });
+                .bind("mousedown",
+                function(){
+                  var el=$(this);
+                  if(el.attr("collapsed")==0){
+                    $(opt.footer).addClass("out");
+                    el.attr("collapsed",1)
+                  }else{
+                    $(opt.footer).removeClass("out");
+                    el.attr("collapsed",0)
+                  }
+                });
       }
 
       var finalize= function(content){
@@ -197,11 +196,9 @@ document.myScroll=null;
     setHeaderFooterBehavior:function(opt){
       var newHeader=$(opt.body).find("[data-role=header]").clone(true);
       var header= newHeader.length>0?newHeader:$.mbile.defaultHeader;
-//      var header= newHeader.length>0?newHeader:$.mbile.defaultHeader;
 
       var newFooter=$(opt.body).find("[data-role=footer]").clone(true);
       var footer= newFooter.length>0 ? newFooter.data("type")=="default" ? $.mbile.defaultFooter : newFooter : false;
-//      var footer= newFooter.length>0?newFooter:$.mbile.defaultFooter;
 
       $(opt.header+" .HFcontent").fadeOut(400,function(){
         $(this).empty();
@@ -222,7 +219,6 @@ document.myScroll=null;
           $(this).fadeIn(0);
         }else{
           $("#scroller").addClass("noFooter");
-          setTimeout(function(){$(opt.footer).hide();});
         }
 
       });
@@ -239,7 +235,7 @@ document.myScroll=null;
       var buttons=$("button,.button, .backBtn");
       buttons.setHover();
     },
-    
+
     setSelectableBehavior:function(){
       var selectables=$(".line.selectable");
       selectables.each(function(){
@@ -247,14 +243,14 @@ document.myScroll=null;
         $(this).append(selImg);
 
         $(this).toggle(
-                      function(){$(this).addClass("selected")},
-                      function(){$(this).removeClass("selected")}
-            ).addTouch();
+                function(){$(this).addClass("selected")},
+                function(){$(this).removeClass("selected")}
+                ).addTouch();
 
       });
     },
     setLinkBehavior:function(){
-      var links=$($.mbile.defaults.body + " #scroller").find("a[rel=page]");
+      var links=$($.mbile.defaults.context + " a[rel=page]");
       links.each(function(){
         var link=$(this);
         var linkImg=$("<span/>").addClass("linkImg");
@@ -262,10 +258,10 @@ document.myScroll=null;
         var animation=link.data("animation");
         var hasHistory=link.data("hasHistory");
         var pageData=link.data("page-data");
-        $(this)
-            .parent("span")
-            .append(linkImg)
-            .bind("click",function(){
+        link
+                .parent("span")
+                .append(linkImg)
+                .bind("click",function(){
           $(this).addClass("hover").goToPage(url,animation,hasHistory,pageData);
         }).addTouch();
       });
@@ -296,9 +292,9 @@ document.myScroll=null;
         var panelImg=$("<span/>").addClass("panelImg");
         $(this).parent("span").append(panelImg);
         $(this).toggle(
-                      function(){$(panel).openPanel(); $.mbile.refreshScroll();},
-                      function(){$(panel).closePanel(); $.mbile.refreshScroll();}
-            ).addTouch();
+                function(){$(panel).openPanel(); $.mbile.refreshScroll();},
+                function(){$(panel).closePanel(); $.mbile.refreshScroll();}
+                ).addTouch();
       })
     },
     setSortableBehavior:function(){
@@ -325,12 +321,10 @@ document.myScroll=null;
     },
     setHover:function(){
       this.bind("mousedown",function(){$(this).addClass("hover");})
-          .bind("mouseup",function(){$(this).removeClass("hover")})
-          .addTouch();
+              .bind("mouseup",function(){$(this).removeClass("hover")})
+              .addTouch();
     },
     goToPage:function(url,animation,addHistory,pageData){
-
-
       if($.mbile.pageIsChanging) return;
       if(url==$.mbile.actualPage) return;
       $.mbile.pageIsChanging=true;
@@ -372,6 +366,7 @@ document.myScroll=null;
         newPage.find("[data-role=header], [data-role=footer]").hide();
         $(".fake").remove();
         $($.mbile.defaults.body).append(newPage);
+        if(newPage.find("[data-role=footer]").length==0) $($.mbile.defaults.footer).hide();
         /*
          * trigger event: beforepageshow
          *
