@@ -22,20 +22,20 @@
  *
  */
 
-document.iScroll={};
-document.iScroll.enabled=true;
-document.myScroll=null;
+document.iScroll = {};
+document.iScroll.enabled = true;
+document.myScroll = null;
 
-(function($){
-  $.mbile={
+String.prototype.asId = function () {
+  return this.replace(/[^a-zA-Z0-9_]+/g, '');
+};
+
+(function($) {
+  $.mbile = {
     name:"mb.ile",
     author:"Matteo Bicocchi",
-    version:"0.1 alpha",
+    version:"0.2 alpha",
     defaults:{
-      context:"#mbPage",
-      header:"#header",
-      footer:"#footer",
-      body:"#wrapper",
       fixedHeaderFooter:true,
       collapsibleFooter:true,
       startupScreen: false,
@@ -49,18 +49,14 @@ document.myScroll=null;
     orientation:"portrait",
     pages:{},
 
-    init:function(url,options){
-      $.extend($.mbile.defaults,opt);
-      var opt=$.mbile.defaults;
-      $.mbile.pages[url]={url:url};
-      $.mbile.actualPage=url;
-      $.mbile.home=url;
-      $.mbile.defaultHeader=$(opt.header).clone();
-      $.mbile.defaultFooter=$(opt.footer).clone();
+    init:function(url, options) {
+      $.extend($.mbile.defaults, options);
+      var opt = $.mbile.defaults;
+      //set defaults for header and footer
+      $.mbile.defaultHeader = $("[data-role=defaultHeader]").clone();
+      $.mbile.defaultFooter = $("[data-role=defaultFooter]").clone();
 
-      $(opt.header+","+opt.footer).each(function(){
-        $(this).wrapInner("<div class='HFcontent'/>");
-      });
+      $("[data-role=defaultHeader],[data-role=defaultFooter]").remove();
 
       // Set startup screen
       if (opt.startupScreen)
@@ -81,229 +77,401 @@ document.myScroll=null;
         }
       }
 
-      /*sliding footer Behavior*/
-      if(opt.collapsibleFooter){
-        var collapsibleFooter= $("<span/>").attr("id","collapsibleFooter").attr("collapsed",0).html("&nbsp;");
-        $(opt.footer).append(collapsibleFooter);
-        $(opt.footer).addClass("collapsibleFooter");
+      $(document).bind('orientationchange', $.mbile.checkOrientation);
+      $(document).bind('touchmove', function (e) {
+        e.preventDefault();
+      }, false);
 
-        $("#collapsibleFooter")
-                .bind("mousedown",
-                function(){
-                  var el=$(this);
-                  if(el.attr("collapsed")==0){
-                    $(opt.footer).addClass("out");
-                    el.attr("collapsed",1)
-                  }else{
-                    $(opt.footer).removeClass("out");
-                    el.attr("collapsed",0)
-                  }
-                });
-      }
 
-      var finalize= function(content){
-        $(document).bind('orientationchange', $.mbile.checkOrientation);
-        $(document).bind('touchmove', function (e) { e.preventDefault(); }, false);
-        $.mbile.setHeight();
-        $.mbile.initContent(opt);
-        $(opt.context).css({"visibility":"visible"}).hide();
+      var pages = $("[data-role=page]");
+      pages.addClass("offScreen");
 
-        var pageshow=$.Event("pageshow");
-        pageshow.newPage=content;
-        $(document).trigger(pageshow);
-        $(opt.context).fadeIn(500);
 
-      };
+      //binding for fixed header/footer
+      /*
+       $(document).bind("touchmove", function() {
+       if ($.mbile.actualPage) {
+       $.mbile.actualPage.find("[data-role=header][data-position=fixed]:visible").each(function() {
+       $(this).hide();
+       });
+       $.mbile.actualPage.find("[data-role=footer][data-position=fixed]:visible").each(function() {
+       $(this).hide();
+       });
+       }
+       });
 
-      var pages= $("[data-role=page]");
-      pages.hide();
-      if(url!=undefined && $("#"+url).isOnPage()){
-        var content=$("#"+url).clone(true);
-        content.attr("id",url+"_clone");
 
-        $($.mbile.defaults.body).html(content);
-        finalize(content.get(0));
-        content.fadeIn(500);
-        $.mbile.pages[url].onPage = true;
+       $(document).bind("scroll", function() {
+       console.debug("scroll");
+       if ($.mbile.actualPage) {
+       // scrolling is finished?
+       var oldPos = window.scrollY,newPos;
+       var header = $.mbile.actualPage.find("[data-role=header][data-position=fixed]");
+       if (header.size() > 0) {
+       header.css({position:"absolute","top":window.scrollY, zIndex:10000}).show();
+       }
+       var footer = $.mbile.actualPage.find("[data-role=footer][data-position=fixed]");
+       if (footer.size() > 0) {
+       footer.css({position:"absolute","top":window.scrollY + (window.innerHeight - footer.outerHeight()), zIndex:10000}).show();
+       }
+       }
+       });
+       */
 
-      }else if(url!=undefined){
-        $($.mbile.defaults.body).load(url, function(){finalize();});
-      }else{
-        alert("Sorry, there's no content to show");
-      }
+      $.mbile.goToPage(url, "fade");
+
     },
-    checkOrientation:function(){
-      $.mbile.setHeight();
+    checkOrientation:function() {
+      $.mbile.setHeight($.mbile.actualPage);
       $.mbile.orientation = Math.abs(window.orientation) == 0 ? 'portrait' : 'landscape';
-      $($.mbile.defaults.context).removeClass('portrait landscape').addClass($.mbile.orientation);
+      $("body").removeClass('portrait landscape').addClass($.mbile.orientation);
     },
-    setHeight: function() {
-      var headerH = $($.mbile.defaults.header).outerHeight(true);
-      var footerH = $($.mbile.defaults.footer).outerHeight(true);
-      var wrapperH = $(window).height() - headerH+15;// - footerH;
-      $($.mbile.defaults.body).css({height:wrapperH-15});
+    setHeight: function(page) {
+      //       page.css("width",$(window).width());
+      var headerH = page.find("[data-role=header]").outerHeight(true);
+      var footerH = page.find("[data-role=footer]").outerHeight(true);
+      var wrapperH = $(window).height() - headerH ; // - footerH;
+      page.find(".scroller").css({height:wrapperH});
     },
-    initContent:function(opt){
-      if($("#scroller").length==0){
-        var scroller=$("<div/>").attr("id","scroller");
-        $(opt.body).wrapInner(scroller);
-      }
-      $("[onclick]").each(function(){
-        var action= $(this).attr("onclick");
-        $(this).removeAttr("onclick").bind("mouseup",action);
-      });
-      $.mbile.setHeaderFooterBehavior(opt);
-      $.mbile.checkOrientation();
-      $.mbile.setPanelBehavior();
-      $.mbile.setSortableBehavior();
-      $.mbile.setSelectableBehavior();
-      $.mbile.setLinkBehavior();
-      $.mbile.setListBehavior();
-      if(opt.slidingSections)
-        $.mbile.setSectionBehavior();
-      if(document.iScroll.enabled){
-        document.myScroll = new iScroll('scroller', {desktopCompatibility:true});
-        if($.mbile.pages[$.mbile.actualPage])
-          document.myScroll.scrollTo(0, $.mbile.pages[$.mbile.actualPage].scroll, "600ms")
-      }
-    },
-    addBackBtn:function(opt){
-      $(opt.header+" .backBtn").remove();
-      var actualPage=$.mbile.actualPage;
-      if($.mbile.pages[actualPage]==undefined || actualPage==$.mbile.home) return;
 
-      var backBtn=$("<a class='backBtn back black'><span></span></a>").hide();
-      $(opt.header+" .HFcontent").prepend(backBtn);
-      var backBtnText= $.mbile.pages[actualPage].prev && $.mbile.pages[actualPage].prev!=$.mbile.home?"back":"home";
+    initContent:function(page) {
+      $.mbile.setHeight(page);
+      var inited=page.data("inited");
+      //      page.css("width",$(window).width());
+      if (!inited){
+        page.find("[data-role=header],[data-role=footer]").each(function() {
+          $(this).wrapInner("<div class='HFcontent'/>");
+        });
+        $.mbile.addBackBtn(page);
 
-      $(opt.header+" .backBtn").append(backBtnText).bind("mouseup",function(){
-        var url= $.mbile.pages[actualPage].prev?$.mbile.pages[actualPage].prev:$.mbile.home;
-        var anim= $.mbile.pages[actualPage].anim;
-        var pageData=$.mbile.pages[actualPage].pageData;
-        $(this).addClass("hover").goToPage(url,$.mbile.getBackAnim(anim),false,pageData);
+        //wraps content into a scrollable wrapper
+        page.find("[data-role=content]").wrap("<div class='scroller'/>");
+
+        /*sliding footer Behavior*/
+        if ($.mbile.defaults.collapsibleFooter) {
+          var collapsFooter = $("<span/>").addClass("collapsFooter").attr("collapsed", 0).html("&nbsp;");
+          var footer = page.find("[data-role=footer]");
+          footer.append(collapsFooter);
+          footer.addClass("collapsibleFooter");
+          collapsFooter.bind("mousedown",function() {
+            var el = $(this);
+            if (el.attr("collapsed") == 0) {
+              footer.addClass("out");
+              el.attr("collapsed", 1)
+            } else {
+              footer.removeClass("out");
+              el.attr("collapsed", 0)
+            }
+          });
+        }
+
+        $.mbile.setButtonBehavior(page);        
+      }
+
+      $("[onclick]").each(function() {
+        var action = $(this).attr("onclick");
+        $(this).removeAttr("onclick").bind("mouseup", action);
       });
+
+      $.mbile.setHeaderFooterBehavior(page);
+      $.mbile.setHeight(page);
+      $.mbile.setLinkBehavior(page);
+      if ($.mbile.defaults.slidingSections)
+        $.mbile.setSectionBehavior(page);
+
+      if (!inited){
+        //  $.mbile.setPanelBehavior();
+        //  $.mbile.setSortableBehavior();
+        //  $.mbile.setSelectableBehavior();
+        //
+        //  $.mbile.setListBehavior();
+        //if ($.mbile.defaults.slidingSections)
+        //  $.mbile.setSectionBehavior();
+      }
+
+      if (document.iScroll.enabled && document.myScroll)
+        document.myScroll.destroy();
+
+      if (document.iScroll.enabled) {
+        document.myScroll = new iScroll(page.find("[data-role=content]:first").get(0), {desktopCompatibility:true});
+        $.mbile.refreshScroll();
+      }
+
+
+      page.data("inited",true);
+    },
+
+    goToPage:function(url, animation, addHistory, pageData) {
+      //is the new page already loaded on the page?
+      // url is an id like pages/loginPage.jsp
+      if (url.indexOf("#") < 0) {
+        var id=url.asId();
+
+        // page is loaded when not present or with data passed
+        if ($("#" + id).size() <= 0 ) {//|| pageData
+          $.ajax({
+            type: "GET",
+            url: url,
+            data:pageData,
+            dataType:"html",
+            success: function(response) {
+              var newCandidatePage = $(response);
+              if (newCandidatePage.filter("[data-role=page]:first").size() <= 0) { // not standard format -> wrap it
+                newCandidatePage.wrap("<div data-role='page'/>");
+                newCandidatePage=newCandidatePage.parent();
+              }
+              var page=newCandidatePage.filter("[data-role=page]:first");
+              page.attr("idx", page.attr("id")).attr("id", url.asId());
+              newCandidatePage.addClass("offScreen");
+              $("body").append(newCandidatePage);
+              $.mbile.goToPage("#"+id,animation,addHistory,pageData);
+            }
+          });
+          return; // will proceed in callback
+        }else{
+          url= "#"+id;
+        }
+      }
+
+      if (url=="#")
+        return;
+      if ($.mbile.pageIsChanging)
+        return;
+      if ($.mbile.actualPage && $.mbile.actualPage.attr("id")==id)
+        return;
+
+      $.mbile.pageIsChanging = true;
+      $.mbile.showPageLoading(1000);
+
+      var newPage = $(url).hide();
+      var oldPage = $.mbile.actualPage;
+
+
+
+      //trigger event: beforepagechange
+      var beforepagechange = $.Event("beforepagechange");
+      beforepagechange.oldPage = oldPage;
+      beforepagechange.newPage = newPage;
+      beforepagechange.canChangePage = true;
+      $(document).trigger(beforepagechange);
+      if (!beforepagechange.canChangePage) {
+        beforepagechange.canChangePage = true;
+        return;
+      }
+
+      // both old and new page are on the body
+      // fix bars, eventually add default bars, make scrollable, fix a href
+      // init the content of new page
+
+
+      if (animation == undefined) {
+        if (newPage.data("animation")) {
+          animation = newPage.data("animation");
+        } else {
+          animation = "slideleft";
+        }
+      }
+      newPage.data("animation",animation);
+
+      //ADD TO HISTORY
+      if (addHistory == undefined) addHistory = true;
+
+      if(!$.mbile.pages[newPage.attr("id")])
+        $.mbile.pages[newPage.attr("id")]={};
+      if(oldPage && addHistory){
+        $.extend($.mbile.pages[newPage.attr("id")],{prev:oldPage.attr("id"),data:oldPage.data("pageData"),anim:animation,scroll:document.myScroll.actualY});
+      }
+
+      if (oldPage && document.myScroll){
+        oldPage.data("scrollTop", document.myScroll.actualY);
+      }
+
+      $.mbile.initContent(newPage);
+
+      // reposition scroll to old scroll
+      if (newPage.data("scrollTop"))
+        document.myScroll.scrollTo(0, newPage.data("scrollTop"), "10ms");
+
+      newPage.hide().removeClass("offScreen");
+
+      $.mbile.hidePageLoading();
+      /*
+       * trigger event: beforepageshow
+       * */
+      var beforepageshow = $.Event("beforepageshow");
+      beforepageshow.newPage = newPage;
+      beforepageshow.oldPage = oldPage;
+      $(document).trigger(beforepageshow);
+
+      if (oldPage){
+        newPage.addClass(animation);
+        oldPage.addClass(animation);
+
+        /*Apply transition*/
+        oldPage.addClass("out");
+        newPage.addClass("in").show();
+        newPage.bind('webkitAnimationEnd', function() {
+          newPage.unbind('webkitAnimationEnd');
+          newPage.removeClass("in " + animation);
+          oldPage.addClass("offScreen").removeClass("out " + animation);
+
+          transitionCompleted(oldPage,newPage,animation);
+        });
+
+      } else {  // this is the first page showned
+        $("body").show();
+        newPage.fadeIn(500, function() {
+          $.mbile.home=newPage;
+          transitionCompleted(oldPage,newPage,animation);
+        });
+      }
+
+
+      function transitionCompleted(oldP, newP, animation, addHistory){
+
+        $.mbile.actualPage = newP;
+
+        //history
+        /*
+         if(oldP != undefined && !$.mbile.actualPage.data("prev")){
+         $.mbile.actualPage.data("prev",oldP.attr("id"));
+         $.mbile.actualPage.data("pageData",pageData);
+         }
+         $.mbile.actualPage.data("animation", animation);
+         */
+
+        /*
+         * trigger event: pageshow
+         * */
+        var pageshow = $.Event("pageshow");
+        pageshow.newPage = newP;
+        pageshow.oldPage = oldP;
+        $(document).trigger(pageshow);
+
+        $.mbile.pageIsChanging = false;
+      }
+    },
+
+    addBackBtn:function(page) {
+      var header= page.find("[data-role=header]");
+      header.find(".backBtn").remove();
+      var actualPage = page;
+      var actualPageID = page.attr("id");
+      if ( actualPage == undefined || !$.mbile.pages[actualPage.attr("id")].prev ||$.mbile.home==undefined || page.attr("id") == $.mbile.home.attr("id")) return;
+
+      var backBtn = $("<a class='backBtn back black'><span></span></a>").hide();
+      header.find(".HFcontent").prepend(backBtn);
+      var backBtnText = $.mbile.pages[actualPageID].prev && $.mbile.pages[actualPageID].prev != $.mbile.home.attr("id") ? "back" : "home";
+
+      header.find(".backBtn").append(backBtnText).bind("mouseup", $.mbile.goBack);
 
       backBtn.show();
     },
-    goBack:function(){
-      var actualPage=$.mbile.actualPage;
-      var url= $.mbile.pages[actualPage].prev?$.mbile.pages[actualPage].prev:$.mbile.home;
-      var anim= $.mbile.pages[actualPage].anim;
-      var pageData=$.mbile.pages[actualPage].pageData;
-      $(this).goToPage(url,$.mbile.getBackAnim(anim),false,pageData);
+
+    goBack:function() {
+      var actualPage = $.mbile.actualPage.attr("id");
+      var url = $.mbile.pages[actualPage].prev ? $.mbile.pages[actualPage].prev : $.mbile.home.attr("id");
+      var anim = $.mbile.pages[actualPage].anim;
+      var pageData = $.mbile.pages[actualPage].data;
+      $(this).goToPage("#"+url, $.mbile.getBackAnim(anim), false, pageData);
+    },
+
+    setHeaderFooterBehavior:function(page) {
+
 
     },
-    setHeaderFooterBehavior:function(opt){
-      var newHeader=$(opt.body).find("[data-role=header]").clone(true);
-      var header= newHeader.length>0?newHeader:$.mbile.defaultHeader;
 
-      var newFooter=$(opt.body).find("[data-role=footer]").clone(true);
-      var footer= newFooter.length>0 ? newFooter.data("type")=="default" ? $.mbile.defaultFooter : newFooter : false;
-
-      $(opt.header+" .HFcontent").fadeOut(400,function(){
-        $(this).empty();
-        $(this).append(header.html());
-        $(opt.body).find("[data-role=header]").remove();
-        if(opt.manageHistory)
-          $.mbile.addBackBtn(opt);
-        $(this).fadeIn(400);
-      });
-
-      $(opt.footer+" .HFcontent").fadeOut(0,function(){
-        $("#scroller").removeClass("noFooter");
-        $(this).empty();
-        if(footer){
-          setTimeout(function(){$(opt.footer).fadeIn(400)},1000);
-          $(this).append(footer.html());
-          $(opt.body).find("[data-role=footer]").remove();
-          $(this).fadeIn(0);
-        }else{
-          $("#scroller").addClass("noFooter");
-        }
-
-      });
-      setTimeout(function(){$.mbile.setButtonBehavior();$.mbile.refreshScroll();},500);
-
-    },
-    setListBehavior:function(){
-      var lines=$(".line").filter(function(){
+    setListBehavior:function() {
+      var lines = $(".line").filter(function() {
         return !$(this).parents().is(".sortable");
       });
       lines.setHover();
     },
-    setButtonBehavior:function(){
-      var buttons=$("button,.button, .backBtn");
+    setButtonBehavior:function(page) {
+      var buttons = page.find("button,.button, .backBtn");
       buttons.setHover();
     },
 
-    setSelectableBehavior:function(){
-      var selectables=$(".line.selectable");
-      selectables.each(function(){
-        var selImg=$("<span/>").addClass("selImg");
+    setSelectableBehavior:function() {
+      var selectables = $(".line.selectable");
+      selectables.each(function() {
+        var selImg = $("<span/>").addClass("selImg");
         $(this).append(selImg);
 
         $(this).toggle(
-                function(){$(this).addClass("selected")},
-                function(){$(this).removeClass("selected")}
+                function() {
+                  $(this).addClass("selected")
+                },
+                function() {
+                  $(this).removeClass("selected")
+                }
                 ).addTouch();
 
       });
     },
-    setLinkBehavior:function(){
-      var links=$($.mbile.defaults.context + " a[rel=page]");
-      links.each(function(){
-        var link=$(this);
-        var linkImg=$("<span/>").addClass("linkImg");
-        var url=$(this).attr("href").replace("#","");
-        var animation=link.data("animation");
-        var hasHistory=link.data("hasHistory");
-        var pageData=link.data("page-data");
-        link
-                .parent("span")
-                .append(linkImg)
-                .bind("click",function(){
-          $(this).addClass("hover").goToPage(url,animation,hasHistory,pageData);
-        }).addTouch();
+    setLinkBehavior:function(page) {
+      page.find("a").each(function() {
+        var link = $(this);
+        link.parent(".line").setHover();
+
+        var url = $(this).attr("href");
+        if (url && (url.indexOf("javascript:")<0 || !link.is("[rel=external]"))){
+          link.removeAttr("href");
+          var animation = link.data("animation");
+          var hasHistory = link.data("hasHistory");
+          var pageData = link.data("parameters");
+          link.click(function() {
+            $(this).goToPage(url, animation, hasHistory, pageData);
+          });
+        }
       });
     },
-    setSectionBehavior:function(){
+    setSectionBehavior:function(page) {
       clearInterval(document.SectionBehavior);
-      var $sections=$($.mbile.defaults.body + " #scroller").find("span.section");
-      var containerTop= $($.mbile.defaults.body).offset().top;
-      var $fakeSection=$("<span>").addClass("fake section").css({position:"absolute", top:0, zIndex:2, width:"100%"}).hide();
-      $($.mbile.defaults.body).prepend($fakeSection);
-      document.SectionBehavior=setInterval(function(){
-        $sections.each(function(){
+      page.find("[data-role=section].fake").remove();
+      var $sections = page.find("[data-role=section]");
+      var containerTop = page.find("[data-role=header]").height();
+      var $fakeSection = $("<div data-role='section'>").addClass("fake").css({position:"absolute", top:0, zIndex:2, width:"100%"}).hide();
+      page.find("[data-role=content]").before($fakeSection);
+      document.SectionBehavior = setInterval(function() {
+        $sections.each(function() {
           var $section = $(this);
           var top = $section.offset().top;
-          if (top < containerTop+10) {
+          if (top < containerTop + 10) {
             $fakeSection.fadeIn(800).text($section.text());
           }
         });
-        if($sections.length>0 && $sections.eq(0).offset().top>containerTop){
+        if ($sections.length > 0 && $sections.eq(0).offset().top > containerTop) {
           $fakeSection.hide();
         }
-      },50)
+      }, 50);
     },
-    setPanelBehavior:function(){
-      var $panels= $($.mbile.defaults.body + " #scroller").find("a[rel=panel]");
-      $panels.each(function(){
-        var panel=$(this).attr("href");
-        var panelImg=$("<span/>").addClass("panelImg");
+    setPanelBehavior:function() {
+      var $panels = $($.mbile.defaults.body + " #scroller").find("a[rel=panel]");
+      $panels.each(function() {
+        var panel = $(this).attr("href");
+        var panelImg = $("<span/>").addClass("panelImg");
         $(this).parent("span").append(panelImg);
         $(this).toggle(
-                function(){$(panel).openPanel(); $.mbile.refreshScroll();},
-                function(){$(panel).closePanel(); $.mbile.refreshScroll();}
+                function() {
+                  $(panel).openPanel();
+                  $.mbile.refreshScroll();
+                },
+                function() {
+                  $(panel).closePanel();
+                  $.mbile.refreshScroll();
+                }
                 ).addTouch();
       })
     },
-    setSortableBehavior:function(){
-      $(".sortable .line").each(function(){
-        var handle=$("<span/>").addClass("handle").html("&nbsp;");
+    setSortableBehavior:function() {
+      $(".sortable .line").each(function() {
+        var handle = $("<span/>").addClass("handle").html("&nbsp;");
         $(this).append(handle);
         handle.addTouch();
-        handle.bind("mousedown",function(){document.iScroll.enabled=false;});
-
+        handle.bind("mousedown", function() {
+          document.iScroll.enabled = false;
+        });
       });
       $(".sortable").sortable({
         helper:"clone",
@@ -315,271 +483,159 @@ document.myScroll=null;
         },
         stop: function(event, ui) {
           event.stopPropagation();
-          document.iScroll.enabled=true;
+          document.iScroll.enabled = true;
         }
       });
     },
-    setHover:function(){
-      this.bind("mousedown",function(){$(this).addClass("hover");})
-              .bind("mouseup",function(){$(this).removeClass("hover")})
+    setHover:function() {
+      this.bind("mousedown", function() {$(this).addClass("hover"); })
+              .bind("mouseup", function() {$(this).removeClass("hover")})
               .addTouch();
     },
-    goToPage:function(url,animation,addHistory,pageData){
-      if($.mbile.pageIsChanging) return;
-      if(url==$.mbile.actualPage) return;
-      $.mbile.pageIsChanging=true;
-
-      var oldPage= $("#scroller").find("div[data-role=page]").addClass("oldPage "+ animation);
-
-      if($.mbile.pages[$.mbile.actualPage] && (document.myScroll.actualY!=undefined))
-        $.extend($.mbile.pages[$.mbile.actualPage],{scroll:document.myScroll.actualY});
-
-      /*
-       * trigger event: beforepagechange
-       *
-       * you can refer to the actual page shown
-       * there's not yet the new page on the DOM
-       *
-       * */
-      var beforepagechange=$.Event("beforepagechange");
-      beforepagechange.page=oldPage;
-      beforepagechange.canChangePage=true;
-      $(document).trigger(beforepagechange);
-
-
-      if(!beforepagechange.canChangePage) {
-        beforepagechange.canChangePage=true;
-        return;
-      }
-
-      if (addHistory==undefined) addHistory=true;
-      if (animation==undefined) animation="slideleft";
-
-      $(this).addClass("selected");
-      $(document).wait();
-
-      function changePage(newPage){
-        newPage.addClass("newPage "+ animation).hide();
-        if(document.myScroll)
-          document.myScroll.destroy();
-        $(document).stopWait();
-        newPage.find("[data-role=header], [data-role=footer]").hide();
-        $(".fake").remove();
-        $($.mbile.defaults.body).append(newPage);
-        if(newPage.find("[data-role=footer]").length==0) $($.mbile.defaults.footer).hide();
-        /*
-         * trigger event: beforepageshow
-         *
-         * triggered once the new page is inserted on the DOM but not yet shown
-         * you can refer either to the oldPage or to te newPage
-         *
-         * lement.bind("beforepageshow",function(e){
-         *
-         *   e.newPage.doSomething()
-         *   e.oldPage.doSomething()
-         *
-         * });
-         *
-         * */
-        var beforepageshow=$.Event("beforepageshow");
-        beforepageshow.newPage=newPage;
-        beforepageshow.oldPage=oldPage;
-        $(document).trigger(beforepageshow);
-
-        /*Applay transition*/
-        oldPage.addClass("out");
-        newPage.addClass("in").show();
-        newPage.bind('webkitAnimationEnd', function(){
-          newPage.unbind('webkitAnimationEnd');
-
-          newPage.removeClass("in "+ animation);
-
-          if(addHistory)
-            $.mbile.pages[url]={url:url, prev:$.mbile.actualPage, anim:animation, pageData: pageData};
-          $.mbile.actualPage=url;
-
-          /*
-           * trigger event: pageshow
-           *
-           * triggered once the new page is inserted on the DOM and shown
-           * you can refer either to the oldPage or to te newPage
-           *
-           * lement.bind("pageshow",function(e){
-           *
-           *   e.newPage.doSomething()
-           *   e.oldPage.doSomething()
-           *
-           * });
-           *
-           * */
-
-          var pageshow=$.Event("pageshow");
-          pageshow.actualPage=newPage;
-          pageshow.oldPage=oldPage;
-          pageshow.animation=animation;
-          $(document).trigger(pageshow);
-
-          $("#scroller").remove();
-
-          $.mbile.initContent($.mbile.defaults);
-          $.mbile.pageIsChanging=false;
-        });
-      }
-
-      var isOnPage=$("#"+url).isOnPage();
-
-      /*the content to show is on page*/
-      if(isOnPage){
-        var newPage= $("#"+url).clone(true);
-        changePage(newPage);
-
-        /*the content is external*/
-      } else {
-
-        if(pageData==undefined)
-          pageData="";
-
-        $.ajax({
-          type: "GET",
-          url: url,
-          data:pageData,
-          success: function(response){
-            var newPage= $(response);
-            changePage(newPage);
-          }
-        });
-
-      }
-
-    },
-    getBackAnim:function(anim){
+    getBackAnim:function(anim) {
       var backAnim;
-      switch(anim) {
+      switch (anim) {
         case "slideleft":
-          backAnim="slideright";
+          backAnim = "slideright";
           break;
         case "slideright":
-          backAnim="slideleft";
+          backAnim = "slideleft";
           break;
         case "pop":
-          backAnim="pop";
+          backAnim = "pop";
           break;
         case "slidedown":
-          backAnim="slideup";
+          backAnim = "slideup";
           break;
         case "slideup":
-          backAnim="slidedown";
+          backAnim = "slidedown";
           break;
         case "flipleft":
-          backAnim="flipright";
+          backAnim = "flipright";
           break;
         case "flipright":
-          backAnim="flipleft";
+          backAnim = "flipleft";
           break;
         case "swapright":
-          backAnim="swapleft";
+          backAnim = "swapleft";
           break;
         case "swapleft":
-          backAnim="swapright";
+          backAnim = "swapright";
           break;
         case "cubeleft":
-          backAnim="cuberight";
+          backAnim = "cuberight";
           break;
         case "cuberight":
-          backAnim="cubeleft";
+          backAnim = "cubeleft";
           break;
         case "fade":
-          backAnim="fade";
+          backAnim = "fade";
           break;
         default:
-          backAnim="slideright";
+          backAnim = "slideright";
       }
       return backAnim;
     },
-    wait:function(now,time){
-      var loaderScreen= $("#loader").length==0? $("<div/>").attr("id","loader"):$("#loader");
-      if($("#loader").length==0){
-        var spinner=$("<div/>").attr("id","spinner");
-        for (var i=1; i<=12;i++){
-          var bar=$("<div/>").addClass("bar"+i);
+    showPageLoading:function(delay, timeout) {
+      var loaderScreen = $("#loader").length == 0 ? $("<div/>").attr("id", "loader") : $("#loader");
+      if ($("#loader").length == 0) {
+        var spinner = $("<div/>").attr("id", "spinner");
+        for (var i = 1; i <= 12; i++) {
+          var bar = $("<div/>").addClass("bar" + i);
           spinner.append(bar);
         }
         loaderScreen.append(spinner);
         $("body").append(loaderScreen);
       }
       //loaderScreen.show();
-      var timer=now?10:2000;
-      setTimeout(function(){
-        loaderScreen.fadeTo(300,1);
-        if(time!=undefined) setTimeout($.mbile.stopWait,time);
-      },timer);
+      var timer = delay ? 0 : delay;
+      setTimeout(function() {
+        loaderScreen.fadeTo(300, 1);
+        if (timeout != undefined) setTimeout($.mbile.hidePageLoading, timeout);
+      }, timer);
 
       return loaderScreen;
     },
-    stopWait:function(callBack){
-      if(callBack==undefined) callBack=function(){};
-      var loaderScreen =$("#loader");
-      loaderScreen.fadeOut(300,function(){
+    hidePageLoading:function(callBack) {
+      if (callBack == undefined) callBack = function() {
+      };
+      var loaderScreen = $("#loader");
+      loaderScreen.fadeOut(300, function() {
         callBack();
         loaderScreen.remove();
       });
       return loaderScreen;
     },
-    onPageLoad:function(callback,e){
-      $(document).one("pageshow",e, callback);
 
+    onPageLoad:function(idx, callback, e) {
+
+      $(document).bind("beforepageshow", e, function(e){
+        if(typeof idx=="function"){
+          callback=idx;
+          idx=e.newPage.attr("idx");
+        }
+        if(idx==e.newPage.attr("idx"))
+          callback(e);
+      })
     },
-    refreshScroll:function(){
-      setTimeout(function () { if(document.myScroll) document.myScroll.refresh() }, 0)
+    refreshScroll:function() {
+      setTimeout(function () {
+        if (document.myScroll) document.myScroll.refresh()
+      }, 0)
     },
-    changeTheme:function(themeURL){
-      $("#mbileCSS").attr("href",themeURL);
+    changeTheme:function(themeURL) {
+      $("#mbileCSS").attr("href", themeURL);
     },
-    alert:function(message){}
+    alert:function(message) {
+    }
   };
 
-  $.fn.wait=$.mbile.wait;
-  $.fn.stopWait=$.mbile.stopWait;
-  $.fn.goToPage=$.mbile.goToPage;
-  $.fn.setHover=$.mbile.setHover;
+  $.fn.goToPage = $.mbile.goToPage;
+  $.fn.setHover = $.mbile.setHover;
+  $.fn.initContent = $.mbile.initContent;
 
   /*-------------------------------------------------------------------------------------------- Utilities*/
 
-  $.fn.openPanel = function(){
+  $.fn.openPanel = function() {
     this.removeClass("close");
     this.addClass("open").one('webkitAnimationEnd', $.mbile.refreshScroll);
     this.prev("span").addClass("selected header");
     $.mbile.refreshScroll();
   };
-  $.fn.closePanel = function(){
+  $.fn.closePanel = function() {
     this.removeClass("open");
-    this.addClass("close").one('webkitAnimationEnd', function(){$(".panel.close").removeClass("close");$.mbile.refreshScroll();});
+    this.addClass("close").one('webkitAnimationEnd', function() {
+      $(".panel.close").removeClass("close");
+      $.mbile.refreshScroll();
+    });
     this.prev("span").removeClass("selected header");
   };
 
-  $.fn.swipe =function(opt){
-    var defaults={
+  $.fn.swipe = function(opt) {
+    var defaults = {
       time:600,
       diff:120,
-      swipeLeft:function(){},
-      swipeRight:function(){}
+      swipeLeft:function() {
+      },
+      swipeRight:function() {
+      }
     };
-    $.extend(defaults,opt);
-    return this.each(function(){
-      this.swipe={s:0,e:0};
+    $.extend(defaults, opt);
+    return this.each(function() {
+      this.swipe = {s:0,e:0};
       this.addEventListener('touchstart', function(event) {
         event.preventDefault();
         var touch = event.touches[0];
-        this.swipe.s= touch.pageX;
+        this.swipe.s = touch.pageX;
       }, false);
       this.addEventListener('touchend', function(event) {
         event.preventDefault();
         var touch = event.changedTouches[0];
-        this.swipe.e=touch.pageX;
-        if(this.swipe.e > this.swipe.s+defaults.diff){
+        this.swipe.e = touch.pageX;
+        if (this.swipe.e > this.swipe.s + defaults.diff) {
           event.stopPropagation();
           defaults.swipeRight(this);
-        }else if(this.swipe.e< this.swipe.s-defaults.diff){
+        } else if (this.swipe.e < this.swipe.s - defaults.diff) {
           event.stopPropagation();
           defaults.swipeLeft(this);
         }
@@ -587,45 +643,48 @@ document.myScroll=null;
     })
   };
 
-  $.fn.isOnPage=function(){
-    return this.length>0;
+  $.fn.isOnPage = function() {
+    return this.length > 0;
   };
 
   //manage fixed pos for header and footer
-  $.fn.setFixed=function(pos){ //top, bottom
-    var $el=this;
-    var el=this.get(0);
-    var elPos=0;
-    var $elPlaceHolder=$el.clone().addClass("fixedPlaceHolder").hide();
+  $.fn.setFixed = function(pos) { //top, bottom
+    var $el = this;
+    var el = this.get(0);
+    var elPos = 0;
+    var $elPlaceHolder = $el.clone().addClass("fixedPlaceHolder").hide();
     $el.before($elPlaceHolder);
 
-    $(document).bind("touchstart",function(){$elPlaceHolder.hide();});
-    $(document).bind("touchend",function(){
-      var oldPos=window.scrollY,newPos;
-      el.headerFooterListener= setInterval(function(){
-        newPos=window.scrollY;
-        if(oldPos==newPos){
+    $(document).bind("touchstart", function() {
+      $elPlaceHolder.hide();
+    });
+    $(document).bind("touchend", function() {
+      var oldPos = window.scrollY,newPos;
+      el.headerFooterListener = setInterval(function() {
+        newPos = window.scrollY;
+        if (oldPos == newPos) {
           var elH = $el.outerHeight();
-          elPos= pos=="top"? window.scrollY : window.scrollY+(window.innerHeight-elH);
+          elPos = pos == "top" ? window.scrollY : window.scrollY + (window.innerHeight - elH);
           $elPlaceHolder.css({position:"absolute",top:elPos, zIndex:1000}).show();
           clearInterval(el.headerFooterListener);
         }
-        oldPos=newPos;
-      },10);
+        oldPos = newPos;
+      }, 10);
     });
   };
 
-  $.setFixedRemove=function(){
+  $.setFixedRemove = function() {
     $(".fixedPlaceHolder").remove();
   };
 
 
   //on ajax error
-  $(function(){
-    $(document).bind("ajaxError", function(){
-      $.mbile.pageIsChanging=false;
-      $.mbile.goToPage($.mbile.defaults.errorPage,"pop");
-    })
+  $(function() {
+    $(document).bind("ajaxError", function(ev) {
+      $.mbile.pageIsChanging = false;
+      console.debug("Error on ajax:",ev);
+      $.mbile.goToPage($.mbile.defaults.errorPage, "pop");
+    });
   });
 
   //  function alert(){

@@ -22,6 +22,7 @@
 
   <title>mb.ile</title>
 
+  <link href="css/mbile.css" media="all" rel="stylesheet" type="text/css">
   <link id="mbileCSS" href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
 
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
@@ -45,38 +46,13 @@
         }
       };
 
-
-/*
-      $.mbile.init("testPage",{
-
-        context:"#mbPage",
-        header:"#header",
-        footer:"#footer",
-        body:"#wrapper",
-
-        fixedHeader:true,
-        fixedFooter:true,
+      $.mbile.init("pages/start.html",{
+        fixedHeaderFooter:true,
         startupScreen: null,
         slidingSections:true,
         collapsibleFooter:true,
-        manageHistory:true,
         errorPage:"pages/error_page.html"
       });
-*/
-       $.mbile.init("pages/start.html",{
-
-       context:"#mbPage",
-       header:"#header",
-       footer:"#footer",
-       body:"#wrapper",
-
-       fixedHeader:true,
-       fixedFooter:true,
-       startupScreen: null,
-       slidingSections:true,
-       collapsibleFooter:true,
-       errorPage:"pages/error_page.html"
-       });
     });
 
   </script>
@@ -84,53 +60,33 @@
 </head>
 <body>
 
-<div id="mbPage">
-  <div data-role="header" id="header">
-    <h1>mb.ile</h1>
-  </div>
+<!--defaults elements-->
+<div data-role="defaultHeader"><h1>mb.ile framework</h1></div>
+<div data-role="defaultFooter">
 
-  <div data-role="content" id="wrapper">
-    content goes here
-  </div>
-
-  <!--todo: manage the default content for the footer-->
-
-  <div data-role="footer" data-type="default" id="footer">
-    <div class="buttonBar column2">
-        <!--<span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');">Open&nbsp;a&nbsp;window&nbsp;from here</span>-->
-        <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');"><img src="elements/dark/icons/28-star.png"></span>
-      <span id="changeSkin" class="button" onmousedown="$.mbile.toggleSkin();"><img src="elements/dark/icons/98-palette.png"></span>
-    </div>
+  <div class="buttonBar column2">
+    <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');"><img src="elements/dark/icons/28-star.png"></span>
+    <span id="changeSkin" class="button" onmousedown="$.mbile.toggleSkin();"><img src="elements/dark/icons/98-palette.png"></span>
   </div>
 
 </div>
 
 
-
-
-
-<!--TEST CONTENT IN PLACE-->
+<!-- page in place-->
 <div id="testPage" data-role="page">
-  <div class="box contentSelectable">
-    <div data-role="header"><h1>this is a Test page!</h1></div>
 
-    <h1>Can you see me?</h1>
-    <p>
-      If YES that's great, you can create any page directly in the main page, manipulate content and than show it using all transitions and page features!
-    </p>
-    <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade',true);">start</button></div>
-    <script>
-/*
-      $.mbile.onPageLoad("testPage", function(e){
-        if(e.actualPage.attr("id")=="testPage"){
-          var txt=!window.navigator.standalone?"GO FULL SCREEN! <br> USE THE 'ADD TO HOME' FEATURE":"";
-          alert(txt);
-        }
+  <div data-role="header"><h1>this is a Test page!</h1></div>
 
-      });
-*/
-    </script>
+  <div data-role="content">
+    <div data-role="box" class="contentSelectable">
+      <h1>Can you see me?</h1>
+      <p>
+        If YES that's great, you can create any page directly in the main page, manipulate content and than show it using all transitions and page features!
+      </p>
+      <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade',true);">start</button></div>
+    </div>
   </div>
+
 </div>
 
 </body>

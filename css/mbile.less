@@ -1,0 +1,36 @@
+/*
+ * jquery.mb.components
+ * Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ * email: mbicocchi@open-lab.com
+ * site: http://pupunzi.com
+ *
+ * Licences: MIT, GPL
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ */
+
+@headerHeight:44px;
+@footerHeight:44px;
+@import "animations.css";
+
+* {
+	padding:0;
+	margin:0;
+    -webkit-backface-visibility: hidden;
+    text-rendering: optimizeLegibility;
+}
+
+div[data-role=header]{
+  position:relative;
+  height:@headerHeight;
+}
+
+div[data-role=content]{
+  position:relative;
+  overflow:hidden;
+}
+
+div[data-role=footer]{
+  position:relative;
+  height:@footerHeight;
+}

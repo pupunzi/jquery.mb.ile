@@ -1,69 +1,70 @@
 <div id="listPage" data-role="page">
-    
-    <div data-role="header"><h1>list example</h1></div>
 
+  <div data-role="header"><h1>list example</h1></div>
+  <div data-role="content">
     <h1 class="title">list of elements</h1>
     <p>Try to swipe left or right on each line...</p><br><br>
     <div class="list">
-        <span class="section">section 1</span>
-        <span class="line deletable"><a rel="link" data-animation="slideLeft" href="#pages/form.html">line 1</a></span>
-        <span class="line deletable"><a rel="" href="#">line 2</a></span>
-        <span class="line deletable">line 3 </span>
-        <span class="line deletable" id="a">line 4</span>
-        <span class="line deletable"><a rel="" href="#">line 5</a></span>
-        <span class="line deletable"><a rel="" href="#">line 6</a></span>
-        <span class="section">section 2 (selectable rows)</span>
-        <span class="line deletable selectable"><a rel="" href="#">line 1</a></span>
-        <span class="line deletable selectable"><a rel="" href="#">line 2</a></span>
-        <span class="line deletable selectable"><a rel="" href="#">line 3</a></span>
-        <span class="line deletable selectable"><a rel="" href="#">line 4</a></span>
-        <span class="line deletable selectable"><a rel="" href="#">line 5</a></span>
-        <span class="line deletable selectable"><a rel="" href="#">line 6</a></span>
-        <span class="section">section 3</span>
-        <span class="line deletable"><a rel="" href="#">line 1</a></span>
-        <span class="line deletable"><a rel="" href="#">line 2</a></span>
-        <span class="line deletable"><a rel="" href="#">line 3</a></span>
-        <span class="line deletable"><a rel="" href="#">line 4</a></span>
-        <span class="line deletable"><a rel="" href="#">line 5</a></span>
-        <span class="line deletable"><a rel="" href="#">line 6</a></span>
-        <span class="section">section 4</span>
-        <span class="line deletable"><a rel="" href="#">line 1</a></span>
-        <span class="line deletable"><a rel="" href="#">line 2</a></span>
-        <span class="line deletable"><a rel="" href="#">line 3</a></span>
-        <span class="line deletable"><a rel="" href="#">line 4</a></span>
-        <span class="line deletable"><a rel="" href="#">line 5</a></span>
-        <span class="line deletable"><a rel="" href="#">line 6</a></span>
+      <div data-role="section">section 1</div>
+      <span class="line deletable"><a rel="link" data-animation="slideLeft" href="#">line 1</a></span>
+      <span class="line deletable"><a rel="" href="#">line 2</a></span>
+      <span class="line deletable">line 3 </span>
+      <span class="line deletable" id="a">line 4</span>
+      <span class="line deletable"><a rel="" href="#">line 5</a></span>
+      <span class="line deletable"><a rel="" href="#">line 6</a></span>
+      <div data-role="section">section 2 (selectable rows)</div>
+      <span class="line deletable selectable"><a rel="" href="#">line 1</a></span>
+      <span class="line deletable selectable"><a rel="" href="#">line 2</a></span>
+      <span class="line deletable selectable"><a rel="" href="#">line 3</a></span>
+      <span class="line deletable selectable"><a rel="" href="#">line 4</a></span>
+      <span class="line deletable selectable"><a rel="" href="#">line 5</a></span>
+      <span class="line deletable selectable"><a rel="" href="#">line 6</a></span>
+      <div data-role="section">section 3</div>
+      <span class="line deletable"><a rel="" href="#">line 1</a></span>
+      <span class="line deletable"><a rel="" href="#">line 2</a></span>
+      <span class="line deletable"><a rel="" href="#">line 3</a></span>
+      <span class="line deletable"><a rel="" href="#">line 4</a></span>
+      <span class="line deletable"><a rel="" href="#">line 5</a></span>
+      <span class="line deletable"><a rel="" href="#">line 6</a></span>
+      <div data-role="section">section 4</div>
+      <span class="line deletable"><a rel="" href="#">line 1</a></span>
+      <span class="line deletable"><a rel="" href="#">line 2</a></span>
+      <span class="line deletable"><a rel="" href="#">line 3</a></span>
+      <span class="line deletable"><a rel="" href="#">line 4</a></span>
+      <span class="line deletable"><a rel="" href="#">line 5</a></span>
+      <span class="line deletable"><a rel="" href="#">line 6</a></span>
     </div>
-    <div data-role="footer" data-type="default"></div>
-    <script type="text/javascript">
-        $(function(){
-            $.mbile.onPageLoad(
-                             function(){
-                                 $(".line.deletable").each(function(){
-                                     var line=$(this);
-                                     var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
-                                     $del.bind("click",function(){
-                                         line.fadeOut(); //add here your delete function
-                                         $.mbile.refreshScroll(); // resize the scroller box
-                                         return false;
-                                     });
-                                     $(this).prepend($del);
-                                 });
-                                 
-                                 $(".line").swipe({
-                                     swipeLeft: function(o) {
-                                         $(".selected").removeClass("selected");
-                                         $(".delete").hide();
-                                         $(o).addClass("selected");
-                                         $(o).find(".delete").fadeIn(500);
-                                     },
-                                     swipeRight: function(o) {
-                                         $(o).removeClass("selected");
-                                         $(o).find(".delete").fadeOut(500);                                         
-                                     }
-                                 });
-                             }
-                    )
-        })
-    </script>
+  </div>
+  <div data-role="footer" data-type="default"></div>
+  <script type="text/javascript">
+    $(function(){
+      $.mbile.onPageLoad("listPage",
+              function(){
+                $(".line.deletable").each(function(){
+                  var line=$(this);
+                  var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
+                  $del.bind("click",function(){
+                    line.fadeOut(); //add here your delete function
+                    $.mbile.refreshScroll(); // resize the scroller box
+                    return false;
+                  });
+                  $(this).prepend($del);
+                });
+
+                $(".line").swipe({
+                  swipeLeft: function(o) {
+                    $(".selected").removeClass("selected");
+                    $(".delete").hide();
+                    $(o).addClass("selected");
+                    $(o).find(".delete").fadeIn(500);
+                  },
+                  swipeRight: function(o) {
+                    $(o).removeClass("selected");
+                    $(o).find(".delete").fadeOut(500);
+                  }
+                });
+              }
+              )
+    })
+  </script>
 </div>

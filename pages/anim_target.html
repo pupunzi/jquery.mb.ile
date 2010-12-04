@@ -1,61 +1,59 @@
 <div id="animTarget" data-role="page">
-    <div data-role="header"><h1>Animations</h1></div>
+  <div data-role="header"><h1>Animations</h1></div>
+  <div data-role="content">
+    <div data-role="box" class="contentSelectable">
 
-    <div class="box contentSelectable">
+      <h1>here you are!</h1>
+      <p>To implement an animation type for a page call you can use the <b>data-animation</b> attribute on the anchor tag:</p>
+      <style type="text/css">
+        code{
+          display:block;
+          position:relative;
+          font-size:14px;
+          padding:10px;
+          margin:10px;
+          background: #e2e1e1;
+          margin-top:10px;
+          margin-bottom:10px;
+        }
 
-        <h1>here you are!</h1>
-        <p>To implement an animation type for a page call you can use the <b>data-animation</b> attribute on the anchor tag:</p>
-        <style type="text/css">
-            code{
-                display:block;
-                position:relative;
-                font-size:14px;
-                padding:10px;
-                margin:10px;
-                background: #e2e1e1;
-                margin-top:10px;
-                margin-bottom:10px;
-            }
-
-            .ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
-            .s0 { }
-            .s1 { color: rgb(0,0,128); font-weight: bold; }
-            .s2 { color: rgb(0,0,255); font-weight: bold; }
-            .s3 { color: rgb(0,128,0); font-weight: bold; }
-            .s4 { }
-        </style>
-        <code>
-            <span class="s0">&lt;</span>
-            <span class="s1">span </span>
-            <span class="s2">class=</span>
-            <span class="s3">&quot;line&quot;</span>
-            <span class="s0">&gt;&lt;</span>
-            <span class="s1">a </span>
-            <span class="s2">rel=</span>
-            <span class="s3">&quot;page&quot; </span>
-            <span class="s2">data-animation=</span>
-            <span class="s3">&quot;slideleft&quot; </span>
-            <span class="s2">href=</span>
-            <span class="s3">&quot;#pages/anim_target.html&quot;</span>
-            <span class="s0">&gt;</span>
-            <span class="s4">slide-left</span>
-            <span class="s0">&lt;/</span>
-            <span class="s1">a</span>
-            <span class="s0">&gt;&lt;/</span>
-            <span class="s1">span</span>
-            <span class="s0">&gt;</span>
-        </code>
-        <p>The <b>back transition</b> will be automatically applied.</p>
-        <div data-role="buttonBar" class="buttonBar right">
-            <button data-inline="true" onclick="$.mbile.goBack()">Back</button>
-        </div>
+        .ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+        .s0 { }
+        .s1 { color: rgb(0,0,128); font-weight: bold; }
+        .s2 { color: rgb(0,0,255); font-weight: bold; }
+        .s3 { color: rgb(0,128,0); font-weight: bold; }
+        .s4 { }
+      </style>
+      <code>
+        <span class="s0">&lt;</span>
+        <span class="s1">span </span>
+        <span class="s2">class=</span>
+        <span class="s3">&quot;line&quot;</span>
+        <span class="s0">&gt;&lt;</span>
+        <span class="s1">a </span>
+        <span class="s2">rel=</span>
+        <span class="s3">&quot;page&quot; </span>
+        <span class="s2">data-animation=</span>
+        <span class="s3">&quot;slideleft&quot; </span>
+        <span class="s2">href=</span>
+        <span class="s3">&quot;#pages/anim_target.html&quot;</span>
+        <span class="s0">&gt;</span>
+        <span class="s4">slide-left</span>
+        <span class="s0">&lt;/</span>
+        <span class="s1">a</span>
+        <span class="s0">&gt;&lt;/</span>
+        <span class="s1">span</span>
+        <span class="s0">&gt;</span>
+      </code>
+      <p>The <b>back transition</b> will be automatically applied.</p>
+      <div data-role="buttonBar" class="buttonBar right">
+        <button data-inline="true" onclick="$.mbile.goBack()">Back</button>
+      </div>
     </div>
-    <script type="text/javascript">
+  </div>
+  <script type="text/javascript">
+    $.mbile.onPageLoad("animTarget",function(e){ e.newPage.find("[data-role=header] h1").html("Animation: "+e.newPage.data("animation"));})
 
-        $.mbile.onPageLoad(function(e){
-                e.actualPage.find("[data-role=header] h1").html("Animation: "+e.animation);
-        })
-
-    </script>
+  </script>
 
 </div>

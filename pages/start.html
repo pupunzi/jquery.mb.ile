@@ -1,116 +1,108 @@
-<div id="startPage" data-role="page">
+<div id="startPage" data-role="page" data-name="startPage">
 
 
-    <style type="text/css">
-        #startPage{
-        /*background: #330033;*/
-        /*background:url("elements/bgnd.jpg") repeat-y !important;*/
-        /*background-size: 100%;*/
-        /*height:100%;*/
-        }
-        #startPage h1{
-            color:white;
-            position:absolute;
-            font-size:30px!important;
-            line-height:30px;
-            left:20px;
-            top:20px;
-        }
-        .start{
-            position:relative;
-            height:490px;
-            width:100%;
-        }
+  <style type="text/css">
+    [data-name=startPage] [data-role=content] h1{
+      margin-top:50px;
+      margin-bottom:-50px;
+      color:white;
+      font-size:30px!important;
+    }
+    .start{
+      position:relative;
+      height:490px;
+      width:100%;
+    }
 
-        .landscape .start{
-            position:relative;
-            height:280px;
-            width:100%;
-        }
+    .landscape .start{
+      position:relative;
+      height:280px;
+      width:100%;
+    }
 
-        .go{
-            display:none;
-            position:absolute;
-            top:50%;
-            left:50%;
-            margin-top:-120px;
-            margin-left:-50px;
-            width:100px;
-            height:100px;
-            padding:0;
-            background:black;
-            color:white;
-            font-size:30px;
-            font-weight:bold;
-            text-align:center;
-            line-height:100px;
-            -webkit-border-top-left-radius: 200px;
-            -webkit-border-top-right-radius: 200px;
-            -webkit-border-bottom-left-radius: 200px;
-            -webkit-border-bottom-right-radius: 200px;
-            cursor:pointer;
-        }
+    .go{
+      display:none;
+      position:absolute;
+      top:50%;
+      left:50%;
+      margin-top:-120px;
+      margin-left:-50px;
+      width:100px;
+      height:100px;
+      padding:0;
+      background:black;
+      color:white;
+      font-size:30px;
+      font-weight:bold;
+      text-align:center;
+      line-height:100px;
+      -webkit-border-top-left-radius: 200px;
+      -webkit-border-top-right-radius: 200px;
+      -webkit-border-bottom-left-radius: 200px;
+      -webkit-border-bottom-right-radius: 200px;
+      cursor:pointer;
+    }
 
-        .landscape .go{
-            left:70%;
-        }
+    .landscape .go{
+      left:70%;
+    }
 
-        span.go:hover{
-            background:white;
-            color:black;
+    span.go:hover{
+      background:white;
+      color:black;
 
-        }
-        .start.clone{
-            position:absolute;
-            top:0;
-            opacity:.6;
-        }
-        .clone .go{
-            opacity:.6;
-            background: #990000;
-        }
-        .clone.a .go{
-            opacity:.6;
-            background: #fff;
-        }
+    }
+    .start.clone{
+      position:absolute;
+      top:0;
+      opacity:.6;
+    }
+    .clone .go{
+      opacity:.6;
+      background: #990000;
+    }
+    .clone.a .go{
+      opacity:.6;
+      background: #fff;
+    }
 
-        .clone.b .go{
-            opacity:.6;
-            background: #ffcc00;
-        }
-        .clone.c .go{
-            opacity:.6;
-            background: #009966;
-        }
+    .clone.b .go{
+      opacity:.6;
+      background: #ffcc00;
+    }
+    .clone.c .go{
+      opacity:.6;
+      background: #009966;
+    }
 
-        .clone.anim{
-            -webkit-animation-duration: 22s;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-timing-function: linear;
-            -webkit-animation-name: bgAnim-clone;
-        }
+    .clone.anim{
+      -webkit-animation-duration: 22s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+      -webkit-animation-name: bgAnim-clone;
+    }
 
-        .clone.a.anim{
-            -webkit-animation-duration: 10s;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-timing-function: linear;
-            -webkit-animation-name: bgAnim;
-        }
-        .clone.b.anim{
-            -webkit-animation-duration: 40s;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-timing-function: linear;
-            -webkit-animation-name: bgAnim;
-        }
+    .clone.a.anim{
+      -webkit-animation-duration: 10s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+      -webkit-animation-name: bgAnim;
+    }
+    .clone.b.anim{
+      -webkit-animation-duration: 40s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+      -webkit-animation-name: bgAnim;
+    }
 
-        .clone.c.anim{
-            -webkit-animation-duration: 20s;
-            -webkit-animation-iteration-count: infinite;
-            -webkit-animation-timing-function: easy-out;
-            -webkit-animation-name: bgAnim;
-        }
+    .clone.c.anim{
+      -webkit-animation-duration: 20s;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: easy-out;
+      -webkit-animation-name: bgAnim;
+    }
 
-        @-webkit-keyframes bgAnim {
+    @-webkit-keyframes bgAnim {
             0% {
                 -webkit-animation-delay:400ms;
                 -webkit-transform: rotate(0deg) scale(1);
@@ -128,7 +120,7 @@
                 -webkit-transform: rotate(360deg) scale(1);
             }
         }
-        @-webkit-keyframes bgAnim-clone {
+    @-webkit-keyframes bgAnim-clone {
             0% {
                 -webkit-animation-delay:100ms;
                 -webkit-transform: rotate(0deg) scale(.2);
@@ -146,35 +138,35 @@
                 -webkit-transform: rotate(-360deg) scale(.2);
             }
         }
+  </style>
 
-    </style>
+  <div data-role="content">
 
     <h1>Well come to <br><b>mb.ile</b> framework!</h1>
     <!--h3>A short cut for developing your mobile web App.</h3-->
 
     <div class="start clone">
-        <span class="go"></span>
+      <span class="go"></span>
     </div>
     <div class="start clone a">
-        <span class="go"></span>
+      <span class="go"></span>
     </div>
     <div class="start clone b">
-        <span class="go"></span>
+      <span class="go"></span>
     </div>
     <div class="start clone c">
-        <span class="go"></span>
+      <span class="go"></span>
     </div>
     <div class="start">
-        <span class="go" onclick="$.mbile.goToPage('pages/demo.html','flipleft')">GO!</span>
+      <span class="go" onclick="$.mbile.goToPage('pages/demo.html','flipleft')">GO!</span>
     </div>
-    <div data-role="footer" data-type="default">
-    </div>
+  </div>
+  <script type="text/javascript">
+    $(".go").hide();
+    $.mbile.onPageLoad(function(e){
+      setTimeout(function(){$(".start").addClass("anim");$(".go").fadeIn(2000);},1000)
+    })
 
-    <script type="text/javascript">
-        $(".go").hide()
-        $.mbile.onPageLoad(function(e){
-            setTimeout(function(){$(".start").addClass("anim");$(".go").fadeIn(2000);},1000)
-        })
-
-    </script>
+  </script>
+</div>
 </div>
