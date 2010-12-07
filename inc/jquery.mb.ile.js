@@ -24,7 +24,7 @@
  *
  * document.transitionEnabled = $.browser.safari && (/(iPod || iPad || iPhone || Mac || windows || Android )/i).test(navigator.userAgent);
  */
-document.transitionEnabled = $.browser.safari && (/(iPod || iPad || iPhone || Mac || windows )/i).test(navigator.userAgent);
+document.transitionEnabled = $.browser.safari && (/(iPod|iPad|iPhone|Mac|windows)/i).test(navigator.userAgent);
 
 document.iScroll = {};
 document.iScroll.enabled = true;
@@ -48,15 +48,17 @@ document.myScroll = null;
     },
     orientation:"portrait",
     pages:{},
+    initComponents:[],
 
-    init:function(url, options) {
+
+    init:function( options) {
 
       $.extend($.mbile.defaults, options);
       var opt = $.mbile.defaults;
+
       //set defaults for header and footer
       $.mbile.defaultHeader = $("[data-role=defaultHeader]").clone();
       $.mbile.defaultFooter = $("[data-role=defaultFooter]").clone();
-
       $("[data-role=defaultHeader],[data-role=defaultFooter]").remove();
 
       // Set startup screen
@@ -81,73 +83,72 @@ document.myScroll = null;
 
       $(document).bind('orientationchange', $.mbile.checkOrientation);
       $(document).bind('touchmove', function (e) {
-        if(document.transitionEnabled)
+        if (document.transitionEnabled)
           e.preventDefault();
       }, false);
-
 
       var pages = $("[data-role=page]");
       pages.addClass("offScreen");
 
-      $.mbile.goToPage(url);
+      if (opt.url)
+        $.mbile.goToPage(opt.url);
 
     },
+    
     checkOrientation:function() {
-      if(document.transitionEnabled)
+      if (document.transitionEnabled)
         $.mbile.setHeight($.mbile.actualPage);
       $.mbile.orientation = Math.abs(window.orientation) == 0 ? 'portrait' : 'landscape';
       $("body").removeClass('portrait landscape').addClass($.mbile.orientation);
     },
+
     setHeight: function(page) {
-      //       page.css("width",$(window).width());
-      var headerH = page.find("[data-role=header]").parents().is("[data-role=content]")? 0: page.find("[data-role=header]").outerHeight(true);
+      var headerH = page.find("[data-role=header]").parents().is("[data-role=content]") ? 0 : page.find("[data-role=header]").outerHeight(true);
       var footerH = page.find("[data-role=footer]").outerHeight(true);
       var wrapperH = $(window).height() - headerH ; // - footerH;
       page.find(".scroller").css({height:wrapperH});
+      page.find("[data-role=content]").css({minHeight:wrapperH});
+    },
+
+    getHeight:function(page){
+      var headerH = page.find("[data-role=header]").outerHeight(true);
+      var contentH = page.find(".scroller").outerHeight(true);
+      var footerH = page.find("[data-role=footer]").outerHeight(true);
+      return contentH - headerH - footerH ;
     },
 
     initContent:function(page) {
 
-      var inited=page.data("inited");
-
-      if (!inited){
-        page.find("[data-role=header],[data-role=footer]").each(function() {
-          $(this).wrapInner("<div class='HFcontent'/>");
-        });
+      var inited = page.data("inited");
+      if (!inited) {
         page.find("[data-role=content]").wrap("<div class='scroller'/>");
-
-        $.mbile.addBackBtn(page);
-        $.mbile.setLinkBehavior(page);
-        $.mbile.setButtonBehavior(page);
         $.mbile.setHeaderFooterBehavior(page);
-
-//        page.find("*").css("webkitBackfaceVisibility","hidden");
+        $.mbile.addBackBtn(page);
       }
-      $.mbile.setHeight(page);
+      $.mbile.setLinkBehavior(page);
+      $.mbile.setButtonBehavior(page);
 
-      if(document.transitionEnabled){
+      if (document.transitionEnabled) {
         //wraps content into a scrollable wrapper
         $.mbile.setHeight(page);
         if ($.mbile.defaults.slidingSections)
           $.mbile.setSectionBehavior(page);
 
-        if(document.myScroll) document.myScroll.destroy();
+        if (document.myScroll)
+          document.myScroll.destroy();
         document.myScroll = new iScroll(page.find("[data-role=content]:first").get(0), {desktopCompatibility:true});
         $.mbile.refreshScroll();
-      }else{
+      } else {
         $("body").addClass("noTransition");
-        page.find("[data-role=header]").data("position","fixed");
-        page.find("[data-role=footer]").data("position","fixed");
         $.setFixed(page);
       }
-
-      page.data("inited",true);
+       page.data("inited", true);
     },
 
     goToPage:function(url, animation, addHistory, pageData) {
 
       if (url.indexOf("#") < 0) {
-        var id=url.asId();
+        var id = url.asId();
 
         // page is loaded when not present or with data passed
         if ($("#" + id).size() <= 0 || pageData) {//
@@ -161,34 +162,41 @@ document.myScroll = null;
 
               if (newCandidatePage.filter("[data-role=page]:first").size() <= 0) { // page is not standard format -> wrap it into a "page"
                 newCandidatePage.wrap("<div data-role='page'></div>");
-                newCandidatePage=newCandidatePage.parent();
+                newCandidatePage = newCandidatePage.parent();
               }
               if (newCandidatePage.find("[data-role=content]:first").size() <= 0) { // content is not standard format -> wrap it into a "content"
                 newCandidatePage.wrapInner("<div data-role='content'></div>");
               }
 
-              var page=newCandidatePage.filter("[data-role=page]:first");
-              
-              page.attr("idx", page.attr("id")).attr("id", url.asId());
+              var page = newCandidatePage.filter("[data-role=page]:first");
+
+              page.attr("id", url.asId());
+              page.attr("url", url);
+
               newCandidatePage.addClass("offScreen");
               $("body").append(newCandidatePage);
 
+              //trigger event: pagecreate
+              var pagecreate = $.Event("pagecreate");
+              pagecreate.page = newCandidatePage;
+              newCandidatePage.trigger(pagecreate);
+
               /* the page is now loaded the goToPage will be called again to proceed */
 
-              $.mbile.goToPage("#"+id,animation,addHistory,pageData);
+              $.mbile.goToPage("#" + id, animation, addHistory, pageData);
             }
           });
           return;
-        }else{
-          url= "#"+id;
+        } else {
+          url = "#" + id;
         }
       }
 
-      if (url=="#")
+      if (url == "#")
         return;
       if ($.mbile.pageIsChanging)
         return;
-      if ($.mbile.actualPage && $.mbile.actualPage.attr("id")==id)
+      if ($.mbile.actualPage && $.mbile.actualPage.attr("id") == id)
         return;
 
       $.mbile.pageIsChanging = true;
@@ -197,16 +205,6 @@ document.myScroll = null;
       var newPage = $(url).hide();
       var oldPage = $.mbile.actualPage;
 
-      //trigger event: beforepagechange
-      var beforepagechange = $.Event("beforepagechange");
-      beforepagechange.oldPage = oldPage;
-      beforepagechange.newPage = newPage;
-      beforepagechange.canChangePage = true;
-      $(document).trigger(beforepagechange);
-      if (!beforepagechange.canChangePage) {
-        beforepagechange.canChangePage = true;
-        return;
-      }
 
       // both old and new page are on the body
       // fix bars, eventually add default bars, make scrollable, fix a href
@@ -219,23 +217,44 @@ document.myScroll = null;
           animation = "slideleft";
         }
       }
-      newPage.data("animation",animation);
+      newPage.data("animation", animation);
 
       /* Add page to history */
 
       if (addHistory == undefined) addHistory = true;
 
-      if(!$.mbile.pages[newPage.attr("id")])
-        $.mbile.pages[newPage.attr("id")]={};
-      if(oldPage && addHistory){
-        $.extend($.mbile.pages[newPage.attr("id")],{prev:oldPage.attr("id"),data:oldPage.data("pageData"),anim:animation,scroll:document.myScroll?document.myScroll.actualY:0});
+      if (!$.mbile.pages[newPage.attr("id")])
+        $.mbile.pages[newPage.attr("id")] = {};
+      if (oldPage && addHistory) {
+        $.extend($.mbile.pages[newPage.attr("id")], {prev:oldPage.attr("id"),data:oldPage.data("pageData"),anim:animation,scroll:document.myScroll ? document.myScroll.actualY : 0});
       }
 
-      if (oldPage && document.myScroll){
+      if (oldPage && document.myScroll) {
         oldPage.data("scrollTop", document.myScroll.actualY);
       }
 
       $.mbile.initContent(newPage);
+
+      //trigger event: pagebeforeshow
+      var pagebeforeshow = $.Event("pagebeforeshow");
+      pagebeforeshow.oldPage = oldPage;
+      pagebeforeshow.canChangePage = true;
+      newPage.trigger(pagebeforeshow);
+      if (!pagebeforeshow.canChangePage) {
+        pagebeforeshow.canChangePage = true;
+        return;
+      }
+
+      //trigger event: pagebeforehide
+      if (oldPage){
+        var pagebeforehide = $.Event("pagebeforehide");
+        pagebeforehide.canChangePage = true;
+        oldPage.trigger(pagebeforehide);
+        if (!pagebeforehide.canChangePage) {
+          pagebeforehide.canChangePage = true;
+          return;
+        }
+      }
 
       /* reposition scroll to old scroll */
 
@@ -246,16 +265,9 @@ document.myScroll = null;
 
       $.mbile.hidePageLoading();
 
-      /* trigger event: beforepageshow */
+      if (document.transitionEnabled) {
 
-      var beforepageshow = $.Event("beforepageshow");
-      beforepageshow.newPage = newPage;
-      beforepageshow.oldPage = oldPage;
-      $(document).trigger(beforepageshow);
-
-      if(document.transitionEnabled){
-
-        if (oldPage){
+        if (oldPage) {
           newPage.addClass(animation);
           oldPage.addClass(animation);
 
@@ -268,7 +280,7 @@ document.myScroll = null;
             newPage.removeClass("in " + animation);
             oldPage.addClass("offScreen").removeClass("out " + animation);
 
-            transitionCompleted(oldPage,newPage,animation);
+            transitionCompleted(oldPage, newPage, animation);
           });
 
         } else {
@@ -277,32 +289,37 @@ document.myScroll = null;
 
           $("body").show();
           newPage.fadeIn(500, function() {
-            $.mbile.home=newPage;
-            transitionCompleted(oldPage,newPage,animation);
+            $.mbile.home = newPage;
+            transitionCompleted(oldPage, newPage, animation);
           });
         }
 
-      }else{
+      } else {
 
-        if(!oldPage)
-          $.mbile.home=newPage;
+        if (!oldPage)
+          $.mbile.home = newPage;
         else
           oldPage.fadeOut(500);
 
         newPage.fadeIn(500);
-        transitionCompleted(oldPage,newPage,animation);
+        transitionCompleted(oldPage, newPage, animation);
       }
 
-      function transitionCompleted(oldP, newP){
+      function transitionCompleted(oldP, newP) {
 
         $.mbile.actualPage = newP;
 
         /* trigger event: pageshow */
 
         var pageshow = $.Event("pageshow");
-        pageshow.newPage = newP;
         pageshow.oldPage = oldP;
-        $(document).trigger(pageshow);
+        newPage.trigger(pageshow);
+
+        if (oldP){
+          var pagehide = $.Event("pagehide");
+          pagehide.newPage = newP;
+          oldPage.trigger(pagehide);
+        }
 
         $.mbile.pageIsChanging = false;
       }
@@ -356,17 +373,15 @@ document.myScroll = null;
     },
 
     addBackBtn:function(page) {
-      var header= page.find("[data-role=header]");
+      var header = page.find("[data-role=header]");
       header.find(".backBtn").remove();
       var actualPageID = page.attr("id");
-      if ( page == undefined || !$.mbile.pages[actualPageID].prev ||$.mbile.home==undefined || actualPageID == $.mbile.home.attr("id")) return;
+      if (page == undefined || !$.mbile.pages[actualPageID].prev || $.mbile.home == undefined || actualPageID == $.mbile.home.attr("id")) return;
 
       var backBtn = $("<a class='backBtn back black'><span></span></a>").hide();
-      header.find(".HFcontent").prepend(backBtn);
+      header.prepend(backBtn);
       var backBtnText = $.mbile.pages[actualPageID].prev && $.mbile.pages[actualPageID].prev != $.mbile.home.attr("id") ? "back" : "home";
-
       header.find(".backBtn").append(backBtnText).bind("mouseup", $.mbile.goBack);
-
       backBtn.show();
     },
 
@@ -375,17 +390,30 @@ document.myScroll = null;
       var url = $.mbile.pages[actualPage].prev ? $.mbile.pages[actualPage].prev : $.mbile.home.attr("id");
       var anim = $.mbile.pages[actualPage].anim;
       var pageData = $.mbile.pages[actualPage].data;
-      $(this).goToPage("#"+url, $.mbile.getBackAnim(anim), false, pageData);
+      $(this).goToPage("#" + url, $.mbile.getBackAnim(anim), false, pageData);
     },
 
     setHeaderFooterBehavior:function(page) {
+      page.find("[data-role=header]").each(function() {
+        if ($(this).data("position")!="fixed"){
+          page.find("[data-role=content]").prepend($(this));
+        }
+      });
+
+      page.find("[data-role=footer]").each(function() {
+        if ($(this).data("position")!="fixed"){
+          page.find("[data-role=content]").append($(this));
+        }
+      });
+
       /*sliding footer Behavior*/
       if ($.mbile.defaults.collapsibleFooter) {
         var collapsFooter = $("<span/>").addClass("collapsFooter").attr("collapsed", 0).html("&nbsp;");
-        var footer = page.find("[data-role=footer]");
+        var footer = page.find("[data-role=footer][data-position=fixed]");
+        if(footer.length==0) return;
         footer.append(collapsFooter);
         footer.addClass("collapsibleFooter");
-        collapsFooter.bind("mousedown",function() {
+        collapsFooter.bind("mousedown", function() {
           var el = $(this);
           if (el.attr("collapsed") == 0) {
             footer.addClass("out");
@@ -398,48 +426,18 @@ document.myScroll = null;
       }
     },
 
-    setListBehavior:function() {
-      var lines = $(".line").filter(function() {
-        return !$(this).parents().is(".sortable");
-      });
-      lines.setHover();
-    },
-
-    setButtonBehavior:function(page) {
-      var buttons = page.find("button,.button, .backBtn");
-      buttons.setHover();
-    },
-
-    setSelectableBehavior:function() {
-      var selectables = $(".line.selectable");
-      selectables.each(function() {
-        var selImg = $("<span/>").addClass("selImg");
-        $(this).append(selImg);
-
-        $(this).toggle(
-                function() {
-                  $(this).addClass("selected")
-                },
-                function() {
-                  $(this).removeClass("selected")
-                }
-                ).addTouch();
-
-      });
-    },
-
     setLinkBehavior:function(page) {
-      page.find("a").each(function() {
+      page.find("a").not("[rel=external]").each(function() {
         var link = $(this);
         link.parent(".line").setHover();
 
         var url = $(this).attr("href");
-        if (url && (url.indexOf("javascript:")<0 || !link.is("[rel=external]"))){
+        if (url && (url.indexOf("javascript:") < 0 || !link.is("[rel=external]"))) {
           link.removeAttr("href");
           var animation = link.data("animation");
           var hasHistory = link.data("hasHistory");
           var pageData = link.data("parameters");
-          link.click(function() {
+          link.click(function(){
             $(this).goToPage(url, animation, hasHistory, pageData);
           });
         }
@@ -451,9 +449,9 @@ document.myScroll = null;
     },
 
     setSectionBehavior:function(page) {
-      var slideSection= page.attr("data-sections")=="slide";
-      
-      if(!document.transitionEnabled || !slideSection) return;
+      var slideSection = page.attr("data-sections") == "slide";
+
+      if (!document.transitionEnabled || !slideSection) return;
       clearInterval(document.SectionBehavior);
       page.find("[data-role=section].fake").remove();
       var $sections = page.find("[data-role=section]");
@@ -472,6 +470,77 @@ document.myScroll = null;
           $fakeSection.hide();
         }
       }, 50);
+    },
+
+    setButtonBehavior:function(page) {
+      var buttons = page.find("button,.button, .backBtn");
+      buttons.setHover();
+    },
+
+    setHover:function() {
+      this.bind("mousedown", function() {
+        $(this).addClass("hover"); })
+              .bind("mouseup", function() {$(this).removeClass("hover")});
+      if (document.transitionEnabled)
+        $(this).addTouch();
+    },
+
+    showPageLoading:function(delay, timeout) {
+      var loaderScreen = $("#loader").length == 0 ? $("<div/>").attr("id", "loader") : $("#loader");
+      if ($("#loader").length == 0) {
+        var spinner = $("<div/>").attr("id", "spinner");
+        for (var i = 1; i <= 12; i++) {
+          var bar = $("<div/>").addClass("bar" + i);
+          spinner.append(bar);
+        }
+        loaderScreen.append(spinner);
+        $("body").append(loaderScreen);
+      }
+      //loaderScreen.show();
+      var timer = delay ? 0 : delay;
+      setTimeout(function() {
+        loaderScreen.fadeTo(300, 1);
+        if (timeout != undefined) setTimeout($.mbile.hidePageLoading, timeout);
+      }, timer);
+
+      return loaderScreen;
+    },
+
+    hidePageLoading:function(callBack) {
+      if (callBack == undefined) callBack = function(){};
+      var loaderScreen = $("#loader");
+      loaderScreen.fadeOut(300, function() {
+        callBack();
+        loaderScreen.remove();
+      });
+      return loaderScreen;
+    },
+
+    refreshScroll:function() {
+      setTimeout(function () {
+        if (document.myScroll) document.myScroll.refresh()
+      }, 0)
+    },
+
+    alert:function(message) {
+    },
+
+
+    /*Custom behaviors*/
+
+    setListBehavior:function() {},
+
+    setSelectableBehavior:function() {
+      var selectables = $(".line.selectable");
+      selectables.each(function() {
+        var selImg = $("<span/>").addClass("selImg");
+        $(this).append(selImg);
+
+        $(this).toggle(
+                function() {$(this).addClass("selected");},
+                function() {$(this).removeClass("selected");}
+                ).addTouch();
+      });
     },
 
     setPanelBehavior:function() {
@@ -517,74 +586,15 @@ document.myScroll = null;
       });
     },
 
-    setHover:function() {
-      this.bind("mousedown", function() {
-        $(this).addClass("hover"); })
-              .bind("mouseup", function() {$(this).removeClass("hover")});
-      if (document.transitionEnabled)
-        $(this).addTouch();
-    },
-
-    showPageLoading:function(delay, timeout) {
-      var loaderScreen = $("#loader").length == 0 ? $("<div/>").attr("id", "loader") : $("#loader");
-      if ($("#loader").length == 0) {
-        var spinner = $("<div/>").attr("id", "spinner");
-        for (var i = 1; i <= 12; i++) {
-          var bar = $("<div/>").addClass("bar" + i);
-          spinner.append(bar);
-        }
-        loaderScreen.append(spinner);
-        $("body").append(loaderScreen);
-      }
-      //loaderScreen.show();
-      var timer = delay ? 0 : delay;
-      setTimeout(function() {
-        loaderScreen.fadeTo(300, 1);
-        if (timeout != undefined) setTimeout($.mbile.hidePageLoading, timeout);
-      }, timer);
-
-      return loaderScreen;
-    },
-
-    hidePageLoading:function(callBack) {
-      if (callBack == undefined) callBack = function(){};
-      var loaderScreen = $("#loader");
-      loaderScreen.fadeOut(300, function() {
-        callBack();
-        loaderScreen.remove();
-      });
-      return loaderScreen;
-    },
-
-    onPageLoad:function(idx, callback, e) {
-
-      $(document).bind("beforepageshow", e, function(e){
-        if(typeof idx=="function"){
-          callback=idx;
-          idx=e.newPage.attr("idx");
-        }
-        if(idx==e.newPage.attr("idx"))
-          callback(e);
-      })
-    },
-
-    refreshScroll:function() {
-      setTimeout(function () {
-        if (document.myScroll) document.myScroll.refresh()
-      }, 0)
-    },
-
     changeTheme:function(themeURL) {
       $("#mbileCSS").attr("href", themeURL);
-    },
-
-    alert:function(message) {
     }
 
   };
 
   $.fn.goToPage = $.mbile.goToPage;
   $.fn.setHover = $.mbile.setHover;
+  $.fn.initialize = $.mbile.initialize;
 
   /* Utilities*/
 

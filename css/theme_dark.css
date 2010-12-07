@@ -35,13 +35,12 @@ div[data-role=header] h1 {
 }
 /*Footer*/
 div[data-role=footer] {
-  margin-top: -44px;
+  margin-top: 0;
   height: 44px;
   padding: 0;
   background: #000000;
   color: #ffffff;
   -webkit-box-shadow: 0 -2px 15px #222222;
-  z-index: 2;
   opacity: 0.9;
 }
 div[data-role=footer] .collapsFooter {
@@ -66,13 +65,13 @@ div[data-role=footer] .collapsFooter {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background: url("../elements/dark/panelOpen.png") no-repeat top center;
 }
-div[data-role=footer].out {
+div[data-role=footer][data-position=fixed].out {
   margin-top: 0;
   height: 44px;
   min-height: 0;
   width: auto;
 }
-div[data-role=footer].out .collapsFooter {
+div[data-role=footer][data-position=fixed].out .collapsFooter {
   padding: 0;
   right: 0;
   width: 60px;
@@ -80,6 +79,9 @@ div[data-role=footer].out .collapsFooter {
   top: -25px;
   background: #000000 url("../elements/dark/panelClose.png") no-repeat top center;
   -webkit-box-shadow: 0 -2px 15px #222222;
+}
+div[data-role=footer][data-position=fixed] {
+  margin-top: -44px;
 }
 /*Content*/
 div[data-role=content] {

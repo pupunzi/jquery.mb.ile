@@ -32,13 +32,12 @@ div[data-role=header] {
 /*Footer*/
 
 div[data-role=footer] {
-  margin-top:0-(@footerHeight);
+  margin-top:0;
   height:@footerHeight;
   padding:0;
   background:@footerBackground;
   color:@color5;
   -webkit-box-shadow:0 -2px 15px @shadowColor;
-  z-index:2;
   opacity:@footer_opacity;
 
   .collapsFooter{
@@ -57,7 +56,7 @@ div[data-role=footer] {
   }
 }
 
-div[data-role=footer].out{
+div[data-role=footer][data-position=fixed].out{
   margin-top:0;
   height: @footerHeight;
   min-height: 0;
@@ -72,6 +71,9 @@ div[data-role=footer].out{
     background: @color1 url("../elements/dark/panelClose.png") no-repeat top center;
     -webkit-box-shadow:0 -2px 15px @shadowColor;
   }
+}
+div[data-role=footer][data-position=fixed]{
+  margin-top:0-(@footerHeight);
 }
 
 /*Content*/

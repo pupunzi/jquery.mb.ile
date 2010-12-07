@@ -1,4 +1,4 @@
-<div id="listPage" data-role="page" data-sections="slide">
+<div id="listPage" data-role="page" data-sections="slide" data-name="listPage">
 
   <div data-role="header" data-role=""><h1>list example</h1></div>
   <div data-role="content">
@@ -37,34 +37,32 @@
   </div>
   <div data-role="footer" data-type="default"></div>
   <script type="text/javascript">
-    $(function(){
-      $.mbile.onPageLoad("listPage",
-              function(){
-                $(".line.deletable").each(function(){
-                  var line=$(this);
-                  var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
-                  $del.bind("click",function(){
-                    line.fadeOut(); //add here your delete function
-                    $.mbile.refreshScroll(); // resize the scroller box
-                    return false;
-                  });
-                  $(this).prepend($del);
-                });
 
-                $(".line").swipe({
-                  swipeLeft: function(o) {
-                    $(".selected").removeClass("selected");
-                    $(".delete").hide();
-                    $(o).addClass("selected");
-                    $(o).find(".delete").fadeIn(500);
-                  },
-                  swipeRight: function(o) {
-                    $(o).removeClass("selected");
-                    $(o).find(".delete").fadeOut(500);
-                  }
-                });
-              }
-              )
-    })
+    $("[data-name=listPage]").one("pagebeforeshow",function(){
+      $(this).find(".line.deletable").each(function(){
+        var line=$(this);
+        var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
+        $del.bind("click",function(){
+          line.fadeOut(); //add here your delete function
+          $.mbile.refreshScroll(); // resize the scroller box
+          return false;
+        });
+        $(this).prepend($del);
+      });
+
+      $(".line").swipe({
+        swipeLeft: function(o) {
+          $(".selected").removeClass("selected");
+          $(".delete").hide();
+          $(o).addClass("selected");
+          $(o).find(".delete").fadeIn(500);
+        },
+        swipeRight: function(o) {
+          $(o).removeClass("selected");
+          $(o).find(".delete").fadeOut(500);
+        }
+      });
+    });
+
   </script>
 </div>

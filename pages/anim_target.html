@@ -1,4 +1,4 @@
-<div id="animTarget" data-role="page">
+<div data-role="page" data-name="animTarget">
   <div data-role="header"><h1>Animations</h1></div>
   <div data-role="content">
     <div data-role="box" class="contentSelectable">
@@ -52,7 +52,8 @@
     </div>
   </div>
   <script type="text/javascript">
-    $.mbile.onPageLoad("animTarget",function(e){ e.newPage.find("[data-role=header] h1").html("Animation: "+e.newPage.data("animation"));})
+
+    $("[data-name=animTarget]").live("pagebeforeshow",function(){$(this).find("[data-role=header] h1").html("Animation: "+$(this).data("animation"));});
 
   </script>
 
