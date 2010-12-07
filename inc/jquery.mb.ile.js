@@ -25,7 +25,7 @@
  * document.transitionEnabled = $.browser.safari && (/(iPod || iPad || iPhone || Mac || windows || Android )/i).test(navigator.userAgent);
  */
 document.transitionEnabled = $.browser.safari && (/(iPod|iPad|iPhone|Mac|windows)/i).test(navigator.userAgent);
-document.transitionEnabled = false;
+//document.transitionEnabled = false;
 
 document.iScroll = {};
 document.iScroll.enabled = true;
