@@ -25,6 +25,7 @@
  * document.transitionEnabled = $.browser.safari && (/(iPod || iPad || iPhone || Mac || windows || Android )/i).test(navigator.userAgent);
  */
 document.transitionEnabled = $.browser.safari && (/(iPod|iPad|iPhone|Mac|windows)/i).test(navigator.userAgent);
+document.transitionEnabled = false;
 
 document.iScroll = {};
 document.iScroll.enabled = true;
@@ -94,7 +95,7 @@ document.myScroll = null;
         $.mbile.goToPage(opt.url);
 
     },
-    
+
     checkOrientation:function() {
       if (document.transitionEnabled)
         $.mbile.setHeight($.mbile.actualPage);
@@ -142,7 +143,7 @@ document.myScroll = null;
         $("body").addClass("noTransition");
         $.setFixed(page);
       }
-       page.data("inited", true);
+      page.data("inited", true);
     },
 
     goToPage:function(url, animation, addHistory, pageData) {
@@ -663,8 +664,7 @@ document.myScroll = null;
       var placeHolder=$("<div/>").addClass("headerPlaceHolder").css({height:page.find("[data-role=header]").outerHeight()});
       page.find("[data-role=content]").prepend(placeHolder).scrollTop( 100 );
     }
-
-    $(document).bind("touchmove", function() {
+    page.bind("touchmove", function() {
       page.find("[data-role=header]:visible").each(function() {
         $(this).hide();
       });
@@ -672,17 +672,27 @@ document.myScroll = null;
         $(this).hide();
       });
     });
-    $(document).bind("scroll", function() {
+    
+    page.bind("touchend", function() {
       // scrolling is finished?
+
       var oldPos = window.scrollY,newPos;
-      var header = page.find("[data-role=header]");
-      if (header.size() > 0) {
-        header.css({position:"absolute",width:"100%", top:window.scrollY, zIndex:10000}).show();
-      }
-      var footer = page.find("[data-role=footer]");
-      if (footer.size() > 0) {
-        footer.css({position:"absolute", width:"100%",top:window.scrollY + (window.innerHeight - (footer.outerHeight()/2)), zIndex:10000}).show();
-      }
+      var fHF=setInterval(function(){
+        newPos=window.scrollY;
+        if(newPos!=oldPos) {
+          oldPos=newPos;
+        }else{
+          clearInterval(fHF);
+          var header = page.find("[data-role=header]");
+          if (header.size() > 0) {
+            header.css({position:"absolute",width:$(window).width(), top:window.scrollY, zIndex:10000}).show();
+          }
+          var footer = page.find("[data-role=footer]");
+          if (footer.size() > 0) {
+            footer.css({position:"absolute", width:$(window).width(),top:window.scrollY + (window.innerHeight - (footer.outerHeight()/2)), zIndex:10000}).show();
+          }
+        }
+      },100);
     });
   };
 
