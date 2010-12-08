@@ -56,17 +56,20 @@
 $(function(){
 
   $.mbile.deletableLines=function(options){
+    var $page=this;
+    var page=$page.get(0);
+    page.deleted=[];
+
     var opt={
       beforeDelete:function(o){},
       deleted:function(o){}
     };
     $.extend(opt,options);
 
-    var deleted=[];
-    var page=$(this);
+    var deletable= $page.find("[data-role=deletable]")
+            .add($page.filter("[data-role=deletable]"));
 
-    var deletable= page.find("[data-role=deletable]")
-            .add(page.filter("[data-role=deletable]"));
+    deletable.data("deleted",[]);
 
     if(deletable.attr("deletableInit")) return;
 
@@ -91,15 +94,19 @@ $(function(){
 
       var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
       $del.bind("click",function(){
+
+        // callback before delete row that can return false to stop the action
         var canGoOn=opt.beforeDelete(line.attr("id"));
         if(canGoOn==undefined) canGoOn=true;
         if(canGoOn)
           line.fadeOut(300,function(){
+            page.deleted.push(line.attr("id"));
+            deletable.data("deleted",page.deleted);
+            $(this).addClass("deleted");
+
+            // callback once deleted from the dom delete
             opt.deleted(line.attr("id"));
             $.mbile.refreshScroll();
-
-            deleted.push(line.attr("id"));
-            deletable.data("deleted",deleted);
           });
         return false;
       });

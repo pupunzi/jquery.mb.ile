@@ -1,6 +1,6 @@
 <div id="listPage" data-role="page" data-sections="slide" data-name="listPage">
 
-  <div data-role="header" data-role=""><h1>list example</h1></div>
+  <div data-role="header" data-position="fixed"><h1>list example and features</h1></div>
   <div data-role="content">
     <h1 class="title">list of elements</h1>
 
@@ -47,13 +47,25 @@
     </div>
   </div>
   <div data-role="footer" data-type="default" data-position="fixed"></div>
+
   <script type="text/javascript">
 
+    //callbak invoked on "pagebeforehide" that returns 
+    // wich line has been deleted
+    // and the new order of sortable lines.
+
     $("[data-name=listPage]").bind("pagebeforehide",function(e){
+
+      var sorted= $(this).find("[data-role=sortable]").data("sortOrder");
       var deleted= $(this).find("[data-role=deletable]").data("deleted");
-      if (deleted!=undefined)
-        alert("you deleted: "+deleted);
+
+      var debug= sorted!=""?"sortable order: "+sorted+"\n":"";
+      debug+=deleted!=""?"you deleted: "+deleted:"";
+
+      if (debug!="")
+        alert(debug);
     });
 
   </script>
+
 </div>

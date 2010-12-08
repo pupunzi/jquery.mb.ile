@@ -66,6 +66,8 @@ $(function(){
 
       $.extend(opt,options);
 
+      sortableEl.data("sortOrder","")
+
       if(sortableEl.attr("sortableInit")) return;
 
       $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/sortableLines/sortableLines.css");
