@@ -11,6 +11,9 @@
  * email: mbicocchi@open-lab.com
  * site: http://pupunzi.com
  *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Thanks to Roberto Bicchierai and his unvaluable help.
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  *
  * EVENTS triggered:
@@ -24,8 +27,8 @@
  *
  * document.transitionEnabled = $.browser.safari && (/(iPod || iPad || iPhone || Mac || windows || Android )/i).test(navigator.userAgent);
  */
+document.isAndroid=(/Android/i).test(navigator.userAgent);
 document.transitionEnabled = $.browser.safari && (/(iPod|iPad|iPhone|Mac|windows)/i).test(navigator.userAgent);
-//document.transitionEnabled = false;
 
 document.iScroll = {};
 document.iScroll.enabled = true;
@@ -38,6 +41,7 @@ document.myScroll = null;
     author:"Matteo Bicocchi",
     version:"0.2 alpha",
     defaults:{
+      startPage:null,
       collapsibleFooter:true,
       startupScreen: false,
       icon:false,
@@ -45,12 +49,12 @@ document.myScroll = null;
       addGlossToIcon:false,
       slidingSections:true,
       manageHistory:true,
+      extensionsRoot:"extensions",
       errorPage:"pages/error_page.html"
     },
     orientation:"portrait",
     pages:{},
     initComponents:[],
-
 
     init:function( options) {
 
@@ -66,7 +70,7 @@ document.myScroll = null;
 
       if (opt.startupScreen)
         $("head").append('<link rel="apple-touch-startup-image" href="' + opt.startupScreen + '" />');
-      // Set appropriate icon (retina display stuff is experimental)
+
       if (opt.icon || opt.icon4) {
         var precomposed, appropriateIcon;
         if (opt.icon4 && window.devicePixelRatio && window.devicePixelRatio === 2) {
@@ -83,16 +87,14 @@ document.myScroll = null;
       }
 
       $(document).bind('orientationchange', $.mbile.checkOrientation);
-      $(document).bind('touchmove', function (e) {
-        if (document.transitionEnabled)
-          e.preventDefault();
-      }, false);
+      if (document.transitionEnabled)
+        $(document).bind('touchmove', function (e) {e.preventDefault();}, false);
 
       var pages = $("[data-role=page]");
       pages.addClass("offScreen");
 
-      if (opt.url)
-        $.mbile.goToPage(opt.url);
+      if (opt.startPage)
+        $.mbile.goToPage(opt.startPage);
 
     },
 
@@ -125,6 +127,7 @@ document.myScroll = null;
         page.find("[data-role=content]").wrap("<div class='scroller'/>");
         $.mbile.setHeaderFooterBehavior(page);
         $.mbile.addBackBtn(page);
+        $.mbile.setFormBehavior(page);
       }
       $.mbile.setLinkBehavior(page);
       $.mbile.setButtonBehavior(page);
@@ -146,6 +149,12 @@ document.myScroll = null;
       page.data("inited", true);
     },
 
+    /*todo:
+     *
+     * 1. add a "force-reload" property to remove the page from the DOM on page leave
+     * 2. create a method to change Data for the page call
+     *
+     * */
     goToPage:function(url, animation, addHistory, pageData) {
 
       if (url.indexOf("#") < 0) {
@@ -238,6 +247,7 @@ document.myScroll = null;
 
       //trigger event: pagebeforeshow
       var pagebeforeshow = $.Event("pagebeforeshow");
+      pagebeforeshow.page = newPage;
       pagebeforeshow.oldPage = oldPage;
       pagebeforeshow.canChangePage = true;
       newPage.trigger(pagebeforeshow);
@@ -406,31 +416,12 @@ document.myScroll = null;
           page.find("[data-role=content]").append($(this));
         }
       });
-
-      /*sliding footer Behavior*/
-      if ($.mbile.defaults.collapsibleFooter) {
-        var collapsFooter = $("<span/>").addClass("collapsFooter").attr("collapsed", 0).html("&nbsp;");
-        var footer = page.find("[data-role=footer][data-position=fixed]");
-        if(footer.length==0) return;
-        footer.append(collapsFooter);
-        footer.addClass("collapsibleFooter");
-        collapsFooter.bind("mousedown", function() {
-          var el = $(this);
-          if (el.attr("collapsed") == 0) {
-            footer.addClass("out");
-            el.attr("collapsed", 1)
-          } else {
-            footer.removeClass("out");
-            el.attr("collapsed", 0)
-          }
-        });
-      }
     },
 
     setLinkBehavior:function(page) {
       page.find("a").not("[rel=external]").each(function() {
         var link = $(this);
-        link.parent(".line").setHover();
+        link.parent(".line").setHover(page);
 
         var url = $(this).attr("href");
         if (url && (url.indexOf("javascript:") < 0 || !link.is("[rel=external]"))) {
@@ -447,6 +438,18 @@ document.myScroll = null;
         var action = $(this).attr("onclick");
         $(this).removeAttr("onclick").bind("mouseup", action);
       });
+    },
+
+    setFormBehavior:function(page){
+      page.find("form input").addTouch();
+
+      var buttons= page.find(".buttonBar").children();
+      var buttonsLength= buttons.length;
+      buttons.css({width:((100/buttonsLength)-3)+"%"});
+      buttons.each(function(){
+        if($(this).is("button"))
+          $(this).wrapInner("<span/>");
+      })
     },
 
     setSectionBehavior:function(page) {
@@ -475,10 +478,11 @@ document.myScroll = null;
 
     setButtonBehavior:function(page) {
       var buttons = page.find("button,.button, .backBtn");
-      buttons.setHover();
+      buttons.setHover(page);
     },
 
-    setHover:function() {
+    setHover:function(page) {
+      if(page.data("inited")) return;
       this.bind("mousedown", function() {
         $(this).addClass("hover"); })
               .bind("mouseup", function() {$(this).removeClass("hover")});
@@ -563,32 +567,12 @@ document.myScroll = null;
       })
     },
 
-    setSortableBehavior:function() {
-      $(".sortable .line").each(function() {
-        var handle = $("<span/>").addClass("handle").html("&nbsp;");
-        $(this).append(handle);
-        handle.addTouch();
-        handle.bind("mousedown", function() {
-          document.iScroll.enabled = false;
-        });
-      });
-      $(".sortable").sortable({
-        helper:"clone",
-        axis: 'y',
-        handle:".handle",
-        start: function(event, ui) {
-          $(ui.helper).addClass("clone selected");
-          $($.mbile.defaults.body).append(ui.helper);
-        },
-        stop: function(event, ui) {
-          event.stopPropagation();
-          document.iScroll.enabled = true;
-        }
-      });
-    },
-
-    changeTheme:function(themeURL) {
-      $("#mbileCSS").attr("href", themeURL);
+    incudeCSS:function(URL){
+      if(!$.mbile.initComponents[URL.asId()]){
+        var link=$("<link/>").attr({href:URL,type:"text/css", rel:"stylesheet"});
+        $("head").append(link);
+        $.mbile.initComponents[URL.asId()]=1;
+      }
     }
 
   };
@@ -672,7 +656,7 @@ document.myScroll = null;
         $(this).hide();
       });
     });
-    
+
     page.bind("touchend", function() {
       // scrolling is finished?
 
@@ -695,6 +679,7 @@ document.myScroll = null;
       },100);
     });
   };
+
 
   /* go to error page on any ajax error */
 

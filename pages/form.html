@@ -1,20 +1,45 @@
 <div id="formPage" data-role="page">
-    <div data-role="header"><h1>form elements</h1></div>
+  <div data-role="header"><h1>form elements</h1></div>
 
-    <span class="section">form</span>
-    <div class="block">
-        <form>
-            <span class="line"><label>First name:</label><input type="text" name="firstname" /></span>
-            <span class="line"><label>Last name:</label><input type="text" name="lastname" /></span>
-            <span class="line"><label>Password:</label><input type="password" name="pwd" /></span>
-            <span class="line"><input type="checkbox" name="vehicle" value="Bike" /> <label>I have a bike</label></span>
-            <span class="line"><input type="checkbox" name="vehicle" value="Car" /> <label>I have a car</label></span>
-            <span class="line"><input type="radio" name="sex" value="male" /> <label>Male</label></span>
-            <span class="line"><input type="radio" name="sex" value="female" /><label>Female</label></span>
-        </form>
-    </div>
+  <span class="section">form</span>
+  <div class="block">
+    <form class="contentSelectable">
+      <span class="line"><input placeholder="first name" type="text" name="firstname" /></span>
+      <span class="line"><input placeholder="last name"  type="text" name="lastname" /></span>
+      <span class="line"><input placeholder="password"  type="password" name="pwd" /></span>
+      <span class="line"><input placeholder="email"  type="email" name="email" /></span>
+      <span class="line"><input placeholder="telephone"  type="tel" name="tel" /></span>
+      <span class="line"><input placeholder="url"  type="url" name="url" /></span>
+      <span class="line"><input type="number" min="0" max="1000" step="1" value=""></span>
+      <!--
+            <span class="line"><input type="range" min="0" max="10" step="2" value="6"></span>
+      -->
+      <span class="line">
+        <select placeholder="select"  id="select" name="select" >
+          <option value="1">one</option>
+          <option value="2">two</option>
+          <option value="3">three</option>
+          <option value="4">four</option>
+        </select>
+      </span>
+      <span class="line"><textarea placeholder="text area"  name="textarea" value="" /></span>
+      <span class="line"><input type="checkbox" name="vehicle" value="Bike" /> <label>I have a bike</label></span>
+      <span class="line"><input type="checkbox" name="vehicle" value="Car" /> <label>I have a car</label></span>
+      <span class="line"><input type="radio" name="sex" value="male" /> <label>Male</label></span>
+      <span class="line"><input type="radio" name="sex" value="female" /><label>Female</label></span>
+      <span class="line">
+        <div class="buttonBar right">
+          <button type="button" class="light">I don't really know</button>
+          <button type="button" class="light">cancel</button>
+          <button type="button" onclick="$.mbile.goBack();">submit</button>
+        </div>
+      </span>
+    </form>
+  </div>
 
-    <script type="text/javascript">
+  <table><tr><td></td></tr></table>
 
-    </script>
+  <script type="text/javascript">
+
+  </script>
 </div>

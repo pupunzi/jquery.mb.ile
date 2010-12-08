@@ -43,42 +43,11 @@ div[data-role=footer] {
   -webkit-box-shadow: 0 -2px 15px #222222;
   opacity: 0.9;
 }
-div[data-role=footer] .collapsFooter {
-  background: #000000;
-  position: absolute;
-  display: block;
-  width: 60px;
-  height: 30px;
-  right: 0;
-  top: 15px;
-  text-align: center;
-  -moz-border-radius: 44px 44px 44px 44px;
-  -webkit-border-top-left-radius: 44px;
-  -webkit-border-top-right-radius: 44px;
-  -webkit-border-bottom-left-radius: 44px;
-  -webkit-border-bottom-right-radius: 44px;
-  border-top-left-radius: 44px;
-  border-top-right-radius: 44px;
-  border-bottom-left-radius: 44px;
-  border-bottom-right-radius: 44px;
-  z-index: 3;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  background: url("../elements/dark/panelOpen.png") no-repeat top center;
-}
 div[data-role=footer][data-position=fixed].out {
   margin-top: 0;
   height: 44px;
   min-height: 0;
   width: auto;
-}
-div[data-role=footer][data-position=fixed].out .collapsFooter {
-  padding: 0;
-  right: 0;
-  width: 60px;
-  height: 60px;
-  top: -25px;
-  background: #000000 url("../elements/dark/panelClose.png") no-repeat top center;
-  -webkit-box-shadow: 0 -2px 15px #222222;
 }
 div[data-role=footer][data-position=fixed] {
   margin-top: -44px;
@@ -148,7 +117,7 @@ div[data-role=content] .line {
   position: relative;
   vertical-align: middle;
   padding: 5px;
-  height: 35px;
+  min-height: 35px;
   margin: 0;
   margin-bottom: 1px;
   color: #ffffff;
@@ -260,25 +229,6 @@ div[data-role=content] .line.selectable .selImg {
 div[data-role=content] .line.selected .panelImg {
   background: url("../elements/dark/panelClose.png") no-repeat center center;
 }
-div[data-role=content] .line.clone {
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
-  left: 10px;
-  opacity: .5;
-  -moz-box-shadow: 2px 0 5px #000000;
-  -webkit-box-shadow: 2px 0 5px #000000;
-  box-shadow: 2px 0 5px #000000;
-}
-div[data-role=content] div[data-role=block].sortable .line .handle {
-  position: absolute;
-  display: block;
-  right: 10px;
-  top: 10px;
-  z-index: 1;
-  width: 50px;
-  height: 30px;
-  background: url("../elements/dark/grip.png") repeat-x center center;
-}
 div[data-role=content] [data-role=list] .line {
   min-height: 35px;
   padding: 5px;
@@ -344,13 +294,14 @@ form label {
   display: inline-block;
   width: 40%;
 }
-form input {
+form input, form select {
   padding: 5px;
-  background: #999999;
+  background: rgba(255, 255, 255, 0.7);
   border: none;
-  width: 55%;
+  width: 100%;
   font: 18px/25px Arial, Helvetica, sans-serif;
-  color: #000000;
+  color: black;
+  -webkit-box-sizing: border-box;
   -moz-border-radius: 8px 8px 8px 8px;
   -webkit-border-top-left-radius: 8px;
   -webkit-border-top-right-radius: 8px;
@@ -360,6 +311,35 @@ form input {
   border-top-right-radius: 8px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+  -webkit-box-shadow: inset 1px 1px 5px #555;
+  -webkit-text-size-adjust: 120%;
+}
+form input[type=number] {
+  width: 50%;
+}
+form input[type=checkbox], form input[type=radio] {
+  width: 25px;
+  height: 25px;
+}
+form textarea {
+  padding: 5px;
+  background: #ffffff;
+  border: none;
+  width: 100%;
+  height: 80px;
+  font: 18px/25px Arial, Helvetica, sans-serif;
+  color: black;
+  -webkit-box-sizing: border-box;
+  -moz-border-radius: 8px 8px 8px 8px;
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  -webkit-text-size-adjust: 120%;
 }
 form input[type=checkbox], form input[type=radio] {
   padding: 5px;
@@ -418,9 +398,6 @@ form input[type=checkbox], form input[type=radio] {
   height: 44px;
   width: 100%;
 }
-[data-role=footer].collapsibleFooter {
-  padding-right: 60px;
-}
 button, .button {
   display: inline-block;
   padding: 5px 10px 8px 10px;
@@ -445,6 +422,9 @@ button, .button {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
+}
+button.light, .button.light {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), color-stop(0.5, #666666), color-stop(0.5, #666666), to(#666666));
 }
 button.hover, .button.hover {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.5, #ffffff), color-stop(0.5, #ffffff), to(#ffffff));

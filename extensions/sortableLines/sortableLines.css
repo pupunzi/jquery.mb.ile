@@ -1,0 +1,39 @@
+/*
+ * jquery.mb.components
+ * Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ * email: mbicocchi@open-lab.com
+ * site: http://pupunzi.com
+ *
+ * Licences: MIT, GPL
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ */
+
+/*
+* jQuery.mb.components: mb.ile
+* © 2001 - 2010 Matteo Bicocchi (pupunzi), Open Lab
+*
+*/
+
+@charset "UTF-8";
+
+.sortableClone {
+  -webkit-perspective: 1000;
+  -webkit-transform:translate3d(0,0,0);
+  opacity: .5;
+  -moz-box-shadow: 2px 0 5px #000000;
+  -webkit-box-shadow: 2px 0 5px #000000;
+  box-shadow: 2px 0 5px #000000;
+}
+
+[data-role=sortable] .line .handle {
+  position: absolute;
+  display: block;
+  right: 10px;
+  top: 10px;
+  z-index: 1;
+  width: 50px;
+  height: 30px;
+  background: url("elements/grip.png") repeat-x center center;
+}
+

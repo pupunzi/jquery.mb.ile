@@ -32,22 +32,18 @@ div.offScreen{display:none;}
 
 .column2 span{text-overflow:ellipsis;width:49%;-webkit-box-sizing:border-box;}
 .column3 span{text-overflow:ellipsis;width:33%;-webkit-box-sizing:border-box;}
+.right{text-align:right}
+.left{text-align:left}
+
+.buttonBar button, .buttonBar .button{display:inline-block;margin-right: 5px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+.buttonBar button span, .buttonBar .button{display:inline-block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:100%}
+
+form,input,select,textarea {-webkit-user-select:auto;}
 
 
-div#spinner {
-  position: absolute;
-  z-index:1000;
-}
+div#spinner {position: absolute;z-index:1000;}
 
-div#spinner div {
-  position: absolute;
-  width: 12%;
-  height: 26%;
-  left: 44.5%;
-  top: 37%;
-  opacity: 0;
-  -webkit-animation: spinnerFade 1s linear infinite;
-}
+div#spinner div {position: absolute;width: 12%;height: 26%;left: 44.5%;top: 37%;opacity: 0;-webkit-animation: spinnerFade 1s linear infinite;}
 
 div#spinner div.bar1 {-webkit-transform:rotate(0deg) translate(0, -142%); -webkit-animation-delay: 0s;}
 div#spinner div.bar2 {-webkit-transform:rotate(30deg) translate(0, -142%); -webkit-animation-delay: -0.9167s;}

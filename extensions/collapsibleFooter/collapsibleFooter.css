@@ -1,0 +1,56 @@
+/*
+ * jquery.mb.components
+ * Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ * email: mbicocchi@open-lab.com
+ * site: http://pupunzi.com
+ *
+ * Licences: MIT, GPL
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ */
+
+/*
+* jQuery.mb.components: mb.ile
+* © 2001 - 2010 Matteo Bicocchi (pupunzi), Open Lab
+*
+*/
+
+
+@charset "UTF-8";
+
+[data-role=footer].collapsibleFooter {
+  padding-right:60px;
+}
+
+[data-role=footer] .collapsFooter {
+  background: #000000;
+  position: absolute;
+  display: block;
+  width: 60px;
+  height: 30px;
+  right: 0;
+  top: 15px;
+  text-align: center;
+  -moz-border-radius: 44px 44px 44px 44px;
+  -webkit-border-top-left-radius: 44px;
+  -webkit-border-top-right-radius: 44px;
+  -webkit-border-bottom-left-radius: 44px;
+  -webkit-border-bottom-right-radius: 44px;
+  border-top-left-radius: 44px;
+  border-top-right-radius: 44px;
+  border-bottom-left-radius: 44px;
+  border-bottom-right-radius: 44px;
+  z-index: 3;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: url("elements/open.png") no-repeat top center;
+}
+
+[data-role=footer][data-position=fixed].out .collapsFooter {
+  padding: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  top: -25px;
+  background: #000000 url("elements/close.png") no-repeat top center;
+  -webkit-box-shadow: 0 -2px 15px #222222;
+}

@@ -102,6 +102,19 @@
       -webkit-animation-name: bgAnim;
     }
 
+    #bookmarkme{
+      font:20px/22px helvetica;
+      color:white;
+      position:absolute;
+      top:80px;
+      left:25px;
+      width:250px;
+      background:rgba(0,0,0,0.5);
+      padding:10px;
+      -webkit-box-shadow: 2px 2px 2px #333;
+
+    }
+
     @-webkit-keyframes bgAnim {
             0% {
                 -webkit-animation-delay:400ms;
@@ -142,7 +155,7 @@
 
   <div data-role="content">
 
-    <h1>Well come to <br><b>mb.ile</b> framework!</h1>
+    <h1>Welcome to <br><b>mb.ile</b> framework!</h1>
     <!--h3>A short cut for developing your mobile web App.</h3-->
 
     <div class="start clone">
@@ -160,6 +173,8 @@
     <div class="start">
       <span class="go" onclick="$.mbile.goToPage('pages/demo.html','flipleft')">GO!</span>
     </div>
+    <div id="bookmarkme">if you are using an iPhone or an iPad you can run this demo application in stand-alone mode: Just add it <b>to home sreen</b>. And enjoy the experience!</div>
+
   </div>
 
   <script type="text/javascript">
@@ -173,7 +188,14 @@
                 .mousedown(function(){$(this).addClass("hover")})
                 .mouseup(function(){$(this).removeClass("hover")})
                 .addTouch();
+      $("#bookmarkme").hide();
+      if(!window.navigator.standalone && !document.isAndroid){
+        $("#bookmarkme").show();
+        setTimeout(function(){$("#bookmarkme").fadeOut(800)},7000)
+      }
     });
+
+
 
   </script>
 

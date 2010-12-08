@@ -18,7 +18,7 @@
   <!-- iPhone Stuff -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
   <title>mb.ile</title>
 
@@ -31,28 +31,31 @@
   <script type="text/javascript" src="inc/iscroll.js"></script>
   <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
 
+  <!--components-->
+  <script type="text/javascript" src="extensions/collapsibleFooter/jquery.mb.ile.collapsibleFooter.js"></script>
+  <script type="text/javascript" src="extensions/sortableLines/jquery.mb.ile.setSortable.js"></script>
+  <script type="text/javascript" src="extensions/deletableLines/jquery.mb.ile.deletableLines.js"></script>
+
   <script type="text/javascript">
 
     //initializing the mb.ile framework
     $(function(){
 
-      $.mbile.toggleSkin=function(){
-        if($.mbile.skin == undefined || $.mbile.skin=="skin2"){
-          $.mbile.changeTheme('css/theme_flat.css');
-          $.mbile.skin = "skin1"
-        }else{
-          $.mbile.changeTheme('css/theme_dark.css');
-          $.mbile.skin = "skin2";
-        }
-      };
-
-      $.mbile.init({ //"pages/start.html",
-        url:"pages/start.html",
+      $.mbile.init({
+        startPage:"pages/start.html",
         startupScreen: null,
         slidingSections:true,
         collapsibleFooter:true,
+        extensionsRoot:"extensions",
         errorPage:"pages/error_page.html"
       });
+
+      //initialize components
+      $(document).bind("pagebeforeshow",function(e){
+        e.page.setCollapsibleFooter();        
+        e.page.setSortableLines({sortEnd:function(o){}});        
+        e.page.deletableLines();        
+      })
     });
 
   </script>
@@ -66,7 +69,7 @@
 
   <div class="buttonBar column2">
     <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');"><img src="elements/dark/icons/28-star.png"></span>
-    <span id="changeSkin" class="button" onmousedown="$.mbile.toggleSkin();"><img src="elements/dark/icons/98-palette.png"></span>
+    <span id="changeSkin" class="button" ><img src="elements/dark/icons/98-palette.png"></span>
   </div>
 
 </div>
