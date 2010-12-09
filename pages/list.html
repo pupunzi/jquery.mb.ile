@@ -1,6 +1,7 @@
 <div id="listPage" data-role="page" data-sections="slide" data-name="listPage">
 
   <div data-role="header" data-position="fixed"><h1>list example and features</h1></div>
+
   <div data-role="content">
     <h1 class="title">list of elements</h1>
 
@@ -25,7 +26,20 @@
         <span class="line"><a rel="" href="#">line 6</a></span>
       </div>
 
-      <div data-role="section">section 3 (deletable rows)</div>
+      <div data-role="panel">
+        <div data-role="section">section 3 (collapsable rows)</div>
+        <!--<div class="line">open this panel</div>-->
+        <div data-role="sortable">
+          <span id="sort_11" class="line"><a rel="" href="#">line 1</a></span>
+          <span id="sort_22" class="line"><a rel="" href="#">line 2</a></span>
+          <span id="sort_33" class="line"><a rel="" href="#">line 3</a></span>
+          <span id="sort_44" class="line"><a rel="" href="#">line 4</a></span>
+          <span id="sort_55" class="line"><a rel="" href="#">line 5</a></span>
+          <span id="sort_66" class="line"><a rel="" href="#">line 6</a></span>
+        </div>
+      </div>
+
+      <div data-role="section">section 4 (deletable rows)</div>
       <div data-role="deletable">
         <span id="del_1" class="line"><a rel="" href="#">line 1</a></span>
         <span id="del_2" class="line"><a rel="" href="#">line 2</a></span>
@@ -35,7 +49,7 @@
         <span id="del_6" class="line"><a rel="" href="#">line 6</a></span>
       </div>
 
-      <div data-role="section">section 4 (sortable rows)</div>
+      <div data-role="section">section 5 (sortable rows)</div>
       <div data-role="sortable">
         <span id="sort_1" class="line"><a rel="" href="#">line 1</a></span>
         <span id="sort_2" class="line"><a rel="" href="#">line 2</a></span>
@@ -44,8 +58,10 @@
         <span id="sort_5" class="line"><a rel="" href="#">line 5</a></span>
         <span id="sort_6" class="line"><a rel="" href="#">line 6</a></span>
       </div>
+
     </div>
   </div>
+
   <div data-role="footer" data-type="default" data-position="fixed"></div>
 
   <script type="text/javascript">
@@ -56,7 +72,12 @@
 
     $("[data-name=listPage]").bind("pagebeforehide",function(e){
 
-      var sorted= $(this).find("[data-role=sortable]").data("sortOrder");
+      var sorted= [];
+      $(this).find("[data-role=sortable]").each(function(){
+        if($(this).data("sortOrder"))
+          sorted.push($(this).data("sortOrder"));
+      });
+
       var deleted= $(this).find("[data-role=deletable]").data("deleted");
 
       var debug= sorted!=""?"sortable order: "+sorted+"\n":"";

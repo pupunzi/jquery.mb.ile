@@ -66,39 +66,41 @@ $(function(){
 
       $.extend(opt,options);
 
-      sortableEl.data("sortOrder","")
-
-      if(sortableEl.attr("sortableInit")) return;
-
       $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/sortableLines/sortableLines.css");
 
-      sortableEl.children().each(function() {
-        var handle = $("<span/>").addClass("handle").html("&nbsp;");
-        $(this).append(handle);
-        handle.bind("mousedown", function() {
-          if(document.iScroll)
-            document.iScroll.enabled = false;
-        });
-      });
-      sortableEl.sortable({
-        helper:"clone",
-        axis: 'y',
-        handle:".handle",
-        start: function(event, ui) {
-          $(ui.helper).addClass("sortableClone selected");
-          $($.mbile.defaults.body).append(ui.helper);
-        },
-        stop: function(event, ui) {
-          event.stopPropagation();
-          if(document.iScroll)
-            document.iScroll.enabled = true;
-          sortableEl.data("sortOrder",sortableEl.sortable("toArray"));
-          opt.sortEnd(sortableEl.data("sortOrder"));
-        }
-      });
-      sortableEl.attr("sortableInit",true);
-    }
+      sortableEl.each(function(){
+        var sortableBlock=$(this);
+        sortableBlock.data("sortOrder","");
 
+        if(sortableBlock.attr("sortableInit")) return;
+
+        sortableBlock.children().each(function() {
+          var handle = $("<span/>").addClass("handle").html("&nbsp;");
+          $(this).append(handle);
+          handle.bind("mousedown", function() {
+            if(document.iScroll)
+              document.iScroll.enabled = false;
+          });
+        });
+        sortableBlock.sortable({
+          helper:"clone",
+          axis: 'y',
+          handle:".handle",
+          start: function(event, ui) {
+            $(ui.helper).addClass("sortableClone selected");
+            $($.mbile.defaults.body).append(ui.helper);
+          },
+          stop: function(event, ui) {
+            event.stopPropagation();
+            if(document.iScroll)
+              document.iScroll.enabled = true;
+            sortableBlock.data("sortOrder",sortableBlock.sortable("toArray"));
+            opt.sortEnd(sortableBlock.data("sortOrder"));
+          }
+        });
+        sortableBlock.attr("sortableInit",true);
+      });
+    }
   }
 
   $.fn.setSortableLines=$.mbile.setSortableLines;

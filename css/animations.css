@@ -34,7 +34,7 @@
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
   -webkit-animation-timing-function: ease-out-in;
-  -webkit-animation-duration: 450ms;
+  -webkit-animation-duration: 350ms;
 }
 /*
 .in{opacity:1}

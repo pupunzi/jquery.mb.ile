@@ -12,14 +12,17 @@
  * site: http://pupunzi.com
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * Thanks to Roberto Bicchierai and his unvaluable help.
+ * Thanks to Roberto Bicchierai
+ * (http://roberto.open-lab.com/)
+ * and his unvaluable help.
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  *
  * EVENTS triggered:
  *
- * beforepagechange
- * beforepageshow
+ * pagecreate
+ * pagebeforeshow
+ * pagebeforehide
  * pageshow
  *
  * This framework works perfectly on iOs devices; Android partially support webkit transitions so the scroll behavior is slow.
@@ -459,18 +462,18 @@ document.myScroll = null;
       clearInterval(document.SectionBehavior);
       page.find("[data-role=section].fake").remove();
       var $sections = page.find("[data-role=section]");
-      var containerTop = page.find("[data-role=header]").height();
+      var containerTopHeight = page.find("[data-role=header]").height();
       var $fakeSection = $("<div data-role='section'>").addClass("fake").css({position:"absolute", top:0, zIndex:2, width:"100%"}).hide();
       page.find("[data-role=content]").before($fakeSection);
       document.SectionBehavior = setInterval(function() {
         $sections.each(function() {
           var $section = $(this);
           var top = $section.offset().top;
-          if (top < containerTop + 10) {
+          if (top < containerTopHeight + 10) {
             $fakeSection.fadeIn(800).text($section.text());
           }
         });
-        if ($sections.length > 0 && $sections.eq(0).offset().top > containerTop) {
+        if ($sections.length > 0 && $sections.eq(0).offset().top > containerTopHeight) {
           $fakeSection.hide();
         }
       }, 50);
@@ -528,8 +531,8 @@ document.myScroll = null;
     },
 
     alert:function(message) {
-    },
 
+    },
 
     /*Custom behaviors*/
 
@@ -546,25 +549,6 @@ document.myScroll = null;
                 function() {$(this).removeClass("selected");}
                 ).addTouch();
       });
-    },
-
-    setPanelBehavior:function() {
-      var $panels = $($.mbile.defaults.body + " #scroller").find("a[rel=panel]");
-      $panels.each(function() {
-        var panel = $(this).attr("href");
-        var panelImg = $("<span/>").addClass("panelImg");
-        $(this).parent("span").append(panelImg);
-        $(this).toggle(
-                function() {
-                  $(panel).openPanel();
-                  $.mbile.refreshScroll();
-                },
-                function() {
-                  $(panel).closePanel();
-                  $.mbile.refreshScroll();
-                }
-                ).addTouch();
-      })
     },
 
     incudeCSS:function(URL){
@@ -591,21 +575,6 @@ document.myScroll = null;
     return this.length > 0;
   };
 
-  //Panels
-  $.fn.openPanel = function() {
-    this.removeClass("close");
-    this.addClass("open").one('webkitAnimationEnd', $.mbile.refreshScroll);
-    this.prev("span").addClass("selected header");
-    $.mbile.refreshScroll();
-  };
-  $.fn.closePanel = function() {
-    this.removeClass("open");
-    this.addClass("close").one('webkitAnimationEnd', function() {
-      $(".panel.close").removeClass("close");
-      $.mbile.refreshScroll();
-    });
-    this.prev("span").removeClass("selected header");
-  };
 
   /* touch events */
 

@@ -1,0 +1,48 @@
+/*
+ * jquery.mb.components
+ * Copyright (c) 2001-2010. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ * email: mbicocchi@open-lab.com
+ * site: http://pupunzi.com
+ *
+ * Licences: MIT, GPL
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ */
+
+/*
+* jQuery.mb.components: mb.ile
+* © 2001 - 2010 Matteo Bicocchi (pupunzi), Open Lab
+*
+*/
+
+@charset"UTF-8";
+
+[data-role=panel] .header {
+  position:relative;
+  font: 16px/25px Arial, Helvetica, sans-serif;  
+}
+[data-role=panel] .header.selected {
+  position:relative;
+  font: 16px/25px Arial, Helvetica, sans-serif;
+  background:rgba(255,255,255,.4);
+}
+[data-role=panel] .header .panelImg {
+  position: absolute;
+  display: block;
+  right: 5px;
+  top: 5px;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  background: url("elements/panelOpen.png") no-repeat center center;
+}
+
+[data-role=panel] .panelContent {
+  background:rgba(0,0,0,.3);
+  
+}
+
+
+[data-role=panel] .header.selected .panelImg {
+  background: url("elements/panelClose.png") no-repeat center center;
+}
