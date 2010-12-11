@@ -34,6 +34,7 @@ $(function(){
 
       selectables.each(function() {
         var $selectableBlock=$(this);
+        var selected=[];
         $selectableBlock.data("selected","");
         if($selectableBlock.attr("selectableInit")) return;
 
@@ -50,15 +51,15 @@ $(function(){
           
           $el.click(function(){
 
-            if($(this).hasClass("selected")){
+            if($el.hasClass("selected")){
               $el.removeClass("selected");
+              var idx= $.inArray(el.id,selected);
+              if(idx!=-1) selected.splice(idx,1);
             }else{
               $el.addClass("selected");
+              selected.push(el.id);
+
             }
-            var selected=[];
-            $selectableBlock.find(".selected").each(function(){
-              selected.push(this.id);
-            });
             $selectableBlock.data("selected",selected);
           }).addTouch();
         });

@@ -80,7 +80,7 @@ $(function(){
 
       line.swipe({
         swipeLeft: function(o) {
-          $(".selected").removeClass("selected");
+          deletable.find(".selected").removeClass("selected");
           $(".delete").hide();
           $(o).addClass("selected");
           $(o).find(".delete").fadeIn(500);

@@ -1,4 +1,4 @@
-<div id="listPage" data-role="page" data-sections="slide" data-name="listPage">
+<div data-name="listPage"  data-role="page" data-sections="slide">
 
   <div data-role="header" data-position="fixed"><h1>list example and features</h1></div>
 
@@ -83,8 +83,8 @@
       var selected= $(this).find("[data-role=selectable]").data("selected");
 
       var debug= sorted!=""?"sortable order: "+sorted+"\n":"";
-      debug+=deleted!=""?"you deleted: "+deleted:"";
-      debug+=selected!=""? "you select: "+selected:"";
+      debug+=deleted!=""?"you deleted: "+deleted+"\n":"";
+      debug+=selected!=""? "you selected: "+selected+"\n":"";
 
       if (debug!="")
         alert(debug);
