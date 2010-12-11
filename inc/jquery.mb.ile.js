@@ -19,17 +19,58 @@
  *
  *
  * EVENTS triggered:
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
- * pagecreate
- * pagebeforeshow
- * pagebeforehide
- * pageshow
+ * turn:
+ * ---------------------------------
+ *     when the device rotate
+ *    $(document).bind("pagecreate",function(e){}); argument: e.orientation
+ *
+ * pagecreate:
+ * ---------------------------------
+ *     when a specific page is created
+ *    $("[data-name = pageName]").bind("pagecreate",function(e){...}); argument: e.page
+ *    [page].bind("pagecreate",function(e){...}); argument: e.page
+ *
+ *     when any page is created
+ *    $(document).bind("pagecreate",function(e){}); argument: e.page
+ *
+ * pagebeforeshow:
+ * ---------------------------------
+ *     when a specific page is going to be shown
+ *    $("[data-name = pageName]").bind("pagebeforeshow",function(e){...}); arguments: e.page, e.oldPage, e.canChangePage (if set to false the change page event is stopped)
+ *    [page].bind("pagebeforeshow",function(e){...}); arguments: e.page, e.oldPage, e.canChangePage (if set to false the change page event is stopped)
+ *
+ *     when any page is going to be shown
+ *    $(document).bind("pagebeforeshow",function(e){...}); arguments: e.page, e.oldPage, e.canChangePage (if set to false the change page event is stopped)
+ *
+ * pagebeforehide:
+ * ---------------------------------
+ *     when a specific page is going to be hide
+ *    $("[data-name = pageName]").bind("pagebeforehide",function(e){...}); arguments: e.page, e.newPage
+ *    [page].bind("pagebeforehide",function(e){...}); arguments: e.page, e.newPage
+ *
+ *     when any page is going to be hide
+ *    $(document).bind("pagebeforehide",function(e){...}); arguments: e.page, e.newPage
+ *
+ * pageshow:
+ * ---------------------------------
+ *     when a specific page is shown
+ *    $("[data-name = pageName]").bind("pageshow",function(e){...}); arguments: e.page, e.oldPage
+ *    [page].bind("pageshow",function(e){...}); arguments: e.page, e.oldPage
+ *
+ *     when any page is going to be hide
+ *    $(document).bind("pagebeforehide",function(e){...}); arguments: e.page, e.oldPage
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  * This framework works perfectly on iOs devices; Android partially support webkit transitions so the scroll behavior is slow.
  * if you want to enable anyway the fixed header and footer on Android add the Android closure:
- *
  * document.transitionEnabled = $.browser.safari && (/(iPod || iPad || iPhone || Mac || windows || Android )/i).test(navigator.userAgent);
+ *
+ *
  */
+
 document.isAndroid=(/Android/i).test(navigator.userAgent);
 document.transitionEnabled = $.browser.safari && (/(iPod|iPad|iPhone|Mac|windows)/i).test(navigator.userAgent);
 
@@ -45,7 +86,6 @@ document.myScroll = null;
     version:"0.2 alpha",
     defaults:{
       startPage:null,
-      collapsibleFooter:true,
       startupScreen: false,
       icon:false,
       icon4:false,
@@ -57,7 +97,8 @@ document.myScroll = null;
     },
     orientation:"portrait",
     pages:{},
-    initComponents:[],
+    loadedExtensions:[],
+    initComponents:function(){},
 
     init:function( options) {
 
@@ -106,6 +147,12 @@ document.myScroll = null;
         $.mbile.setHeight($.mbile.actualPage);
       $.mbile.orientation = Math.abs(window.orientation) == 0 ? 'portrait' : 'landscape';
       $("body").removeClass('portrait landscape').addClass($.mbile.orientation);
+
+      //trigger event: turn
+      var turn=$.Event("turn");
+      turn.orientation=$.mbile.orientation;
+      $(document).trigger(turn);
+
     },
 
     setHeight: function(page) {
@@ -135,6 +182,10 @@ document.myScroll = null;
       $.mbile.setLinkBehavior(page);
       $.mbile.setButtonBehavior(page);
 
+      $(document).bind("pagebeforeshow",function(e){
+        $.mbile.initComponents(e.page);
+      });
+
       if (document.transitionEnabled) {
         //wraps content into a scrollable wrapper
         $.mbile.setHeight(page);
@@ -149,6 +200,7 @@ document.myScroll = null;
         $("body").addClass("noTransition");
         $.setFixed(page);
       }
+
       page.data("inited", true);
     },
 
@@ -262,12 +314,9 @@ document.myScroll = null;
       //trigger event: pagebeforehide
       if (oldPage){
         var pagebeforehide = $.Event("pagebeforehide");
-        pagebeforehide.canChangePage = true;
+        pagebeforehide.page = oldPage;
+        pagebeforehide.newPage = newPage;
         oldPage.trigger(pagebeforehide);
-        if (!pagebeforehide.canChangePage) {
-          pagebeforehide.canChangePage = true;
-          return;
-        }
       }
 
       /* reposition scroll to old scroll */
@@ -326,8 +375,9 @@ document.myScroll = null;
         /* trigger event: pageshow */
 
         var pageshow = $.Event("pageshow");
+        pageshow.page = newP;
         pageshow.oldPage = oldP;
-        newPage.trigger(pageshow);
+        newP.trigger(pageshow);
 
         if (oldP){
           var pagehide = $.Event("pagehide");
@@ -531,39 +581,38 @@ document.myScroll = null;
     },
 
     alert:function(message) {
-
+      alert(message);
     },
-
-    /*Custom behaviors*/
-
-    setListBehavior:function() {},
-
-    setSelectableBehavior:function() {
-      var selectables = $(".line.selectable");
-      selectables.each(function() {
-        var selImg = $("<span/>").addClass("selImg");
-        $(this).append(selImg);
-
-        $(this).toggle(
-                function() {$(this).addClass("selected");},
-                function() {$(this).removeClass("selected");}
-                ).addTouch();
-      });
-    },
-
     incudeCSS:function(URL){
-      if(!$.mbile.initComponents[URL.asId()]){
-        var link=$("<link/>").attr({href:URL,type:"text/css", rel:"stylesheet"});
-        $("head").append(link);
-        $.mbile.initComponents[URL.asId()]=1;
-      }
+
+      var link=$("<link/>").attr({href:URL,type:"text/css", rel:"stylesheet"});
+      $("head").append(link);
+      $.mbile.loadedExtensions[URL.asId()]=1;
+
+    },
+    addExtensions:function(){
+      $.each(arguments,function(i){
+        var name=this[0];
+        var param=this[1];
+        var hasCSS=this[3];
+        if(!$.mbile.loadedExtensions[name]){
+          if(hasCSS)
+            $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
+          $.getScript($.mbile.defaults.extensionsRoot+"/"+name+"/jquery.mb.ile."+name+".js",function(){
+            $(document).bind("pagebeforeshow",function(e){
+              var funct= "e.page."+name+"_init("+param+")";
+              eval(funct);
+            })
+          });
+        }
+        $.mbile.loadedExtensions[name]=name;
+      });
     }
 
   };
 
   $.fn.goToPage = $.mbile.goToPage;
   $.fn.setHover = $.mbile.setHover;
-  $.fn.initialize = $.mbile.initialize;
 
   /* Utilities*/
 
@@ -660,8 +709,8 @@ document.myScroll = null;
     });
   });
 
-  //  function alert(){
-  //    $.mbile.alert()
-  //  };
+//    function alert(arg){
+//      $.mbile.alert(arg);
+//    };
 
 })(jQuery);

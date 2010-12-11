@@ -73,7 +73,6 @@ $(function(){
 
     if(deletable.attr("deletableInit")) return;
 
-    $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/deletableLines/deletableLines.css");
 
     deletable.children().each(function(){
       var line=$(this);
@@ -116,5 +115,5 @@ $(function(){
     deletable.attr("deletableInit",true);
   };
 
-  $.fn.deletableLines=$.mbile.deletableLines;
+  $.fn.deletableLines_init=$.mbile.deletableLines;
 });

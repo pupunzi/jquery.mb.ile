@@ -1,7 +1,4 @@
-/*backButton*/
-/*Buttons*/
-/*footer buttons*/
-/*Theme strucuture*/
+
 @page set"UTF-8";
 
 body {
@@ -239,7 +236,6 @@ div[data-role=content] [data-role=list] .line.hover {
 }
 div[data-role=content] [data-role=box] {
   /*Box*/
-
   font-size: 16px;
   background-image: -webkit-gradient(linear, 0% 0%, 16% 100%, from(rgba(255, 255, 255, 0.4)), to(#ffffff), color-stop(0.7, #c9c9c9));
   color: #000000;

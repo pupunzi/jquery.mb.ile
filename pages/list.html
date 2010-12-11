@@ -18,12 +18,12 @@
 
       <div data-role="section">section 2 (selectable rows)</div>
       <div data-role="selectable">
-        <span class="line"><a rel="" href="#">line 1</a></span>
-        <span class="line"><a rel="" href="#">line 2</a></span>
-        <span class="line"><a rel="" href="#">line 3</a></span>
-        <span class="line"><a rel="" href="#">line 4</a></span>
-        <span class="line"><a rel="" href="#">line 5</a></span>
-        <span class="line"><a rel="" href="#">line 6</a></span>
+        <span id="sel_1" class="line"><a rel="" href="#">line 1</a></span>
+        <span id="sel_2" class="line"><a rel="" href="#">line 2</a></span>
+        <span id="sel_3" class="line"><a rel="" href="#">line 3</a></span>
+        <span id="sel_4" class="line"><a rel="" href="#">line 4</a></span>
+        <span id="sel_5" class="line"><a rel="" href="#">line 5</a></span>
+        <span id="sel_6" class="line"><a rel="" href="#">line 6</a></span>
       </div>
 
       <div data-role="panel">
@@ -80,8 +80,11 @@
 
       var deleted= $(this).find("[data-role=deletable]").data("deleted");
 
+      var selected= $(this).find("[data-role=selectable]").data("selected");
+
       var debug= sorted!=""?"sortable order: "+sorted+"\n":"";
       debug+=deleted!=""?"you deleted: "+deleted:"";
+      debug+=selected!=""? "you select: "+selected:"";
 
       if (debug!="")
         alert(debug);

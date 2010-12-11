@@ -31,16 +31,20 @@
   <script type="text/javascript" src="inc/iscroll.js"></script>
   <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
 
-  <!--components-->
-  <script type="text/javascript" src="extensions/collapsibleFooter/jquery.mb.ile.collapsibleFooter.js"></script>
-  <script type="text/javascript" src="extensions/sortableLines/jquery.mb.ile.setSortable.js"></script>
-  <script type="text/javascript" src="extensions/deletableLines/jquery.mb.ile.deletableLines.js"></script>
-  <script type="text/javascript" src="extensions/makePanel/jquery.mb.ile.makePanel.js"></script>
-
   <script type="text/javascript">
 
     //initializing the mb.ile framework
     $(function(){
+
+      //initialize extensions
+      $.mbile.addExtensions(
+              //[extension name, paramiters, CSS file exist]
+              ["collapsibleFooter","",true],
+              ["sortableLines","",true],
+              ["deletableLines","",true],
+              ["selectableLines","",true],              
+              ["makePanel","",true]
+              );
 
       $.mbile.init({
         startPage:"pages/start.html",
@@ -51,13 +55,6 @@
         errorPage:"pages/error_page.html"
       });
 
-      //initialize components
-      $(document).bind("pagebeforeshow",function(e){
-        e.page.setCollapsibleFooter();        
-        e.page.setSortableLines();        
-        e.page.deletableLines();        
-        e.page.makePanel();        
-      })
     });
 
   </script>

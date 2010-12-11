@@ -47,7 +47,7 @@ $(function(){
                 function() {panel.openPanel();$.mbile.refreshScroll();},
                 function() {panel.closePanel();$.mbile.refreshScroll();}
                 ).addTouch();
-      })
+      });
       $(this).data("initPanel",true);
     }
 
@@ -64,7 +64,7 @@ $(function(){
     $.mbile.refreshScroll();
   };
 
-  $.fn.makePanel=$.mbile.makePanel;
+  $.fn.makePanel_init=$.mbile.makePanel;
 
 });
 

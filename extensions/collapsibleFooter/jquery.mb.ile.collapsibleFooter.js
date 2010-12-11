@@ -30,9 +30,8 @@
 
 $(function(){
 
-  $.mbile.setCollapsibleFooter=function(){
+  $.mbile.collapsibleFooter=function(){
     if($.mbile){
-      $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/collapsibleFooter/collapsibleFooter.css");
 
       var collapsFooter = $("<span/>").addClass("collapsFooter").attr("collapsed", 0).html("&nbsp;");
       var footer = $(this).find("[data-role=footer][data-position=fixed]");
@@ -52,6 +51,6 @@ $(function(){
     }
   };
 
-  $.fn.setCollapsibleFooter=$.mbile.setCollapsibleFooter;
+  $.fn.collapsibleFooter_init=$.mbile.collapsibleFooter;
 
 });

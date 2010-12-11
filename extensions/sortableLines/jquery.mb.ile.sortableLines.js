@@ -55,7 +55,7 @@
 
 $(function(){
   if($.mbile){
-    $.mbile.setSortableLines=function(options) {
+    $.mbile.sortableLines=function(options) {
 
       var sortableEl=$(this).find("[data-role=sortable]")
               .add($(this).filter("[data-role=sortable]"));
@@ -103,6 +103,6 @@ $(function(){
     }
   }
 
-  $.fn.setSortableLines=$.mbile.setSortableLines;
+  $.fn.sortableLines_init=$.mbile.sortableLines;
 
 });
