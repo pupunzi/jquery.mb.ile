@@ -13,51 +13,53 @@
 
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-  <!-- iPhone Stuff -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- iPhone Stuff -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-  <title>mb.ile</title>
+    <title>mb.ile</title>
 
-  <link href="css/mbile.css" media="all" rel="stylesheet" type="text/css">
-  <link href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/mbile.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="inc/jquery.iphoneui.js"></script>
-  <script type="text/javascript" src="inc/iscroll.js"></script>
-  <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="inc/jquery.iphoneui.js"></script>
+    <script type="text/javascript" src="inc/iscroll.js"></script>
+    <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
 
-    //initializing the mb.ile framework
-    $(function(){
+        //initializing the mb.ile framework
+        $(function(){
 
-      //initialize extensions
-      $.mbile.addExtensions(
-              //[extension name, paramiters, CSS file exist]
-              ["collapsibleFooter","",true],
-              ["sortableLines","",true],
-              ["deletableLines","",true],
-              ["selectableLines","",true],              
-              ["makePanel","",true]
-              );
 
-      $.mbile.init({
-        startPage:"pages/start.html",
-        startupScreen: null,
-        slidingSections:true,
-        collapsibleFooter:true,
-        extensionsRoot:"extensions",
-        errorPage:"pages/error_page.html"
-      });
+            $.mbile.init({
+                startPage:"pages/start.html",
+                startupScreen: null,
+                slidingSections:true,
+                collapsibleFooter:true,
+                extensionsRoot:"extensions",
+                errorPage:"pages/error_page.html"
+            });
 
-    });
+            //initialize extensions
+            $.mbile.addExtensions(
+                //[extension name (string), paramiters (string), CSS file exist (boolean)]
+                    ["collapsibleFooter","",true],
+                    ["sortableLines","",true],
+                    ["deletableLines","",true],
+                    ["selectableLines","",true],
+                    ["makePanel","",true]
+                    );
 
-  </script>
+
+        });
+
+    </script>
 
 </head>
 <body>
@@ -66,10 +68,10 @@
 <div data-role="defaultHeader"><h1>mb.ile framework</h1></div>
 <div data-role="defaultFooter">
 
-  <div class="buttonBar column2">
-    <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');"><img src="elements/dark/icons/28-star.png"></span>
-    <span id="changeSkin" class="button" ><img src="elements/dark/icons/98-palette.png"></span>
-  </div>
+    <div class="buttonBar column2">
+        <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');"><img src="elements/dark/icons/28-star.png"></span>
+        <span id="changeSkin" class="button" ><img src="elements/dark/icons/98-palette.png"></span>
+    </div>
 
 </div>
 
@@ -77,19 +79,19 @@
 <!-- page in place-->
 <div id="testPage" data-role="page">
 
-  <div data-role="header"><h1>this is a Test page!</h1></div>
+    <div data-role="header"><h1>this is a Test page!</h1></div>
 
-  <div data-role="content">
-    <div data-role="box" class="contentSelectable">
-      <h1>Can you see me?</h1>
-      <p>
-        If YES that's great, you can create any page directly in the main page, manipulate content and than show it using all transitions and page features!
-      </p>
-      <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade',true);">start</button></div>
+    <div data-role="content">
+        <div data-role="box" class="contentSelectable">
+            <h1>Can you see me?</h1>
+            <p>
+                If YES that's great, you can create any page directly in the main page, manipulate content and than show it using all transitions and page features!
+            </p>
+            <div data-role="buttonBar" class="buttonBar right"><button data-role="button" data-inline="true" onclick="$.mbile.goToPage('pages/start.html','fade',true);">start</button></div>
+        </div>
     </div>
-  </div>
 
-  <script type="text/javascript"> $("#testPage").bind("pageshow",function(){alert("this alert is binded on 'pageshow' event of this page")}) </script>
+    <script type="text/javascript"> $("#testPage").bind("pageshow",function(){alert("this alert is binded on 'pageshow' event of this page")}) </script>
 
 </div>
 

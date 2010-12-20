@@ -33,8 +33,9 @@ $(function(){
   $.mbile.collapsibleFooter=function(){
     if($.mbile){
 
-      var collapsFooter = $("<span/>").addClass("collapsFooter").attr("collapsed", 0).html("&nbsp;");
       var footer = $(this).find("[data-role=footer][data-position=fixed]");
+      if(footer.attr("collapsableFooterInit")) return;
+      var collapsFooter = $("<span/>").addClass("collapsFooter").attr("collapsed", 0).html("&nbsp;");
       if(footer.length==0) return;
       footer.append(collapsFooter);
       footer.addClass("collapsibleFooter");
@@ -48,6 +49,7 @@ $(function(){
           el.attr("collapsed", 0)
         }
       });
+      footer.attr("collapsableFooterInit",true);
     }
   };
 

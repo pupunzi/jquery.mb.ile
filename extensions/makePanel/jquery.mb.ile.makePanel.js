@@ -34,8 +34,6 @@ $(function(){
     if($.mbile){
       var $panels = $(this).find("[data-role=panel]");
       if($(this).data("initPanel")) return;
-      $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/makePanel/makePanel.css");
-
 
       $panels.each(function() {
         var panelHeader = $(this).children().eq(0).addClass("header");

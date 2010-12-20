@@ -584,20 +584,18 @@ document.myScroll = null;
       alert(message);
     },
     incudeCSS:function(URL){
-
       var link=$("<link/>").attr({href:URL,type:"text/css", rel:"stylesheet"});
       $("head").append(link);
-      $.mbile.loadedExtensions[URL.asId()]=1;
-
     },
     addExtensions:function(){
       $.each(arguments,function(i){
         var name=this[0];
         var param=this[1];
-        var hasCSS=this[3];
+        var hasCSS=this[2];
         if(!$.mbile.loadedExtensions[name]){
           if(hasCSS)
             $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
+          console.debug($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
           $.getScript($.mbile.defaults.extensionsRoot+"/"+name+"/jquery.mb.ile."+name+".js",function(){
             $(document).bind("pagebeforeshow",function(e){
               var funct= "e.page."+name+"_init("+param+")";
