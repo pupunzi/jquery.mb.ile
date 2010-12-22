@@ -24,7 +24,7 @@
  * turn:
  * ---------------------------------
  *     when the device rotate
- *    $(document).bind("pagecreate",function(e){}); argument: e.orientation
+ *    $(document).bind("pagecreate",function(e){...}); argument: e.orientation
  *
  * pagecreate:
  * ---------------------------------
@@ -33,7 +33,7 @@
  *    [page].bind("pagecreate",function(e){...}); argument: e.page
  *
  *     when any page is created
- *    $(document).bind("pagecreate",function(e){}); argument: e.page
+ *    $(document).bind("pagecreate",function(e){...}); argument: e.page
  *
  * pagebeforeshow:
  * ---------------------------------
@@ -210,12 +210,30 @@ document.myScroll = null;
      * 2. create a method to change Data for the page call
      *
      * */
+
     goToPage:function(url, animation, addHistory, pageData) {
+
+      /*
+      if DATA are present remove the actual stored page
+      from te DOM to recreate it with new DATA
+      */
+
+      if (pageData)
+        $("#"+url.asId()).remove();
+
+      /*
+      if the called page is in the DOM but has DATA-RELOAD=TRUE
+      it's removed to be reloaded
+      */
+
+      if($("#"+url.asId()).is("[data-reload=true]"))
+        $("#"+url.asId()).remove();
 
       if (url.indexOf("#") < 0) {
         var id = url.asId();
 
-        // page is loaded when not present or with data passed
+        /* page is loaded when not present or with data passed */
+
         if ($("#" + id).size() <= 0 || pageData) {//
           $.ajax({
             type: "GET",
@@ -241,12 +259,13 @@ document.myScroll = null;
               newCandidatePage.addClass("offScreen");
               $("body").append(newCandidatePage);
 
-              //trigger event: pagecreate
+              /* trigger event: pagecreate */
+
               var pagecreate = $.Event("pagecreate");
               pagecreate.page = newCandidatePage;
               newCandidatePage.trigger(pagecreate);
 
-              /* the page is now loaded the goToPage will be called again to proceed */
+              /* the page is now loaded in the DOM and the goToPage will be called again to proceed */
 
               $.mbile.goToPage("#" + id, animation, addHistory, pageData);
             }
@@ -257,23 +276,33 @@ document.myScroll = null;
         }
       }
 
+      /* if the URL is inconsistent return */
+
       if (url == "#")
         return;
+
+      /* if a page is being shown return */
+
       if ($.mbile.pageIsChanging)
         return;
+
+      /* if the called page is the actual page shown return */
+
       if ($.mbile.actualPage && $.mbile.actualPage.attr("id") == id)
         return;
 
       $.mbile.pageIsChanging = true;
-      $.mbile.showPageLoading(1000);
+      $.mbile.showPageLoading(1000,false);
 
       var newPage = $(url).hide();
       var oldPage = $.mbile.actualPage;
 
 
-      // both old and new page are on the body
-      // fix bars, eventually add default bars, make scrollable, fix a href
-      // init the content of new page
+      /*
+      both old and new page are on the body
+      fix bars, eventually add default bars, make scrollable, fix a href
+      init the content of new page
+      */
 
       if (animation == undefined) {
         if (newPage.data("animation")) {
@@ -282,6 +311,7 @@ document.myScroll = null;
           animation = "slideleft";
         }
       }
+
       newPage.data("animation", animation);
 
       /* Add page to history */
@@ -300,7 +330,8 @@ document.myScroll = null;
 
       $.mbile.initContent(newPage);
 
-      //trigger event: pagebeforeshow
+      /* trigger event: pagebeforeshow */
+
       var pagebeforeshow = $.Event("pagebeforeshow");
       pagebeforeshow.page = newPage;
       pagebeforeshow.oldPage = oldPage;
@@ -311,7 +342,8 @@ document.myScroll = null;
         return;
       }
 
-      //trigger event: pagebeforehide
+      /* trigger event: pagebeforehide */
+
       if (oldPage){
         var pagebeforehide = $.Event("pagebeforehide");
         pagebeforehide.page = oldPage;
@@ -442,7 +474,7 @@ document.myScroll = null;
       var actualPageID = page.attr("id");
       if (page == undefined || !$.mbile.pages[actualPageID].prev || $.mbile.home == undefined || actualPageID == $.mbile.home.attr("id")) return;
 
-      var backBtn = $("<a class='backBtn back black'><span></span></a>").hide();
+      var backBtn = $("<a class='backBtn'><span></span></a>").hide();
       header.prepend(backBtn);
       var backBtnText = $.mbile.pages[actualPageID].prev && $.mbile.pages[actualPageID].prev != $.mbile.home.attr("id") ? "back" : "home";
       header.find(".backBtn").append(backBtnText).bind("mouseup", $.mbile.goBack);
@@ -475,7 +507,6 @@ document.myScroll = null;
       page.find("a").not("[rel=external]").each(function() {
         var link = $(this);
         link.parent(".line").setHover(page);
-
         var url = $(this).attr("href");
         if (url && (url.indexOf("javascript:") < 0 || !link.is("[rel=external]"))) {
           link.removeAttr("href");
@@ -583,10 +614,16 @@ document.myScroll = null;
     alert:function(message) {
       alert(message);
     },
-    incudeCSS:function(URL){
+
+    dialog:function(message) {
+
+    },
+
+    includeCSS:function(URL){
       var link=$("<link/>").attr({href:URL,type:"text/css", rel:"stylesheet"});
       $("head").append(link);
     },
+
     addExtensions:function(){
       $.each(arguments,function(i){
         var name=this[0];
@@ -594,7 +631,7 @@ document.myScroll = null;
         var hasCSS=this[2];
         if(!$.mbile.loadedExtensions[name]){
           if(hasCSS)
-            $.mbile.incudeCSS($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
+            $.mbile.includeCSS($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
           console.debug($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
           $.getScript($.mbile.defaults.extensionsRoot+"/"+name+"/jquery.mb.ile."+name+".js",function(){
             $(document).bind("pagebeforeshow",function(e){
@@ -606,7 +643,6 @@ document.myScroll = null;
         $.mbile.loadedExtensions[name]=name;
       });
     }
-
   };
 
   $.fn.goToPage = $.mbile.goToPage;
@@ -621,7 +657,6 @@ document.myScroll = null;
   $.fn.isOnPage = function() {
     return this.length > 0;
   };
-
 
   /* touch events */
 
@@ -652,6 +687,29 @@ document.myScroll = null;
         } else if (this.swipe.e < this.swipe.s - defaults.diff) {
           event.stopPropagation();
           defaults.swipeLeft(this);
+        }
+      }, false);
+    })
+  };
+
+  $.fn.tap = function(opt) {
+    var defaults = {
+      time:600,
+      tap:function(o) {}
+    };
+    $.extend(defaults, opt);
+    return this.each(function() {
+      this.tap = {s:0,e:0};
+      this.addEventListener('touchstart', function(event) {
+        event.preventDefault();
+        this.tap.s = new Date().getTime();
+      }, false);
+      this.addEventListener('touchend', function(event) {
+        event.preventDefault();
+        this.tap.e = new Date().getTime();
+        if (this.swipe.e - this.swipe.s >= defaults.time) {
+          event.stopPropagation();
+          defaults.tap(this);
         }
       }, false);
     })
@@ -696,19 +754,16 @@ document.myScroll = null;
     });
   };
 
-
   /* go to error page on any ajax error */
 
   $(function() {
     $(document).bind("ajaxError", function(ev) {
       $.mbile.pageIsChanging = false;
       console.debug("Error on ajax:",ev);
-      $.mbile.goToPage($.mbile.defaults.errorPage, "pop");
+
+      $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false,null);
+
     });
   });
-
-//    function alert(arg){
-//      $.mbile.alert(arg);
-//    };
 
 })(jQuery);

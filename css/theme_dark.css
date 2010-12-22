@@ -1,4 +1,7 @@
-
+/*backButton*/
+/*Buttons*/
+/*footer buttons*/
+/*Theme strucuture*/
 @page set"UTF-8";
 
 body {
@@ -236,6 +239,7 @@ div[data-role=content] [data-role=list] .line.hover {
 }
 div[data-role=content] [data-role=box] {
   /*Box*/
+
   font-size: 16px;
   background-image: -webkit-gradient(linear, 0% 0%, 16% 100%, from(rgba(255, 255, 255, 0.4)), to(#ffffff), color-stop(0.7, #c9c9c9));
   color: #000000;
@@ -335,27 +339,23 @@ form input[type=checkbox], form input[type=radio] {
   color: #fff;
   text-decoration: none;
   display: inline-block;
-  padding: 4px 10px;
-  margin-right: 10px;
   -webkit-border-radius: 5px;
   font: normal 14px/16px Helvetica, Arial, sans-serif;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-.backBtn.black {
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#9a9a9a), color-stop(0.5, #2c2d2d), color-stop(0.5, #222222), to(#222222));
   border: solid 1px rgba(79, 79, 79, 0.75);
+  position: relative;
+  padding: 4px 10px;
+  padding-left: 5px;
+  margin-left: 8px;
+  margin-right: 10px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-.backBtn.black.hover {
+.backBtn.hover {
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.5, #ffffff), color-stop(0.5, #ffffff), to(#ffffff));
   color: #000000;
 }
-.backBtn.back {
-  position: relative;
-  padding-left: 5px;
-  margin-left: 8px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-.back.black > span {
+.backBtn > span {
   background-image: -webkit-gradient(linear, left top, right bottom, from(#9a9a9a), color-stop(0.5, #2c2d2d), color-stop(0.5, #222222), to(#222222));
   border-left: solid 1px rgba(79, 79, 79, 0.75);
   border-bottom: solid 1px rgba(79, 79, 79, 0.75);
@@ -372,7 +372,7 @@ form input[type=checkbox], form input[type=radio] {
   -webkit-background-clip: content;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-.back.hover > span {
+.backBtn.hover > span {
   background-image: -webkit-gradient(linear, left top, right bottom, from(#ffffff), color-stop(0.5, #ffffff), color-stop(0.5, #ffffff), to(#ffffff));
 }
 /*Buttons*/

@@ -319,31 +319,25 @@ form {
   color: #fff;
   text-decoration: none;
   display: inline-block;
-  padding: 4px 10px;
-  margin-right:10px;
   -webkit-border-radius: 5px;
   font: normal 14px/16px Helvetica, Arial, sans-serif;
   -webkit-tap-highlight-color:rgba(0,0,0,0.0);
-}
-
-.backBtn.black {
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@backBtn1),color-stop(0.5, @backBtn2), color-stop(0.5, @backBtn3), to(@backBtn4));
   border: @backBtnBorder;
+  position: relative;
+  padding: 4px 10px;
+  padding-left: 5px;
+  margin-left: 8px;
+  margin-right:10px;
+  -webkit-tap-highlight-color:rgba(0,0,0,0.0);
 }
 
-.backBtn.black.hover {
+.backBtn.hover {
   background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(@backBtn1_hover),color-stop(0.5, @backBtn2_hover), color-stop(0.5, @backBtn3_hover), to(@backBtn4_hover));
   color:@color1;
 }
 
-.backBtn.back {
-  position: relative;
-  padding-left: 5px;
-  margin-left: 8px;
-  -webkit-tap-highlight-color:rgba(0,0,0,0.0);
-}
-
-.back.black > span {
+.backBtn > span {
   background-image: -webkit-gradient(linear, left top, right bottom, from(@backBtn1),color-stop(0.5, @backBtn2), color-stop(0.5, @backBtn3), to(@backBtn4));
   border-left: @backBtnBorder;
   border-bottom: @backBtnBorder;
@@ -361,9 +355,10 @@ form {
   -webkit-tap-highlight-color:rgba(0,0,0,0.0);
 }
 
-.back.hover > span {
+.backBtn.hover > span {
   background-image: -webkit-gradient(linear, left top, right bottom, from(@backBtn1_hover),color-stop(0.5, @backBtn2_hover), color-stop(0.5, @backBtn3_hover), to(@backBtn4_hover));
 }
+
 
 /*Buttons*/
 .buttonBar{
