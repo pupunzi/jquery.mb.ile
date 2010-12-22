@@ -8,8 +8,6 @@ body {
   height: 100%;
 }
 
-/*Header*/
-
 div[data-role=header] {
   height:@headerHeight;
   padding-left:@defaultPadding;
@@ -28,8 +26,6 @@ div[data-role=header] {
     text-overflow: ellipsis;
   }
 }
- 
-/*Footer*/
 
 div[data-role=footer] {
   margin-top:0;
@@ -52,7 +48,6 @@ div[data-role=footer][data-position=fixed]{
   margin-top:0-(@footerHeight);
 }
 
-/*Content*/
 div[data-role=content] {
 
   h1{
@@ -72,7 +67,6 @@ div[data-role=content] {
     font: 14px/18px Helvetica, Arial, sans-serif;
   }
 
-/*Blocks*/
   div[data-role=block] {
     display:block;
     padding:0;
@@ -98,7 +92,6 @@ div[data-role=content] {
     }
   }
 
-  /*Lines*/
   .line {
     display:block;
     position:relative;
@@ -129,25 +122,6 @@ div[data-role=content] {
       width:30px;
       height:30px;
       background: url("../elements/dark/link.png") no-repeat center center;
-    }
-  }
-
-  .line.deletable {
-    .delete{
-      position:absolute;
-      display:block;
-      width:60px;
-      height:30px;
-      right:10px;
-      bottom:6px;
-      cursor:pointer;
-      color:@color5;
-      text-align:center;
-      line-height:30px;
-    .shadow;
-    border:1px solid white;
-    background-image:-webkit-gradient(linear, 0% 0%, 0% 74%, from(#E00D23), to(#A3080D), color-stop(.5,#BA1627), color-stop(.7,#A6262A));
-    .roundedCorners (8px,8px,8px,8px);
     }
   }
 
@@ -194,7 +168,6 @@ div[data-role=content] {
     background: url("../elements/dark/selImg.png") no-repeat center center;
   }
 
-  /*List*/
   [data-role=list] {
     .line{
       min-height:35px;
@@ -222,7 +195,7 @@ div[data-role=content] {
     }
   }
 
-  [data-role=box]{ /*Box*/
+  [data-role=box]{
     font-size:16px;
     background-image:-webkit-gradient(linear, 0% 0%, 16% 100%, from(rgba(255,255,255,.4)), to(#FFFFFF), color-stop(.7,#C9C9C9));
     color:@color1;
@@ -261,7 +234,6 @@ div[data-role=section].fake {
   -webkit-box-shadow:0 1px 5px @shadowColor;
 }
 
-/*Form*/
 form {
   label{
     font:18px/25px Arial,Helvetica,sans-serif;
@@ -269,8 +241,6 @@ form {
     display:inline-block;
     width:40%;
   }
-
-
 
   input, select{
     padding:@defaultPadding;
@@ -314,7 +284,6 @@ form {
   }
 }
 
-/*BackButton*/
 .backBtn{
   color: #fff;
   text-decoration: none;
@@ -359,8 +328,6 @@ form {
   background-image: -webkit-gradient(linear, left top, right bottom, from(@backBtn1_hover),color-stop(0.5, @backBtn2_hover), color-stop(0.5, @backBtn3_hover), to(@backBtn4_hover));
 }
 
-
-/*Buttons*/
 .buttonBar{
   display:block;
   height:@buttonBarHeight;
@@ -395,7 +362,6 @@ button.hover, .button.hover{
   text-shadow:1px 1px 1px #fff;
 }
 
-/*Footer buttons*/
 [data-role=footer] .button{
   float:left;
   margin:0 0 0 1px;
@@ -423,7 +389,6 @@ button.hover, .button.hover{
   text-shadow:1px 1px 1px #fff;
 }
 
-/*loader*/
 div#loader {
   position:absolute;
   top:0;

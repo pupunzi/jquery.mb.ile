@@ -137,9 +137,8 @@ document.myScroll = null;
       var pages = $("[data-role=page]");
       pages.addClass("offScreen");
 
-      if (opt.startPage)
-        $.mbile.goToPage(opt.startPage);
-
+      var home=opt.startPage?opt.startPage:"#"+$("body").find("[data-role=page]:first").attr("id");
+      $.mbile.goToPage(home,"fade",false,false);
     },
 
     checkOrientation:function() {
@@ -806,10 +805,10 @@ document.myScroll = null;
 
   /* go to error page on any ajax error */
 
-    $(document).bind("ajaxError", function(ev) {
-      $.mbile.pageIsChanging = false;
-      console.debug("Error on ajax:",ev);
-      $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false,null);
-    });
+  $(document).bind("ajaxError", function(ev) {
+    $.mbile.pageIsChanging = false;
+    console.debug("Error on ajax:",ev);
+    $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false,null);
+  });
 
 })(jQuery);

@@ -189,6 +189,7 @@
                 .mouseup(function(){$(this).removeClass("hover")})
                 .addTouch();
       $("#bookmarkme").hide();
+
       if(!window.navigator.standalone && !document.isAndroid){
         $("#bookmarkme").show();
         setTimeout(function(){$("#bookmarkme").fadeOut(800)},7000)
