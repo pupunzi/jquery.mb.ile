@@ -1,6 +1,6 @@
 h1. mb.ile
 
-[[http://pupunzi.com/gitHub/mb.ile.png]]
+[[http://pupunzi.files.wordpress.com/2010/11/mb-ile2.jpg?w=620&h=380&crop=1]]
 
 h2. A jQuery framework for mobile applications.
 
