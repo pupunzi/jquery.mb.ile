@@ -213,18 +213,22 @@ document.myScroll = null;
 
     goToPage:function(url, animation, addHistory, pageData) {
 
+      /* if the URL is inconsistent (neither an ID or a real URL) return */
+
+      if(url=="#") return;
+
       /*
-      if DATA are present remove the actual stored page
-      from te DOM to recreate it with new DATA
-      */
+       if DATA are present remove the actual stored page
+       from te DOM to recreate it with new DATA
+       */
 
       if (pageData)
         $("#"+url.asId()).remove();
 
       /*
-      if the called page is in the DOM but has DATA-RELOAD=TRUE
-      it's removed to be reloaded
-      */
+       if the called page is in the DOM but has DATA-RELOAD=TRUE
+       it's removed to be reloaded
+       */
 
       if($("#"+url.asId()).is("[data-reload=true]"))
         $("#"+url.asId()).remove();
@@ -299,10 +303,10 @@ document.myScroll = null;
 
 
       /*
-      both old and new page are on the body
-      fix bars, eventually add default bars, make scrollable, fix a href
-      init the content of new page
-      */
+       both old and new page are on the body
+       fix bars, eventually add default bars, make scrollable, fix a href
+       init the content of new page
+       */
 
       if (animation == undefined) {
         if (newPage.data("animation")) {
@@ -569,7 +573,7 @@ document.myScroll = null;
       if(page.data("inited")) return;
       this.bind("mousedown", function() {
         $(this).addClass("hover"); })
-              .bind("mouseup", function() {$(this).removeClass("hover")});
+          .bind("mouseup", function() {$(this).removeClass("hover")});
       if (document.transitionEnabled)
         $(this).addTouch();
     },
@@ -632,7 +636,6 @@ document.myScroll = null;
         if(!$.mbile.loadedExtensions[name]){
           if(hasCSS)
             $.mbile.includeCSS($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
-          console.debug($.mbile.defaults.extensionsRoot+"/"+name+"/"+name+".css");
           $.getScript($.mbile.defaults.extensionsRoot+"/"+name+"/jquery.mb.ile."+name+".js",function(){
             $(document).bind("pagebeforeshow",function(e){
               var funct= "e.page."+name+"_init("+param+")";
@@ -659,6 +662,53 @@ document.myScroll = null;
   };
 
   /* touch events */
+
+
+
+  $.fn.addTouch = function()
+  {
+    this.each(function(i,el){
+      $(el).bind('touchstart touchmove touchend touchcancel',function(){
+
+        //we pass the original event object because the jQuery event
+        //object is normalized to w3c specs and does not provide the TouchList
+
+        handleTouch(event);
+      });
+    });
+
+    var handleTouch = function(event)
+    {
+      var touches = event.changedTouches,
+          first = touches[0],
+          type = '';
+
+      switch(event.type)
+      {
+        case 'touchstart':
+          type = 'mousedown';
+          break;
+
+        case 'touchmove':
+          type = 'mousemove';
+          break;
+
+        case 'touchend':
+          type = 'mouseup';
+          break;
+
+        default:
+          return;
+      }
+
+      var simulatedEvent = document.createEvent('MouseEvent');
+      simulatedEvent.initMouseEvent(type, true, true, window, 1, first.screenX, first.screenY, first.clientX, first.clientY, false, false, false, false, 0/*left*/, null);
+
+      first.target.dispatchEvent(simulatedEvent);
+
+      event.preventDefault();
+    };
+  };
 
   $.fn.swipe = function(opt) {
     var defaults = {
@@ -756,14 +806,10 @@ document.myScroll = null;
 
   /* go to error page on any ajax error */
 
-  $(function() {
     $(document).bind("ajaxError", function(ev) {
       $.mbile.pageIsChanging = false;
       console.debug("Error on ajax:",ev);
-
       $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false,null);
-
     });
-  });
 
 })(jQuery);
