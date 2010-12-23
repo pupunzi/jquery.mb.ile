@@ -187,6 +187,7 @@ document.myScroll = null;
 
       if (document.transitionEnabled) {
         //wraps content into a scrollable wrapper
+        $("*").css({"text-rendering":"optimizeLegibility","-webkit-backface-visibility":"hidden"});
         $.mbile.setHeight(page);
         if ($.mbile.defaults.slidingSections)
           $.mbile.setSectionBehavior(page);
@@ -197,7 +198,7 @@ document.myScroll = null;
         $.mbile.refreshScroll();
       } else {
         $("body").addClass("noTransition");
-        $.setFixed(page);
+        //$.setFixed(page);
       }
 
       page.data("inited", true);
@@ -229,8 +230,6 @@ document.myScroll = null;
        it's removed to be reloaded
        */
 
-      if($("#"+url.asId()).is("[data-reload=true]"))
-        $("#"+url.asId()).remove();
 
       if (url.indexOf("#") < 0) {
         var id = url.asId();
@@ -318,6 +317,7 @@ document.myScroll = null;
       newPage.data("animation", animation);
 
       /* Add page to history */
+      /* todo: add also the URL of the page in the case it is removed from the DOM */
 
       if (addHistory == undefined) addHistory = true;
 
@@ -418,6 +418,7 @@ document.myScroll = null;
           var pagehide = $.Event("pagehide");
           pagehide.newPage = newP;
           oldPage.trigger(pagehide);
+          //if (oldPage.is("[data-reload=true]")) oldPage.remove()
         }
 
         $.mbile.pageIsChanging = false;
