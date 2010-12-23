@@ -206,8 +206,7 @@ document.myScroll = null;
 
     /*todo:
      *
-     * 1. add a "force-reload" property to remove the page from the DOM on page leave
-     * 2. create a method to change Data for the page call
+     * 1. create a method to change Data for the page call
      *
      * */
 
