@@ -85,6 +85,7 @@ document.myScroll = null;
     author:"Matteo Bicocchi",
     version:"0.2 alpha",
     defaults:{
+      persistInDom:true,
       startPage:null,
       startupScreen: false,
       icon:false,
@@ -210,7 +211,7 @@ document.myScroll = null;
      *
      * */
 
-    goToPage:function(url, animation, addHistory, pageData) {
+    goToPage:function(url, animation, addHistory, pageData, originalUrl) {
 
       /* if the URL is inconsistent (neither an ID or a real URL) return */
 
@@ -229,9 +230,9 @@ document.myScroll = null;
        it's removed to be reloaded
        */
 
-
       if (url.indexOf("#") < 0) {
         var id = url.asId();
+
 
         /* page is loaded when not present or with data passed */
 
@@ -268,7 +269,7 @@ document.myScroll = null;
 
               /* the page is now loaded in the DOM and the goToPage will be called again to proceed */
 
-              $.mbile.goToPage("#" + id, animation, addHistory, pageData);
+              $.mbile.goToPage("#" + id, animation, addHistory, pageData, url);
             }
           });
           return;
@@ -322,8 +323,9 @@ document.myScroll = null;
 
       if (!$.mbile.pages[newPage.attr("id")])
         $.mbile.pages[newPage.attr("id")] = {};
+
       if (oldPage && addHistory) {
-        $.extend($.mbile.pages[newPage.attr("id")], {prev:oldPage.attr("id"),data:oldPage.data("pageData"),anim:animation,scroll:document.myScroll ? document.myScroll.actualY : 0});
+        $.extend($.mbile.pages[newPage.attr("id")], {url:originalUrl,prev:oldPage.attr("id"),data:oldPage.data("pageData"),anim:animation,scroll:document.myScroll ? document.myScroll.actualY : 0});
       }
 
       if (oldPage && document.myScroll) {
@@ -387,15 +389,17 @@ document.myScroll = null;
           $("body").show();
           newPage.fadeIn(500, function() {
             $.mbile.home = newPage;
+            $.mbile.home.url = originalUrl;
             transitionCompleted(oldPage, newPage, animation);
           });
         }
 
       } else {
 
-        if (!oldPage)
+        if (!oldPage){
           $.mbile.home = newPage;
-        else
+          $.mbile.home.url = originalUrl;
+        }else
           oldPage.fadeOut(500);
 
         newPage.fadeIn(500);
@@ -416,8 +420,10 @@ document.myScroll = null;
         if (oldP){
           var pagehide = $.Event("pagehide");
           pagehide.newPage = newP;
-          oldPage.trigger(pagehide);
-          //if (oldPage.is("[data-reload=true]")) oldPage.remove()
+          oldP.trigger(pagehide);
+
+          if (oldP.is("[data-persist=false]"))
+            oldP.remove();
         }
 
         $.mbile.pageIsChanging = false;
@@ -486,10 +492,23 @@ document.myScroll = null;
 
     goBack:function() {
       var actualPage = $.mbile.actualPage.attr("id");
-      var url = $.mbile.pages[actualPage].prev ? $.mbile.pages[actualPage].prev : $.mbile.home.attr("id");
+      var actualPageHistory=$.mbile.pages[actualPage];
+      var home="#"+ $.mbile.home.attr("id");
+      var url = actualPageHistory.prev ? "#"+actualPageHistory.prev : home;
+/*
+      console.debug(url);
+      console.debug("actualPage::  ",actualPage);
+      console.debug("pages", $.mbile.pages);
+      console.debug("actualPageHistory", actualPageHistory);
+*/
+
+      if($(url).length==0)
+        url = $.mbile.pages[actualPageHistory.prev].url ? $.mbile.pages[actualPageHistory.prev].url:$.mbile.home.url;
+//      console.debug($.mbile.pages[actualPageHistory.prev].url);
+
       var anim = $.mbile.pages[actualPage].anim;
       var pageData = $.mbile.pages[actualPage].data;
-      $(this).goToPage("#" + url, $.mbile.getBackAnim(anim), false, pageData);
+      $(this).goToPage(url, $.mbile.getBackAnim(anim), false, pageData);
     },
 
     setHeaderFooterBehavior:function(page) {
@@ -808,7 +827,7 @@ document.myScroll = null;
   $(document).bind("ajaxError", function(ev) {
     $.mbile.pageIsChanging = false;
     console.debug("Error on ajax:",ev);
-    $.mbile.goToPage($.mbile.defaults.errorPage,"pop",false,null);
+    $.mbile.goToPage($.mbile.defaults.errorPage,"pop",true,null);
   });
 
 })(jQuery);
