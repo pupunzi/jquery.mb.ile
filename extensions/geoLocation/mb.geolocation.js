@@ -2,7 +2,7 @@
  *
  * jQuery.mb.components: jquery.mbMobile extension -> mb.geolocation.js
  * version: 1- 19-nov-2010 - 33
- * © 2001 - 2010 Matteo Bicocchi (pupunzi), Open Lab
+ * © 2001 - 2011 Matteo Bicocchi (pupunzi), Open Lab
  *
  * Licences: MIT, GPL
  * http://www.opensource.org/licenses/mit-license.php

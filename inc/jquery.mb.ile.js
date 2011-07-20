@@ -2,7 +2,7 @@
  *
  * jQuery.mb.components: jquery.mb.ile
  * version: 1.0 alpha - 12-nov-2010 - 48
- * © 2001 - 2010 Matteo Bicocchi (pupunzi), Open Lab
+ * © 2001 - 2011 Matteo Bicocchi (pupunzi), Open Lab
  *
  * Licences: MIT, GPL
  * http://www.opensource.org/licenses/mit-license.php
@@ -236,7 +236,7 @@ document.myScroll = null;
 
         /* page is loaded when not present or with data passed */
 
-        if ($("#" + id).size() <= 0 || pageData) {//
+        if ($("#" + id).size() <= 0 || pageData) {
           $.ajax({
             type: "GET",
             url: url,
