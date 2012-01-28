@@ -155,8 +155,8 @@
 
   <div data-role="content">
 
-    <h1>Welcome to <br><b>mb.ile</b> framework!</h1>
-    <!--h3>A short cut for developing your mobile web App.</h3-->
+		<h1>Welcome to <br><b>mb.ile</b> framework!</h1>
+		<!--h3>A short cut for developing your mobile web App.</h3-->
 
     <div class="start clone">
       <span class="go"></span>
@@ -185,11 +185,10 @@
         page.find(".go")
                 .hide()
                 .fadeIn(2000)
-                .mousedown(function(){$(this).addClass("hover")})
-                .mouseup(function(){$(this).removeClass("hover")})
+                .bind("mousedown",function(){$(this).addClass("hover")})
+                .bind("mouseup",function(){$(this).removeClass("hover")})
                 .addTouch();
       $("#bookmarkme").hide();
-
       if(!window.navigator.standalone && !document.isAndroid){
         $("#bookmarkme").show();
         setTimeout(function(){$("#bookmarkme").fadeOut(800)},7000)

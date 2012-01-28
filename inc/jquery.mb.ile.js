@@ -199,7 +199,6 @@ document.myScroll = null;
         $.mbile.refreshScroll();
       } else {
         $("body").addClass("noTransition");
-        //$.setFixed(page);
       }
 
       page.data("inited", true);
@@ -232,7 +231,6 @@ document.myScroll = null;
 
       if (url.indexOf("#") < 0) {
         var id = url.asId();
-
 
         /* page is loaded when not present or with data passed */
 
@@ -540,10 +538,15 @@ document.myScroll = null;
           });
         }
       });
+/*
+			
       $("[onclick]").each(function() {
         var action = $(this).attr("onclick");
-        $(this).removeAttr("onclick").bind("mouseup", action);
+        $(this).bind("mouseup", action).removeAttr("onclick");
       });
+*/
+
+			//$("[onclick]").addTouch();
     },
 
     setFormBehavior:function(page){
@@ -680,8 +683,6 @@ document.myScroll = null;
   };
 
   /* touch events */
-
-
 
   $.fn.addTouch = function()
   {
