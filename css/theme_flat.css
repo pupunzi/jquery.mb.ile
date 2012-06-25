@@ -1,9 +1,19 @@
+/*
+ * jquery.mb.components
+ * Copyright (c) 2001-2012. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ * email: mbicocchi@open-lab.com
+ * site: http://pupunzi.com
+ *
+ * Licences: MIT, GPL
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ */
+
 /*backButton*/
 /*Buttons*/
 /*footer buttons*/
 /*Theme strucuture*/
-@page set"UTF-8";
-
+@charset "UTF-8";
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -241,7 +251,8 @@ form label {
   display: inline-block;
   width: 40%;
 }
-form input, form select {
+form input,
+form select {
   padding: 5px;
   background: rgba(255, 255, 255, 0.7);
   border: none;
@@ -264,7 +275,8 @@ form input, form select {
 form input[type=number] {
   width: 50%;
 }
-form input[type=checkbox], form input[type=radio] {
+form input[type=checkbox],
+form input[type=radio] {
   width: 25px;
   height: 25px;
 }
@@ -288,7 +300,8 @@ form textarea {
   border-bottom-right-radius: 8px;
   -webkit-text-size-adjust: 120%;
 }
-form input[type=checkbox], form input[type=radio] {
+form input[type=checkbox],
+form input[type=radio] {
   padding: 5px;
   background: #000000;
   border: none;
@@ -339,7 +352,8 @@ form input[type=checkbox], form input[type=radio] {
   height: 44px;
   width: 100%;
 }
-button, .button {
+button,
+.button {
   display: inline-block;
   padding: 5px 10px 8px 10px;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#9a9a9a), color-stop(0.5, #2c2d2d), color-stop(0.5, #222222), to(#222222));
@@ -364,10 +378,12 @@ button, .button {
   border-bottom-right-radius: 10px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
-button.light, .button.light {
+button.light,
+.button.light {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), color-stop(0.5, #666666), color-stop(0.5, #666666), to(#666666));
 }
-button.hover, .button.hover {
+button.hover,
+.button.hover {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.5, #ffffff), color-stop(0.5, #ffffff), to(#ffffff));
   border: 2px solid #f3f3f3;
   color: #000000;
