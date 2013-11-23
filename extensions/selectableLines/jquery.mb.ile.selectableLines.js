@@ -14,7 +14,7 @@
  *  http://www.opensource.org/licenses/mit-license.php
  *  http://www.gnu.org/licenses/gpl.html
  *
- *  last modified: 04/01/13 17.13
+ *  last modified: 02/10/13 22.42
  *  *****************************************************************************
  */
 
@@ -37,46 +37,59 @@
  * */
 $(function(){
 
-  $.mbile.selectableLines=function(){
-    if($.mbile){
-      var selectables = $(this).find("[data-role=selectable]");
+	$.mbile.selectableLines=function(){
+		if($.mbile){
+			var selectables = $(this).find("[data-role=selectable]");
 
-      selectables.each(function() {
-        var $selectableBlock=$(this);
-        var selected=[];
-        $selectableBlock.data("selected","");
-        if($selectableBlock.attr("selectableInit")) return;
+			selectables.each(function() {
+				var $selectableBlock=$(this);
+				var selected=[];
+				$selectableBlock.data("selected","");
+				if($selectableBlock.attr("selectableInit")) return;
 
 
-        var selectableElements=$selectableBlock.children();
-        selectableElements.each(function(){
+				var selectableElements=$selectableBlock.children();
+				selectableElements.each(function(){
 
-          var el=this;
-          var $el=$(el);
+					var el=this;
+					var $el=$(el);
 
-          $el.addClass("selectable");
-          var selImg = $("<span/>").addClass("selImg");
-          $el.append(selImg);
-          
-          $el.click(function(){
+					$el.addClass("selectable");
+					var selImg = $("<span/>").addClass("selImg");
+					$el.append(selImg);
 
-            if($el.hasClass("selected")){
-              $el.removeClass("selected");
-              var idx= $.inArray(el.id,selected);
-              if(idx!=-1) selected.splice(idx,1);
-            }else{
-              $el.addClass("selected");
-              selected.push(el.id);
+					$el.on($.mbile.events.start,function(e){
+						var touch = event
+						if(document.isTouch)
+							touch = event.changedTouches[0];
+						document.x = touch.clientX;
+						document.y = touch.clientY;
+					});
 
-            }
-            $selectableBlock.data("selected",selected);
-          }).addTouch();
-        });
-        
-        $selectableBlock.attr("selectableInit",true);
-      });
-    }
-  };
+					$el.on($.mbile.events.end,function(e){
+						var touch = event;
+						if(document.isTouch)
+							touch = event.changedTouches[0];
+						if(touch.clientY > document.y+20 || touch.clientY < document.y-20 || touch.clientX > document.x+20 || touch.clientX < document.x-20)
+							return;
 
-  $.fn.selectableLines_init=$.mbile.selectableLines;
+						if($el.hasClass("selected")){
+							$el.removeClass("selected");
+							var idx= $.inArray(el.id,selected);
+							if(idx!=-1) selected.splice(idx,1);
+						}else{
+							$el.addClass("selected");
+							selected.push(el.id);
+
+						}
+						$selectableBlock.data("selected",selected);
+					}).addTouch();
+				});
+
+				$selectableBlock.attr("selectableInit",true);
+			});
+		}
+	};
+
+	$.fn.selectableLines_init=$.mbile.selectableLines;
 });

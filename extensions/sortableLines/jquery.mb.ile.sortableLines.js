@@ -14,7 +14,7 @@
  *  http://www.opensource.org/licenses/mit-license.php
  *  http://www.gnu.org/licenses/gpl.html
  *
- *  last modified: 04/01/13 17.13
+ *  last modified: 02/10/13 22.42
  *  *****************************************************************************
  */
 
@@ -77,6 +77,7 @@ $(function(){
 
       sortableEl.each(function(){
         var sortableBlock=$(this);
+	      //sortableBlock.addTouch();
         sortableBlock.data("sortOrder","");
 
         if(sortableBlock.attr("sortableInit")) return;
@@ -84,11 +85,9 @@ $(function(){
         sortableBlock.children().each(function() {
           var handle = $("<span/>").addClass("handle").html("&nbsp;");
           $(this).append(handle);
-          handle.bind("mousedown", function() {
-            if(document.iScroll)
-              document.iScroll.enabled = false;
-          });
+
         });
+
         sortableBlock.sortable({
           helper:"clone",
           axis: 'y',
@@ -96,13 +95,19 @@ $(function(){
           start: function(event, ui) {
             $(ui.helper).addClass("sortableClone selected");
             $($.mbile.defaults.body).append(ui.helper);
+
+	          if(document.mbileScroll)
+		          document.mbileScroll.disable();
           },
           stop: function(event, ui) {
-            event.stopPropagation();
-            if(document.iScroll)
-              document.iScroll.enabled = true;
+
+            if(document.mbileScroll)
+	            document.mbileScroll.enable();
+
             sortableBlock.data("sortOrder",sortableBlock.sortable("toArray"));
             opt.sortEnd(sortableBlock.data("sortOrder"));
+	          event.stopPropagation();
+
           }
         });
         sortableBlock.attr("sortableInit",true);

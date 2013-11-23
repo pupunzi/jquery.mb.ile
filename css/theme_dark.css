@@ -14,7 +14,7 @@
  *  http://www.opensource.org/licenses/mit-license.php
  *  http://www.gnu.org/licenses/gpl.html
  *
- *  last modified: 04/01/13 17.13
+ *  last modified: 02/10/13 22.42
  *  *****************************************************************************
  */
 
@@ -22,12 +22,12 @@
 /*Buttons*/
 /*footer buttons*/
 /*Theme strucuture*/
-@charset "UTF-8";
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 14px;
-  background: #000000 url("../elements/bgnd.jpg");
+  background: #7d0104;
   background-attachment: fixed;
   background-size: 100%;
   height: 100%;
@@ -244,8 +244,7 @@ div[data-role=section] {
   background-color: rgba(255, 255, 255, 0.3);
 }
 div[data-role=section].fake {
-  margin: 0;
-  margin-bottom: 1px;
+  margin: 44px 0 1px;
   height: 25px;
   font: 18px/25px Arial, Helvetica, sans-serif;
   padding: 5px;
@@ -260,8 +259,7 @@ form label {
   display: inline-block;
   width: 40%;
 }
-form input,
-form select {
+form input, form select {
   padding: 5px;
   background: rgba(255, 255, 255, 0.7);
   border: none;
@@ -284,8 +282,7 @@ form select {
 form input[type=number] {
   width: 50%;
 }
-form input[type=checkbox],
-form input[type=radio] {
+form input[type=checkbox], form input[type=radio] {
   width: 25px;
   height: 25px;
 }
@@ -309,8 +306,7 @@ form textarea {
   border-bottom-right-radius: 8px;
   -webkit-text-size-adjust: 120%;
 }
-form input[type=checkbox],
-form input[type=radio] {
+form input[type=checkbox], form input[type=radio] {
   padding: 5px;
   background: #000000;
   border: none;
@@ -361,8 +357,7 @@ form input[type=radio] {
   height: 44px;
   width: 100%;
 }
-button,
-.button {
+button, .button {
   display: inline-block;
   padding: 5px 10px 8px 10px;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#9a9a9a), color-stop(0.5, #2c2d2d), color-stop(0.5, #222222), to(#222222));
@@ -387,12 +382,10 @@ button,
   border-bottom-right-radius: 10px;
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px;
 }
-button.light,
-.button.light {
+button.light, .button.light {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#666666), color-stop(0.5, #666666), color-stop(0.5, #666666), to(#666666));
 }
-button.hover,
-.button.hover {
+button.hover, .button.hover {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), color-stop(0.5, #ffffff), color-stop(0.5, #ffffff), to(#ffffff));
   border: 2px solid #f3f3f3;
   color: #000000;
@@ -424,12 +417,12 @@ button.hover,
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#000000));
   color: #cccccc;
 }
-[data-role=footer] .button.selected {
-  background: #000000;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000000), to(#000000));
-  color: #555555;
-  text-shadow: 1px 1px 1px #fff;
+
+[data-role=footer] .button.sel {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#000000));
+  color: #cccccc;
 }
+
 div#loader {
   position: absolute;
   top: 0;

@@ -14,7 +14,7 @@
  *  http://www.opensource.org/licenses/mit-license.php
  *  http://www.gnu.org/licenses/gpl.html
  *
- *  last modified: 04/01/13 17.13
+ *  last modified: 02/10/13 22.42
  *  *****************************************************************************
  */
 
@@ -101,7 +101,7 @@ $(function(){
       });
 
       var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
-      $del.bind("click",function(){
+      $del.bind($.mbile.events.end,function(){
 
         // callback before delete row that can return false to stop the action
         var canGoOn=opt.beforeDelete(line.attr("id"));
