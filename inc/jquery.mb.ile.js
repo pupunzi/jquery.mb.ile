@@ -642,16 +642,16 @@ $("body").css({opacity:0});
 					var hasHistory = link.data("hasHistory");
 					var pageData = link.data("parameters");
 					link.on($.mbile.events.start,function(e){
-						touch = event;
+						touch = e;
 						if(document.isTouch)
-							var touch = event.changedTouches[0];
+							var touch = e.changedTouches[0];
 						document.x = touch.clientX;
 						document.y = touch.clientY;
 					})
 					link.on($.mbile.events.end,function(e){
-						touch = event;
+						touch = e;
 						if(document.isTouch)
-							var touch = event.changedTouches[0];
+							var touch = e.changedTouches[0];
 						if(touch.clientY > document.y+20 || touch.clientY < document.y-20 || touch.clientX > document.x+20 || touch.clientX < document.x-20)
 							return;
 
