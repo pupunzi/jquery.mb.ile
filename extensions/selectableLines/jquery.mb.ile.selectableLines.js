@@ -1,22 +1,13 @@
-/*
- * ******************************************************************************
- *  jquery.mb.components
- *  file: jquery.mb.ile.selectableLines.js
- *
- *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
- *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
- *  site: 	http://pupunzi.com
- *  blog:	http://pupunzi.open-lab.com
- * 	http://open-lab.com
- *
- *  Licences: MIT, GPL
- *  http://www.opensource.org/licenses/mit-license.php
- *  http://www.gnu.org/licenses/gpl.html
- *
- *  last modified: 07/01/14 22.50
- *  *****************************************************************************
- */
+/*******************************************************************************
+ jquery.mb.components
+ Copyright (c) 2001-2011. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ email: mbicocchi@open-lab.com
+ site: http://pupunzi.com
+
+ Licences: MIT, GPL
+ http://www.opensource.org/licenses/mit-license.php
+ http://www.gnu.org/licenses/gpl.html
+ ******************************************************************************/
 
 /*Set panel Behavior*/
 
@@ -35,10 +26,9 @@
  *
  * this will be applied whenever a loaded page contains a [data-role=panel] container and take the first element as header of the panel.
  * */
-$(function(){
-
-	$.mbile.selectableLines=function(){
-		if($.mbile){
+(function($) {
+	if($.mbile){
+		$.mbile.selectableLines=function(){
 			var selectables = $(this).find("[data-role=selectable]");
 
 			selectables.each(function() {
@@ -58,20 +48,7 @@ $(function(){
 					var selImg = $("<span/>").addClass("selImg");
 					$el.append(selImg);
 
-					$el.on($.mbile.events.start,function(e){
-						var touch = event
-						if(document.isTouch)
-							touch = event.changedTouches[0];
-						document.x = touch.clientX;
-						document.y = touch.clientY;
-					});
-
-					$el.on($.mbile.events.end,function(e){
-						var touch = event;
-						if(document.isTouch)
-							touch = event.changedTouches[0];
-						if(touch.clientY > document.y+20 || touch.clientY < document.y-20 || touch.clientX > document.x+20 || touch.clientX < document.x-20)
-							return;
+					$el.click(function(){
 
 						if($el.hasClass("selected")){
 							$el.removeClass("selected");
@@ -88,8 +65,8 @@ $(function(){
 
 				$selectableBlock.attr("selectableInit",true);
 			});
-		}
-	};
+		};
+		$.fn.selectableLines_init=$.mbile.selectableLines;
+	}
 
-	$.fn.selectableLines_init=$.mbile.selectableLines;
-});
+})(jQuery);

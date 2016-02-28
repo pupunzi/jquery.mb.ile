@@ -1,22 +1,13 @@
-/*
- * ******************************************************************************
- *  jquery.mb.components
- *  file: jquery.mb.ile.makePanel.js
- *
- *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
- *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
- *  site: 	http://pupunzi.com
- *  blog:	http://pupunzi.open-lab.com
- * 	http://open-lab.com
- *
- *  Licences: MIT, GPL
- *  http://www.opensource.org/licenses/mit-license.php
- *  http://www.gnu.org/licenses/gpl.html
- *
- *  last modified: 07/01/14 22.50
- *  *****************************************************************************
- */
+/*******************************************************************************
+ jquery.mb.components
+ Copyright (c) 2001-2011. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ email: mbicocchi@open-lab.com
+ site: http://pupunzi.com
+
+ Licences: MIT, GPL
+ http://www.opensource.org/licenses/mit-license.php
+ http://www.gnu.org/licenses/gpl.html
+ ******************************************************************************/
 
 /*Set panel Behavior*/
 
@@ -36,44 +27,40 @@
  * this will be applied whenever a loaded page contains a [data-role=panel] container and take the first element as header of the panel.
  * */
 
+(function($) {
+	if($.mbile){
+		$.mbile.makePanel=function(){
+			var $panels = $(this).find("[data-role=panel]");
+			if($(this).data("initPanel")) return;
 
-$(function(){
+			$panels.each(function() {
+				var panelHeader = $(this).children().eq(0).addClass("header");
+				var panel = $(this).children().eq(1).addClass("panelContent").hide();
 
-  $.mbile.makePanel=function(){
-    if($.mbile){
-      var $panels = $(this).find("[data-role=panel]");
-      if($(this).data("initPanel")) return;
+				var panelImg = $("<span/>").addClass("panelImg");
+				panelHeader.append(panelImg);
+				panelHeader.toggle(
+						function() {panel.openPanel();$.mbile.refreshScroll();},
+						function() {panel.closePanel();$.mbile.refreshScroll();}
+				).addTouch();
+			});
+			$(this).data("initPanel",true);
 
-      $panels.each(function() {
-        var panelHeader = $(this).children().eq(0).addClass("header");
-        var panel = $(this).children().eq(1).addClass("panelContent").hide();
+		};
 
-        var panelImg = $("<span/>").addClass("panelImg");
-        panelHeader.append(panelImg);
-        panelHeader.toggle(
-                function() {panel.openPanel();$.mbile.refreshScroll();},
-                function() {panel.closePanel();$.mbile.refreshScroll();}
-                ).addTouch();
-      });
-      $(this).data("initPanel",true);
-    }
+		$.fn.openPanel = function() {
+			this.prev().addClass("selected");
+			this.show();
+			$.mbile.refreshScroll();
+		};
+		$.fn.closePanel = function() {
+			this.prev().removeClass("selected");
+			this.hide();
+			$.mbile.refreshScroll();
+		};
 
-  };
-
-  $.fn.openPanel = function() {
-    this.prev().addClass("selected");
-    this.show();
-    $.mbile.refreshScroll();
-  };
-  $.fn.closePanel = function() {
-    this.prev().removeClass("selected");
-    this.hide();
-    $.mbile.refreshScroll();
-  };
-
-  $.fn.makePanel_init=$.mbile.makePanel;
-
-});
-
+		$.fn.makePanel_init=$.mbile.makePanel;
+	}
+})(jQuery);
 
 

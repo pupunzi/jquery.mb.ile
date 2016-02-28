@@ -1,68 +1,34 @@
 <!doctype html>
 
 <!--
-  ~ /*******************************************************************************
-  ~  jquery.mb.components
-  ~  file: index.html
+  ~ jquery.mb.components
+  ~ Copyright (c) 2001-2011. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+  ~ email: info@pupunzi.com
+  ~ site: http://pupunzi.com
   ~
-  ~  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
-  ~  Open lab srl, Firenze - Italy
-  ~  email: matteo@open-lab.com
-  ~  site: 	http://pupunzi.com
-  ~  blog:	http://pupunzi.open-lab.com
-  ~ 	http://open-lab.com
-  ~
-  ~  Licences: MIT, GPL
-  ~  http://www.opensource.org/licenses/mit-license.php
-  ~  http://www.gnu.org/licenses/gpl.html
-  ~
-  ~  last modified: 07/01/14 22.50
-  ~  ******************************************************************************/
+  ~ Licences: MIT, GPL
+  ~ http://www.opensource.org/licenses/mit-license.php
+  ~ http://www.gnu.org/licenses/gpl.html
   -->
 
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 
     <!-- iPhone Stuff -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-    <link rel="apple-touch-startup-image" href="css/elements/launcherBackground.jpg"/>
+    <title>mb.ile</title>
 
-    <!-- iPhone -->
-    <link href="css/elements/launcherBackground.png" media="(device-width: 320px)" rel="apple-touch-startup-image">
-    <!-- iPhone (Retina) -->
-    <link href="css/elements/launcherBackground.png" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <!-- iPhone 5 -->
-    <link href="css/elements/launcherBackground-iphone5.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <!-- iPad (portrait) -->
-    <link href="css/elements/launcherBackground-ipad.png" media="(device-width: 768px) and (orientation: portrait)" rel="apple-touch-startup-image">
-    <!-- iPad (landscape) -->
-    <link href="css/elements/launcherBackground-ipad-landscape.png" media="(device-width: 768px) and (orientation: landscape)" rel="apple-touch-startup-image">
-    <!-- iPad (Retina, portrait) -->
-    <link href="css/elements/launcherBackground-ipad-retina.png" media="(device-width: 768px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <!-- iPad (Retina, landscape) -->
-    <link href="css/elements/launcherBackground-ipad-landscape-retina.png" media="(device-width: 768px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+    <link href="css/mbile.css" media="all" rel="stylesheet" type="text/css">
+    <link href="css/theme_dark.css" media="all" rel="stylesheet" type="text/css">
 
-
-    <link rel="apple-touch-icon" href="css/elements/appleTouchIcon.png"/>
-
-    <title>mb.ile framework</title>
-
-    <link href="css/animations.css?_=sdfsdf" media="all" rel="stylesheet" type="text/css">
-    <link href="css/mbile.css?_=sdfs" media="all" rel="stylesheet" type="text/css">
-    <link href="css/theme_dark.css?_=ffdfdsfsd" media="all" rel="stylesheet" type="text/css">
-
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script type="text/javascript" src="inc/prefixfree.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="inc/iscroll.js?_=dfsss"></script>
-    <script type="text/javascript" src="inc/jquery.mb.ile.js?_=ssda"></script>
+    <script type="text/javascript" src="inc/iscroll.js"></script>
+    <script type="text/javascript" src="inc/jquery.mb.ile.js"></script>
 
     <script type="text/javascript">
 
@@ -81,16 +47,16 @@
             //initialize extensions
             $.mbile.addExtensions(
                     //[extension name (string), parameters (string), CSS file exist (boolean)]
-                    ["collapsibleFooter","true",false],
+                    ["collapsibleFooter","",true],
                     ["sortableLines","",true],
                     ["deletableLines","",true],
                     ["selectableLines","",true],
-                    ["makePanel","",true],
-                    ["photoGallery","",true],
-                    ["gMap","",false],
-                    ["inputIncrement","",false],
-                    ["datePicker","",true]
-            );
+                    ["makePanel","",true]
+                    );
+
+            setTimeout(function(){
+                window.scrollTo(0, 1);
+            }, 10);
         });
 
     </script>
@@ -103,6 +69,7 @@
 <div data-role="defaultHeader"><h1>mb.ile framework</h1></div>
 
 <div data-role="defaultFooter">
+
     <div class="buttonBar column2">
         <span class="button" onmousedown="$.mbile.goToPage('pages/extras.html','slideup');"><img src="elements/dark/icons/28-star.png"></span>
         <span id="changeSkin" class="button" ><img src="elements/dark/icons/98-palette.png"></span>
@@ -125,7 +92,7 @@
         </div>
     </div>
 
-    <script type="text/javascript"> $("#testPage").on("pageshow",function(){alert("this alert is binded on 'pageshow' event of this page")}) </script>
+    <script type="text/javascript"> $("#testPage").bind("pageshow",function(){alert("this alert is binded on 'pageshow' event of this page")}) </script>
 
 </div>
 

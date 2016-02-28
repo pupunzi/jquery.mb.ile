@@ -1,24 +1,4 @@
 /*
- * ******************************************************************************
- *  jquery.mb.components
- *  file: mb.geolocation.js
- *
- *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
- *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
- *  site: 	http://pupunzi.com
- *  blog:	http://pupunzi.open-lab.com
- * 	http://open-lab.com
- *
- *  Licences: MIT, GPL
- *  http://www.opensource.org/licenses/mit-license.php
- *  http://www.gnu.org/licenses/gpl.html
- *
- *  last modified: 07/01/14 22.50
- *  *****************************************************************************
- */
-
-/*
  *
  * jQuery.mb.components: jquery.mbMobile extension -> mb.geolocation.js
  * version: 1- 19-nov-2010 - 33
@@ -38,8 +18,7 @@
  */
 
 (function($) {
-    if ($.mbile)
-    {
+    if ($.mbile){
         $.mbile.getGeoLocation=function(callBack){
             if(!navigator.geolocation) return;
             var latitude, longitude;

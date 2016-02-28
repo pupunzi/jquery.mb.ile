@@ -1,61 +1,35 @@
-/*
- * ******************************************************************************
- *  jquery.mb.components
- *  file: mbile.css
- *
- *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
- *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
- *  site: 	http://pupunzi.com
- *  blog:	http://pupunzi.open-lab.com
- * 	http://open-lab.com
- *
- *  Licences: MIT, GPL
- *  http://www.opensource.org/licenses/mit-license.php
- *  http://www.gnu.org/licenses/gpl.html
- *
- *  last modified: 07/01/14 22.50
- *  *****************************************************************************
- */
-
-*{
-  padding:0;margin:0;
-  user-select:none;
-  box-sizing: border-box;
-}
-body{
-  overflow:hidden;
-  opacity: 0;
-}
+@import "animations.css";
+*{padding:0;margin:0;-webkit-user-select:none;}
+body{overflow:hidden;}
 body.noTransition{overflow:auto;}
 [data-role=page]{position:absolute;width:100%;height:100%;top:0;}
 [data-role=header]{position:relative;z-index:2;}
-[data-role=content]{position:relative;z-index:1;tap-highlight-color:rgba(0, 0, 0, 0);padding:0;padding-bottom:44px;}
+[data-role=content]{position:relative;z-index:1;-webkit-tap-highlight-color:rgba(0, 0, 0, 0);padding:0;padding-bottom:44px;}
 [data-role=content].noFooter{padding-bottom:0;}
 [data-role=footer]{position:relative;z-index:2;}
 [data-role=footer][data-position=fixed]{z-index:10;}
 [data-role=section]{display:block;vertical-align:middle;margin:0;}
-.scroller{position:relative;z-index:1;width:100%;}
-.offScreen{display:none;}
-.contentSelectable{user-select:auto;}
-.column2 span{text-overflow:ellipsis;width:49%;box-sizing:border-box;}
-.column3 span{text-overflow:ellipsis;width:33%;box-sizing:border-box;}
+div.scroller{position:relative;z-index:1;width:100%;}
+div.offScreen{display:none;}
+.contentSelectable{-webkit-user-select:auto;}
+.column2 span{text-overflow:ellipsis;width:49%;-webkit-box-sizing:border-box;}
+.column3 span{text-overflow:ellipsis;width:33%;-webkit-box-sizing:border-box;}
 .right{text-align:right;}
 .left{text-align:left;}
 .buttonBar button,.buttonBar .button{display:inline-block;margin-right:5px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
 .buttonBar button span,.buttonBar .button{display:inline-block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:100%;}
-form,input,select,textarea{user-select:auto;}
+form,input,select,textarea{-webkit-user-select:auto;}
 div#spinner{position:absolute;z-index:1000;}
-div#spinner div{position:absolute;width:12%;height:26%;left:44.5%;top:37%;opacity:0;animation:spinnerFade 1s linear infinite;}
-div#spinner div.bar1{transform:rotate(0deg) translate(0, -142%);animation-delay:0s;}
-div#spinner div.bar2{transform:rotate(30deg) translate(0, -142%);animation-delay:-0.9167s;}
-div#spinner div.bar3{transform:rotate(60deg) translate(0, -142%);animation-delay:-0.833s;}
-div#spinner div.bar4{transform:rotate(90deg) translate(0, -142%);animation-delay:-0.75s;}
-div#spinner div.bar5{transform:rotate(120deg) translate(0, -142%);animation-delay:-0.667s;}
-div#spinner div.bar6{transform:rotate(150deg) translate(0, -142%);animation-delay:-0.5833s;}
-div#spinner div.bar7{transform:rotate(180deg) translate(0, -142%);animation-delay:-0.5s;}
-div#spinner div.bar8{transform:rotate(210deg) translate(0, -142%);animation-delay:-0.41667s;}
-div#spinner div.bar9{transform:rotate(240deg) translate(0, -142%);animation-delay:-0.333s;}
-div#spinner div.bar10{transform:rotate(270deg) translate(0, -142%);animation-delay:-0.25s;}
-div#spinner div.bar11{transform:rotate(300deg) translate(0, -142%);animation-delay:-0.1667s;}
-div#spinner div.bar12{transform:rotate(330deg) translate(0, -142%);animation-delay:-0.0833s;}
+div#spinner div{position:absolute;width:12%;height:26%;left:44.5%;top:37%;opacity:0;-webkit-animation:spinnerFade 1s linear infinite;}
+div#spinner div.bar1{-webkit-transform:rotate(0deg) translate(0, -142%);-webkit-animation-delay:0s;}
+div#spinner div.bar2{-webkit-transform:rotate(30deg) translate(0, -142%);-webkit-animation-delay:-0.9167s;}
+div#spinner div.bar3{-webkit-transform:rotate(60deg) translate(0, -142%);-webkit-animation-delay:-0.833s;}
+div#spinner div.bar4{-webkit-transform:rotate(90deg) translate(0, -142%);-webkit-animation-delay:-0.75s;}
+div#spinner div.bar5{-webkit-transform:rotate(120deg) translate(0, -142%);-webkit-animation-delay:-0.667s;}
+div#spinner div.bar6{-webkit-transform:rotate(150deg) translate(0, -142%);-webkit-animation-delay:-0.5833s;}
+div#spinner div.bar7{-webkit-transform:rotate(180deg) translate(0, -142%);-webkit-animation-delay:-0.5s;}
+div#spinner div.bar8{-webkit-transform:rotate(210deg) translate(0, -142%);-webkit-animation-delay:-0.41667s;}
+div#spinner div.bar9{-webkit-transform:rotate(240deg) translate(0, -142%);-webkit-animation-delay:-0.333s;}
+div#spinner div.bar10{-webkit-transform:rotate(270deg) translate(0, -142%);-webkit-animation-delay:-0.25s;}
+div#spinner div.bar11{-webkit-transform:rotate(300deg) translate(0, -142%);-webkit-animation-delay:-0.1667s;}
+div#spinner div.bar12{-webkit-transform:rotate(330deg) translate(0, -142%);-webkit-animation-delay:-0.0833s;}

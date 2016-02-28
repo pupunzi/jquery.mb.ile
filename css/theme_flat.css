@@ -1,33 +1,14 @@
-/*
- * ******************************************************************************
- *  jquery.mb.components
- *  file: theme_flat.css
- *
- *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
- *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
- *  site: 	http://pupunzi.com
- *  blog:	http://pupunzi.open-lab.com
- * 	http://open-lab.com
- *
- *  Licences: MIT, GPL
- *  http://www.opensource.org/licenses/mit-license.php
- *  http://www.gnu.org/licenses/gpl.html
- *
- *  last modified: 07/01/14 22.50
- *  *****************************************************************************
- */
-
 /*backButton*/
 /*Buttons*/
 /*footer buttons*/
 /*Theme strucuture*/
+@page set"UTF-8";
 
 body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 14px;
-  background: #564918 ;/*url("../elements/bgnd.jpg");*/
+  background: #000000 url("../elements/bgnd.jpg");
   background-attachment: fixed;
   background-size: 100%;
   height: 100%;
@@ -244,7 +225,8 @@ div[data-role=section] {
   background-color: rgba(255, 255, 255, 0.3);
 }
 div[data-role=section].fake {
-  margin: 44px 0 1px;
+  margin: 0;
+  margin-bottom: 1px;
   height: 25px;
   font: 18px/25px Arial, Helvetica, sans-serif;
   padding: 5px;
@@ -417,12 +399,12 @@ button.hover, .button.hover {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#000000));
   color: #cccccc;
 }
-
-[data-role=footer] .button.sel {
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#000000));
-  color: #cccccc;
+[data-role=footer] .button.selected {
+  background: #000000;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#000000), to(#000000));
+  color: #555555;
+  text-shadow: 1px 1px 1px #fff;
 }
-
 div#loader {
   position: absolute;
   top: 0;

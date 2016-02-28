@@ -1,22 +1,13 @@
-/*
- * ******************************************************************************
- *  jquery.mb.components
- *  file: jquery.mb.ile.deletableLines.js
- *
- *  Copyright (c) 2001-2014. Matteo Bicocchi (Pupunzi);
- *  Open lab srl, Firenze - Italy
- *  email: matteo@open-lab.com
- *  site: 	http://pupunzi.com
- *  blog:	http://pupunzi.open-lab.com
- * 	http://open-lab.com
- *
- *  Licences: MIT, GPL
- *  http://www.opensource.org/licenses/mit-license.php
- *  http://www.gnu.org/licenses/gpl.html
- *
- *  last modified: 07/01/14 22.50
- *  *****************************************************************************
- */
+/*******************************************************************************
+ jquery.mb.components
+ Copyright (c) 2001-2011. Matteo Bicocchi (Pupunzi); Open lab srl, Firenze - Italy
+ email: mbicocchi@open-lab.com
+ site: http://pupunzi.com
+
+ Licences: MIT, GPL
+ http://www.opensource.org/licenses/mit-license.php
+ http://www.gnu.org/licenses/gpl.html
+ ******************************************************************************/
 
 /*deletable lines Behavior*/
 
@@ -61,68 +52,68 @@
  * var deleted= $("your sortable container ID").data("deleted")
  *
  * */
+(function($) {
+	if ($.mbile) {
+		$.mbile.deletableLines = function (options) {
+			var $page = this;
+			var page = $page.get(0);
+			page.deleted = [];
 
-$(function(){
+			var opt = {
+				beforeDelete: function (o) {},
+				deleted     : function (o) {}
+			};
+			$.extend(opt, options);
 
-  $.mbile.deletableLines=function(options){
-    var $page=this;
-    var page=$page.get(0);
-    page.deleted=[];
+			var deletable = $page.find("[data-role=deletable]")
+					.add($page.filter("[data-role=deletable]"));
 
-    var opt={
-      beforeDelete:function(o){},
-      deleted:function(o){}
-    };
-    $.extend(opt,options);
+			deletable.data("deleted", []);
 
-    var deletable= $page.find("[data-role=deletable]")
-            .add($page.filter("[data-role=deletable]"));
-
-    deletable.data("deleted",[]);
-
-    if(deletable.attr("deletableInit")) return;
+			if (deletable.attr("deletableInit")) return;
 
 
-    deletable.children().each(function(){
-      var line=$(this);
-      line.addClass("deletable");
+			deletable.children().each(function () {
+				var line = $(this);
+				line.addClass("deletable");
 
-      line.swipe({
-        swipeLeft: function(o) {
-          deletable.find(".selected").removeClass("selected");
-          $(".delete").hide();
-          $(o).addClass("selected");
-          $(o).find(".delete").fadeIn(500);
-        },
-        swipeRight: function(o) {
-          $(o).removeClass("selected");
-          $(o).find(".delete").fadeOut(500);
-        }
-      });
+				line.swipe({
+					swipeLeft : function (o) {
+						deletable.find(".selected").removeClass("selected");
+						$(".delete").hide();
+						$(o).addClass("selected");
+						$(o).find(".delete").fadeIn(500);
+					},
+					swipeRight: function (o) {
+						$(o).removeClass("selected");
+						$(o).find(".delete").fadeOut(500);
+					}
+				});
 
-      var $del=$("<span>").addClass("delete").html("Delete").hide().css("z-index",100);
-      $del.bind($.mbile.events.end,function(){
+				var $del = $("<span>").addClass("delete").html("Delete").hide().css("z-index", 100);
+				$del.bind("click", function () {
 
-        // callback before delete row that can return false to stop the action
-        var canGoOn=opt.beforeDelete(line.attr("id"));
-        if(canGoOn==undefined) canGoOn=true;
-        if(canGoOn)
-          line.fadeOut(300,function(){
-            page.deleted.push(line.attr("id"));
-            deletable.data("deleted",page.deleted);
-            $(this).addClass("deleted");
+					// callback before delete row that can return false to stop the action
+					var canGoOn = opt.beforeDelete(line.attr("id"));
+					if (canGoOn == undefined) canGoOn = true;
+					if (canGoOn)
+						line.fadeOut(300, function () {
+							page.deleted.push(line.attr("id"));
+							deletable.data("deleted", page.deleted);
+							$(this).addClass("deleted");
 
-            // callback once deleted from the dom delete
-            opt.deleted(line.attr("id"));
-            $.mbile.refreshScroll();
-          });
-        return false;
-      });
+							// callback once deleted from the dom delete
+							opt.deleted(line.attr("id"));
+							$.mbile.refreshScroll();
+						});
+					return false;
+				});
 
-      line.prepend($del);
-    });
-    deletable.attr("deletableInit",true);
-  };
+				line.prepend($del);
+			});
+			deletable.attr("deletableInit", true);
+		};
 
-  $.fn.deletableLines_init=$.mbile.deletableLines;
-});
+		$.fn.deletableLines_init = $.mbile.deletableLines;
+	}
+})(jQuery);
